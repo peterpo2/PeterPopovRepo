@@ -1,0 +1,7 @@
+﻿1. Interface IOrder introduced. Both InternationalOrder and IOrder implements it.
+  Pros:
+   - We can now invoke IOrder methods without worrying what is the implementation underneath. 
+   - This allows us to remove the second collection for InternationalOrders and create one single collection of type IOrder.
+   - We can now pass IOrder as a parameter to a method instead of an exact implementation.
+  Cons:
+   - n/a

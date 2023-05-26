@@ -1,0 +1,7 @@
+﻿1. Order class constructor introduced
+  Pros:
+   - We now have certain rules in place when creating order.
+   - We can't create order without the required parameters within our constructor.
+   - Makes our program less prone to errors since we can't instantiate objects without the required params
+  Cons:
+   - Lots of functionality is still in our Program.cs file. Various operations on Order's data is best kept inside the class itself.

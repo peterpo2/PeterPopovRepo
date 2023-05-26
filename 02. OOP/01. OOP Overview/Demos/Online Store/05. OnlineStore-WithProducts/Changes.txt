@@ -1,0 +1,7 @@
+﻿1. Product class and Currency enum introduced. 
+  Pros:
+   - Just like with the Order, having a Product constructor eliminates the chance of us creating a product without all the necessary properties by setting certain rules in place. 
+   - Product.DisplayInfo() introduced which we can call directly from our Order class.
+   - Currency enum removes the possibility of us typing our currency name wrong by providing easy access to various constants(ex. BGN, USD).
+  Cons:
+   - No rules of our input lengths etc are in place

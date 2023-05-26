@@ -1,0 +1,5 @@
+﻿1. We need a program in which we can create different orders with various products(items) inside them. We've grouped them using annomymous types.
+  Pros:
+   - Annonymous types can group properties in one entity.
+  Cons:
+   - No exact rules for creating our instances - If we make a typo in one of the properties our instances will no longer be considered of the same type by the compiler(thus not being able to add them to the same collection for example).

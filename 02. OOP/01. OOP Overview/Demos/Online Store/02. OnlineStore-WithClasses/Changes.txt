@@ -1,0 +1,6 @@
+﻿1. Order class is introduced
+  Pros:
+   - We can now create instances of Order which will all have the same properties.
+   - Code becomes more readable
+  Cons:
+   - Still no exact rules - we can still create orders without the needed parameters - For example, what happens if we create an order but forget to set it's recipient?
