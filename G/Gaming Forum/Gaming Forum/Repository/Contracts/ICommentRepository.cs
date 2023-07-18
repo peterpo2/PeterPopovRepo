@@ -13,5 +13,6 @@ namespace Gaming_Forum.Repository.Contracts
 
         bool Delete(int id);
         List<Comment> GetAll();
+        List<Comment> SearchComments(string query);
     }
 }

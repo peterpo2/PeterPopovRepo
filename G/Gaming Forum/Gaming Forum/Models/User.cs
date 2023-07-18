@@ -18,10 +18,10 @@ namespace Gaming_Forum.Models
         public string Password { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
-    ErrorMessage = "Please enter a valid email address.")]
-        // TODO: Add uniqueness validation
-        public string? Email { get; set; }
+		[RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$",
+			ErrorMessage = "Please enter a valid email address.")]
+		// TODO: Add uniqueness validation
+		public string? Email { get; set; }
 
         [Required]
         [StringLength(32, MinimumLength = 4, ErrorMessage = "First name must be between 4 and 32 characters.")]
@@ -42,6 +42,8 @@ namespace Gaming_Forum.Models
         public List<Comment> Comments { get; set; } 
 
         public List<Post> Posts { get; set; } 
+
+        public List<Reply> Replies { get; set; }
 
         public List<Like> Likes { get; set; } 
 

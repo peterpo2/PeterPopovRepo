@@ -1,0 +1,18 @@
+﻿@model TagDto
+
+<div>
+    <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center">@this.ViewData["Title"]</h4>
+        <br />
+
+        <form asp-controller="Posts" asp-action="AddTag" method="post">
+            <div class="form-group mb-3">
+                <textarea asp-for="Value" class="form-control" placeholder="Add tag" type="text" rows="2"></textarea>
+            </div> <!-- form-group// -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark btn-block">Add</button>
+                <a asp-controller="Posts" asp-action="Index" type="" class="btn btn-outline-secondary btn-block">Back</a>
+            </div> <!-- form-group// -->
+        </form>
+    </article>
+</div>

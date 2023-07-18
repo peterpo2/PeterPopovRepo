@@ -8,7 +8,7 @@ namespace Gaming_Forum.Models.Dto
         public string Content { get; set; }
         public DateTime DateCreated { get; set; }
         public List<CommentResponseDto> Comments { get; set; }
-        public List<PostResponseDto> Replies { get; set; }
+        public List<ReplyResponseDto> Replies { get; set; }
         public int Likes { get; set; }
         
     }

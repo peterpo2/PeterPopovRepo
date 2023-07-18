@@ -4,9 +4,16 @@ namespace Gaming_Forum.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return this.View();
+        }
+
+        [HttpGet]
+        public IActionResult About()
+        {
+            return this.View();
         }
     }
 }

@@ -9,12 +9,6 @@
 
         public bool SortByLikesDescending { get; set; }
         public bool SortByLikesAscending { get; set; }
-
-        // likes 
-
-
-        //newest?
-
-
+                
     }
 }

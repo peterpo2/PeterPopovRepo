@@ -63,7 +63,7 @@ namespace Gaming_Forum.Services
             
             if (newUserInfo.Email is not null)
             {
-                if (userRepository.CheckEmail(newUserInfo.Email))
+                if (newUserInfo.Email != sender.Email && userRepository.CheckEmail(newUserInfo.Email))
                 {
                     throw new DuplicateEntityException("Email already exist.");
                 }
@@ -97,6 +97,25 @@ namespace Gaming_Forum.Services
             }
 
             return userRepository.DeleteUser(id);
+        }
+        public bool UsernameExists(string username)
+        {
+            bool usernameExists = true;
+
+            try
+            {
+                _ = this.userRepository.GetUserByUsername(username);
+            }
+            catch (EntityNotFoundException)
+            {
+                usernameExists = false;
+            }
+
+            return usernameExists;
+        }
+        public bool EmailExists(string email)
+        {
+            return this.userRepository.CheckEmail(email);
         }
     }
 }

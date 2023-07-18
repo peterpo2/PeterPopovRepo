@@ -9,13 +9,16 @@ namespace Gaming_Forum.Services.Contracts
         bool DeletePost(int postId);
         Post GetPostById(int postId);
         List<Post> GetAllPosts();
-        bool LikePost(int postId, User user);
+        public Post LikePost(int postId, User user);
+        public Post DislikePost(int postId, User user);
         Post UpdatePost(int postId, Post post, User user);
         List<Comment> GetCommentsByPost(int postId);
         Comment GetCommentFromPost(int postId, int commentId);
         void DeleteAllPostComments(int postId);
-        List<Post> FilterPosts(PostQueryParameters filterParameters);
-
+        int CreateComment(int postId, CommentResponseDto commentDto, int userId);
+        bool AddTagToPost(int postId, int tagId);
+        PaginatedList<Post> FilterBy(SearchQueryParameters searchQueryParameters);
+        List<Post> SearchPosts(string query);
 
     }
 }

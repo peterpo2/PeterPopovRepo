@@ -11,12 +11,12 @@ namespace Gaming_Forum.Repository.Contracts
         Post GetByTitle(string title);
 
         List<Post> GetByUser(string username);
-        
-        List<Post> FilterBy(PostQueryParameters filterParameters);
+
+        PaginatedList<Post> FilterBy(SearchQueryParameters searchQueryParameters);
 
         Post Create(Post post);
 
-        Post Update (int id, Post post);
+        Post Update (Post post);
 
         Post Delete(int id);
 
@@ -25,6 +25,8 @@ namespace Gaming_Forum.Repository.Contracts
         Comment GetCommentFromPost(int postId, int commentId);
 
         void DeleteAllCommentsForPost(int postId);
+        List<Post> SearchPosts(string query);
+
 
     }
 }

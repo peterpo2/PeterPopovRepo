@@ -1,0 +1,28 @@
+﻿@{
+	ViewData["Title"] = "Login";
+}
+
+@model LoginViewModel
+
+
+<div>
+    <article class="card-body mx-auto" style="max-width: 400px;">
+        <h4 class="card-title mt-3 text-center btn-dark">Signing in ... </h4>
+        <br />
+
+        <form asp-controller="Users" asp-action="Login" method="post">
+            <div class="form-group">
+                <input asp-for="Username" class="form-control" placeholder="Username" type="text">
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Password" class="form-control" placeholder="Password" type="password">
+            </div> <!-- form-group// -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-dark btn-block">Sign in</button>
+            </div> <!-- form-group// -->
+            <p class="text-center" style="color: black;">You don't have an account? <a asp-controller="Users" asp-action="Register" style="color: black;">Create account</a></p>
+
+        </form>
+    </article>
+</div>

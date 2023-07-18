@@ -10,30 +10,20 @@ namespace Gaming_Forum.Services
 {
     public class PostService : IPostService
     {
-        private readonly IPostRepository _postRepository;
+        private const string ModifyPostErrorMessage = "Only owner or admin can modify a post.";
+        private const string DuplicateLikePostErrorMessage = "User already liked this post.";
+        private const string DislikePostErrorMessage = "User has not liked this post.";
 
-        public PostService(IPostRepository postRepository)
+        private readonly IPostRepository postRepository;
+        private readonly ITagRepository tagRepository;
+
+        public PostService(IPostRepository postRepository, ITagRepository tagRepository)
         {
-            _postRepository = postRepository;
+            this.postRepository = postRepository;
+            this.tagRepository = tagRepository;
         }
 
-        public int CreateComment(int postId, CommentResponseDto commentDto, int userId)
-        {
-            var post = _postRepository.GetById(postId);
 
-            var comment = new Comment
-            {
-                UserId = userId,
-                Content = commentDto.Content,
-                DateCreated = DateTime.Now,
-                IsDeleted = false
-            };
-
-            post.Comments.Add(comment);
-            _postRepository.Update(post.Id, post);
-
-            return comment.Id;
-        }
 
         public Post CreatePost(PostDto postDto, User user)
         {
@@ -42,31 +32,33 @@ namespace Gaming_Forum.Services
                 Title = postDto.Title,
                 Content = postDto.Content,
                 Comments = new List<Comment>(),
-                Replies = new List<Post>(),
+                Replies = new List<Reply>(),
                 Tags = new List<Tag>(),
                 Likes = new List<Like>(),
-                IsDeleted = false
+                IsDeleted = false,
+                User = user
             };
 
-            var createdPost = _postRepository.Create(post);
+            var createdPost = this.postRepository.Create(post);
             return createdPost;
         }
 
 
         public bool DeletePost(int postId)
         {
-            var post = _postRepository.GetById(postId);
+            var post = this.postRepository.GetById(postId);
             if (post == null)
                 return false;
 
-            var deletedPost = _postRepository.Delete(post.Id);
+            post.IsDeleted = true;
+            var deletedPost = this.postRepository.Update(post);
             return deletedPost != null;
         }
 
 
         public Post GetPostById(int postId)
         {
-            var post = _postRepository.GetById(postId);
+            var post = this.postRepository.GetById(postId);
 
             if (post == null)
             {
@@ -78,27 +70,51 @@ namespace Gaming_Forum.Services
 
         public List<Post> GetAllPosts()
         {
-            return _postRepository.GetAllPosts();
+            return this.postRepository.GetAllPosts();
         }
 
 
-        public bool LikePost(int postId, User user)
+        public Post LikePost(int postId, User user)
         {
-            var post = _postRepository.GetById(postId);
-
-            if (post == null)
+            var postToLike = postRepository.GetById(postId);
+            foreach (var like in postToLike.Likes)
             {
-                throw new EntityNotFoundException($"Post with id={postId} does not exist");
+                if (like.User != null && like.User.Equals(user) && !like.IsDeleted)
+                {
+                    throw new DuplicateEntityException(DuplicateLikePostErrorMessage);
+                }
             }
 
-            _postRepository.Update(post.Id, post);
+            var newLike = new Like { User = user, Post = postToLike };
+            postToLike.Likes.Add(newLike);
 
-            return true;
+            return postRepository.Update(postToLike);
         }
+
+
+        public Post DislikePost(int postId, User user)
+        {
+            var postToDislike = postRepository.GetById(postId);
+            if (postToDislike.Likes is null)
+            {
+                throw new UnauthorizedOperationException(DislikePostErrorMessage);
+            }
+            foreach (var like in postToDislike.Likes)
+            {
+                if (like.User.Equals(user) && !like.IsDeleted)
+                {
+                    like.IsDeleted = true;
+                    return postRepository.Update(postToDislike);
+                }
+            }
+            throw new UnauthorizedOperationException(DislikePostErrorMessage);
+        }
+
+
 
         public Post UpdatePost(int postId, Post updatedPost, User user)
         {
-            var post = _postRepository.GetById(postId);
+            var post = this.postRepository.GetById(postId);
 
             if (post == null)
             {
@@ -108,19 +124,19 @@ namespace Gaming_Forum.Services
             post.Title = updatedPost.Title;
             post.Content = updatedPost.Content;
 
-            _postRepository.Update(post.Id, post);
+            this.postRepository.Update(post);
 
             return post;
         }
 
         public List<Comment> GetCommentsByPost(int postId)
         {
-            return _postRepository.GetCommentsByPost(postId);
+            return this.postRepository.GetCommentsByPost(postId);
         }
 
         public Comment GetCommentFromPost(int postId, int commentId)
         {
-            var post = _postRepository.GetById(postId);
+            var post = this.postRepository.GetById(postId);
             if (post == null)
             {
                 throw new EntityNotFoundException($"Post with id={postId} does not exist");
@@ -131,12 +147,142 @@ namespace Gaming_Forum.Services
 
         public void DeleteAllPostComments(int postId)
         {
-            _postRepository.DeleteAllCommentsForPost(postId);
+            this.postRepository.DeleteAllCommentsForPost(postId);
         }
 
-        public List<Post> FilterPosts(PostQueryParameters filterParameters)
+        public int CreateComment(int postId, CommentResponseDto commentDto, int userId)
         {
-            return _postRepository.FilterBy(filterParameters);
+            var post = this.postRepository.GetById(postId);
+
+            var comment = new Comment
+            {
+                UserId = userId,
+                Content = commentDto.Content,
+                DateCreated = DateTime.Now,
+                IsDeleted = false
+            };
+
+            post.Comments.Add(comment);
+            this.postRepository.Update(post);
+
+            return comment.Id;
         }
+
+        public bool AddTagToPost(int postId, int tagId)
+        {
+            var post = postRepository.GetById(postId);
+            var tag = tagRepository.GetById(tagId);
+
+            if (post == null || tag == null)
+            {
+                return false;
+            }
+            
+            post.Tags.Add(tag);
+            postRepository.Update(post);
+
+            return true;
+        }
+
+        public PaginatedList<Post> FilterBy(SearchQueryParameters searchQueryParameters)
+        {
+            if (!string.IsNullOrEmpty(searchQueryParameters.Query))
+            {
+                var matchingPosts = SearchPosts(searchQueryParameters.Query);
+
+                int matchingTotalItems = matchingPosts.Count;
+                int matchingPageSize = searchQueryParameters.PageSize;
+                int matchingTotalPages = (int)Math.Ceiling((double)matchingTotalItems / matchingPageSize);
+                int matchingPageNumber = searchQueryParameters.PageNumber;
+
+                var paginatedMatchingPosts = matchingPosts
+                    .Skip((matchingPageNumber - 1) * matchingPageSize)
+                    .Take(matchingPageSize)
+                    .ToList();
+
+                return new PaginatedList<Post>(paginatedMatchingPosts, matchingTotalPages, matchingPageNumber);
+            }
+
+            var filteredPosts = postRepository.GetAllPosts();
+
+
+            // сортинг
+            if (searchQueryParameters.SortBy == "likes_desc")
+            {
+                filteredPosts = filteredPosts.OrderByDescending(p => p.Likes?.Count ?? 0).ToList();
+            }
+            else if (searchQueryParameters.SortBy == "likes_asc")
+            {
+                filteredPosts = filteredPosts.OrderBy(p => p.Likes?.Count ?? 0).ToList();
+            }
+            else if (searchQueryParameters.SortBy == "date_desc")
+            {
+                filteredPosts = filteredPosts.OrderByDescending(p => p.DateCreated).ToList();
+            }
+            else if (searchQueryParameters.SortBy == "date_asc")
+            {
+                filteredPosts = filteredPosts.OrderBy(p => p.DateCreated).ToList();
+            }
+            else if (searchQueryParameters.SortBy == "title_desc")
+            {
+                filteredPosts = filteredPosts.OrderByDescending(p => p.Title).ToList();
+            }
+            else if (searchQueryParameters.SortBy == "title_asc")
+            {
+                filteredPosts = filteredPosts.OrderBy(p => p.Title).ToList();
+            }
+            else if (searchQueryParameters.SortBy == "createdBy_desc")
+            {
+                filteredPosts = filteredPosts.OrderByDescending(p => p.User.Username).ToList();
+            }
+            else if (searchQueryParameters.SortBy == "createdBy_asc")
+            {
+                filteredPosts = filteredPosts.OrderBy(p => p.User.Username).ToList();
+            }
+
+
+            // филтри
+            if (!string.IsNullOrEmpty(searchQueryParameters.Title))
+            {
+                filteredPosts = filteredPosts.Where(p => p.Title.Contains(searchQueryParameters.Title, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchQueryParameters.User))
+            {
+                filteredPosts = filteredPosts.Where(p => p.User.Username.Contains(searchQueryParameters.User, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchQueryParameters.Content))
+            {
+                filteredPosts = filteredPosts.Where(p => p.Content.Contains(searchQueryParameters.Content, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            if (!string.IsNullOrEmpty(searchQueryParameters.TagValue))
+            {
+                filteredPosts = filteredPosts.Where(p => p.Tags.Any(t => t.Value == searchQueryParameters.TagValue)).ToList();
+            }
+
+
+            int totalItems = filteredPosts.Count;
+            int pageSize = searchQueryParameters.PageSize;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            int pageNumber = searchQueryParameters.PageNumber;
+
+            
+            var paginatedPosts = filteredPosts
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return new PaginatedList<Post>(paginatedPosts, totalPages, pageNumber);
+        }
+
+        public List<Post> SearchPosts(string query)
+        {
+            var allPosts = postRepository.GetAllPosts();
+            var matchingPosts = allPosts
+                .Where(p => p.Title.Contains(query, StringComparison.OrdinalIgnoreCase) || p.Content.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            return matchingPosts;
+        }
+
     }
 }

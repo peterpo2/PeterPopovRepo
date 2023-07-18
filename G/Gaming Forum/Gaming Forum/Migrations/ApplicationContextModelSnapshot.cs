@@ -30,9 +30,6 @@ namespace Gaming_Forum.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CommentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(8192)
@@ -52,8 +49,6 @@ namespace Gaming_Forum.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentId");
-
                     b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
@@ -65,7 +60,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 1,
                             Content = "World of Goo. Got frustrated part way through and never finished.",
-                            DateCreated = new DateTime(2023, 7, 4, 16, 39, 50, 511, DateTimeKind.Local).AddTicks(5842),
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6732),
                             IsDeleted = false,
                             PostId = 1,
                             UserId = 2
@@ -74,7 +69,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 2,
                             Content = "Idk, looks messy. And I really find the main protag and story dull based on story trailers they've released.",
-                            DateCreated = new DateTime(2023, 7, 4, 16, 39, 50, 511, DateTimeKind.Local).AddTicks(5896),
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6743),
                             IsDeleted = false,
                             PostId = 1,
                             UserId = 3
@@ -83,10 +78,100 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 3,
                             Content = "Will be refreshing until I can get it today.",
-                            DateCreated = new DateTime(2023, 7, 4, 16, 39, 50, 511, DateTimeKind.Local).AddTicks(5900),
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6745),
                             IsDeleted = false,
                             PostId = 3,
                             UserId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "I watched that gameplay video, and it looks amazing! Can't wait to play Immortals Of      Aveum.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6747),
+                            IsDeleted = false,
+                            PostId = 2,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Content = "The graphics and art style in Immortals Of Aveum are stunning. Definitely a game to look     out        for!",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6750),
+                            IsDeleted = false,
+                            PostId = 2,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Content = "I preordered Starfield! Can't wait to explore the vastness of space in the game.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6753),
+                            IsDeleted = false,
+                            PostId = 3,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Content = "I'm excited about Starfield's controller and headset. It's going to enhance the  immersive             experience.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6755),
+                            IsDeleted = false,
+                            PostId = 3,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Content = "Some great multiplayer games to play with friends are Among Us, Fortnite, and Rocket       League.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6757),
+                            IsDeleted = false,
+                            PostId = 4,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Content = "I highly recommend trying out Overcooked! It's a fun and chaotic multiplayer game.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6759),
+                            IsDeleted = false,
+                            PostId = 4,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Content = "I'm looking forward to the release of Elder Scrolls VI and Halo Infinite in 2023.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6802),
+                            IsDeleted = false,
+                            PostId = 5,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Content = "2023 is going to be a great year for gaming! So many exciting releases to lookforward      to.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6805),
+                            IsDeleted = false,
+                            PostId = 5,
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Content = "I enjoyed playing Cyberpunk 2077, but the bugs and performance issues were    disappointing.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6806),
+                            IsDeleted = false,
+                            PostId = 6,
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Content = "I agree, Cyberpunk 2077 had so much potential. Hopefully, future updates will addres   the           issues.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6808),
+                            IsDeleted = false,
+                            PostId = 6,
+                            UserId = 13
                         });
                 });
 
@@ -107,6 +192,9 @@ namespace Gaming_Forum.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ReplyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -115,6 +203,8 @@ namespace Gaming_Forum.Migrations
                     b.HasIndex("CommentId");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("ReplyId");
 
                     b.HasIndex("UserId");
 
@@ -140,9 +230,6 @@ namespace Gaming_Forum.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -153,8 +240,6 @@ namespace Gaming_Forum.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts", (string)null);
@@ -164,7 +249,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 1,
                             Content = "I originally wanted to ask \"What was your first indie game?\", but I understand that the definition of what is indie and what isn't can be shaky the further you go back in time.",
-                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5766),
                             IsDeleted = false,
                             Title = "What was the first indie game you played?",
                             UserId = 3
@@ -173,7 +258,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 2,
                             Content = "ea let one random lets player record 40 minutes of footage",
-                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5779),
                             IsDeleted = false,
                             Title = "Immortals Of Aveum 40 minutes of raw gameplay",
                             UserId = 2
@@ -182,9 +267,181 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 3,
                             Content = "DROP THE PREORDER LINKS WHEN YOU SEE THEM",
-                            DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5782),
                             IsDeleted = false,
                             Title = "Starfield controller and headset out now!",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Content = "Looking for suggestions on the best multiplayer games to play with friends. Any recommendations?",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5784),
+                            IsDeleted = false,
+                            Title = "Best Multiplayer Games to Play with Friends",
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Content = "What are some highly anticipated game releases that we can look forward to in 2023?",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5787),
+                            IsDeleted = false,
+                            Title = "Upcoming Game Releases in 2023",
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Content = "Just finished playing Cyberpunk 2077. Here's my review and thoughts on the game.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5790),
+                            IsDeleted = false,
+                            Title = "Game Review: Cyberpunk 2077",
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Content = "Looking for tips and recommendations on building a gaming PC. Any advice?",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5793),
+                            IsDeleted = false,
+                            Title = "Tips for Building a Gaming PC",
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Content = "What are your favorite open-world games and why? Share your recommendations!",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5796),
+                            IsDeleted = false,
+                            Title = "Favorite Open-World Games",
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Content = "Let's discuss the pros and cons of Xbox and PlayStation consoles. Which one do you  prefer     and        why?",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5798),
+                            IsDeleted = false,
+                            Title = "Gaming Console Comparison: Xbox vs PlayStation",
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Content = "Share your list of the best strategy games of all time. Which ones do you consider must-    play          titles?",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5801),
+                            IsDeleted = false,
+                            Title = "Best Strategy Games of All Time",
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Content = "Let's talk about our favorite retro games that bring back nostalgic memories. What are        yours?",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5804),
+                            IsDeleted = false,
+                            Title = "Retro Gaming: Nostalgic Favorites",
+                            UserId = 11
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Content = "Looking for game recommendations for casual gamers. Any suggestions that are easy to  pick    up     and      play?",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5807),
+                            IsDeleted = false,
+                            Title = "Game Recommendations for Casual Gamers",
+                            UserId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Content = "What are some of the most anticipated game sequels that you can't wait to play? Share   your            excitement!",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5809),
+                            IsDeleted = false,
+                            Title = "Most Anticipated Game Sequels",
+                            UserId = 13
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Content = "Discover and discuss hidden gem games that are underrated or often overlooked. Let's  give      them      some   recognition!",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5811),
+                            IsDeleted = false,
+                            Title = "Hidden Gem Games: Underrated and Overlooked",
+                            UserId = 14
+                        });
+                });
+
+            modelBuilder.Entity("Gaming_Forum.Models.Reply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(8192)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Replies", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CommentId = 1,
+                            Content = "I agree, World of Goo was frustrating at times.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(8373),
+                            IsDeleted = false,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CommentId = 1,
+                            Content = "Yeah, some levels were really challenging.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(8384),
+                            IsDeleted = false,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CommentId = 2,
+                            Content = "The protagonist's story in Immortals of Aveum could have been better.",
+                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(8386),
+                            IsDeleted = false,
                             UserId = 1
                         });
                 });
@@ -203,7 +460,24 @@ namespace Gaming_Forum.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Value = "Indie"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Value = "Gameplay"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Value = "Preorder"
+                        });
                 });
 
             modelBuilder.Entity("Gaming_Forum.Models.User", b =>
@@ -267,7 +541,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 7, 4, 16, 39, 50, 511, DateTimeKind.Local).AddTicks(3651),
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4745),
                             Email = "Adminkata@gmail.com",
                             FirstName = "ADMIN",
                             IsActive = true,
@@ -283,7 +557,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 7, 4, 16, 39, 50, 511, DateTimeKind.Local).AddTicks(3691),
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4781),
                             Email = "JoroJorkov@abv.bg",
                             FirstName = "Jorkata",
                             IsActive = true,
@@ -298,7 +572,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 7, 4, 16, 39, 50, 511, DateTimeKind.Local).AddTicks(3694),
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4784),
                             Email = "PeshoPoshov@abv.bg",
                             FirstName = "Pesho",
                             IsActive = true,
@@ -309,6 +583,186 @@ namespace Gaming_Forum.Migrations
                             LastName = "Peshakov",
                             Password = "123456",
                             Username = "peter"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4787),
+                            Email = "lisa.smith@example.com",
+                            FirstName = "Lisa",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Smith",
+                            Password = "123456",
+                            Username = "lisa"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4789),
+                            Email = "john.doe@example.com",
+                            FirstName = "John",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Doe",
+                            Password = "123456",
+                            Username = "john"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4793),
+                            Email = "sarah.johnson@example.com",
+                            FirstName = "Sarah",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Johnson",
+                            Password = "123456",
+                            Username = "sarah"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4796),
+                            Email = "michael.smith@example.com",
+                            FirstName = "Michael",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Smith",
+                            Password = "123456",
+                            Username = "michael"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4798),
+                            Email = "emily.jones@example.com",
+                            FirstName = "Emily",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Jones",
+                            Password = "123456",
+                            Username = "emily"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4800),
+                            Email = "alex.wilson@example.com",
+                            FirstName = "Alex",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Wilson",
+                            Password = "123456",
+                            Username = "alex"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4803),
+                            Email = "jessica.brown@example.com",
+                            FirstName = "Jessica",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Brown",
+                            Password = "123456",
+                            Username = "jessica"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4805),
+                            Email = "ryan.smith@example.com",
+                            FirstName = "Ryan",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Smith",
+                            Password = "123456",
+                            Username = "ryan"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4808),
+                            Email = "lily.johnson@example.com",
+                            FirstName = "Lily",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Johnson",
+                            Password = "123456",
+                            Username = "lily"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4835),
+                            Email = "david.wilson@example.com",
+                            FirstName = "David",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Wilson",
+                            Password = "123456",
+                            Username = "david"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4837),
+                            Email = "olivia.brown@example.com",
+                            FirstName = "Olivia",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Brown",
+                            Password = "123456",
+                            Username = "olivia"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4839),
+                            Email = "ethan.johnson@example.com",
+                            FirstName = "Ethan",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            IsLoggedIn = false,
+                            LastName = "Johnson",
+                            Password = "123456",
+                            Username = "ethan"
                         });
                 });
 
@@ -324,15 +778,11 @@ namespace Gaming_Forum.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("PostTag");
+                    b.ToTable("PostTags", (string)null);
                 });
 
             modelBuilder.Entity("Gaming_Forum.Models.Comment", b =>
                 {
-                    b.HasOne("Gaming_Forum.Models.Comment", null)
-                        .WithMany("Replies")
-                        .HasForeignKey("CommentId");
-
                     b.HasOne("Gaming_Forum.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
@@ -360,6 +810,10 @@ namespace Gaming_Forum.Migrations
                         .WithMany("Likes")
                         .HasForeignKey("PostId");
 
+                    b.HasOne("Gaming_Forum.Models.Reply", "Reply")
+                        .WithMany("Likes")
+                        .HasForeignKey("ReplyId");
+
                     b.HasOne("Gaming_Forum.Models.User", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
@@ -370,20 +824,45 @@ namespace Gaming_Forum.Migrations
 
                     b.Navigation("Post");
 
+                    b.Navigation("Reply");
+
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("Gaming_Forum.Models.Post", b =>
                 {
-                    b.HasOne("Gaming_Forum.Models.Post", null)
-                        .WithMany("Replies")
-                        .HasForeignKey("PostId");
-
                     b.HasOne("Gaming_Forum.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Gaming_Forum.Models.Reply", b =>
+                {
+                    b.HasOne("Gaming_Forum.Models.Comment", "Comment")
+                        .WithMany("Replies")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Gaming_Forum.Models.Post", null)
+                        .WithMany("Replies")
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("Gaming_Forum.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Gaming_Forum.Models.User", null)
+                        .WithMany("Replies")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Comment");
 
                     b.Navigation("User");
                 });
@@ -419,6 +898,11 @@ namespace Gaming_Forum.Migrations
                     b.Navigation("Replies");
                 });
 
+            modelBuilder.Entity("Gaming_Forum.Models.Reply", b =>
+                {
+                    b.Navigation("Likes");
+                });
+
             modelBuilder.Entity("Gaming_Forum.Models.User", b =>
                 {
                     b.Navigation("Comments");
@@ -426,6 +910,8 @@ namespace Gaming_Forum.Migrations
                     b.Navigation("Likes");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("Replies");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,6 +12,8 @@ namespace Gaming_Forum.Services.Contracts
         User CreateUser(User user);
         User UpdateUser(int id, User user, User sender);
         bool DeleteUser(int id, User user);
-        
-    }
+        bool UsernameExists(string username);
+        bool EmailExists(string email);
+
+	}
 }

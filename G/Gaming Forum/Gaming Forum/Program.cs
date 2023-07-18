@@ -14,19 +14,16 @@ namespace Gaming_Forum
     public class Program
     {
         public static void Main(string[] args)
-        {   
+        {
             var builder = WebApplication.CreateBuilder(args);
+
             builder.Services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
-            // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            
+
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "AspNetCoreDemo API", Version = "v1" });
@@ -36,7 +33,7 @@ namespace Gaming_Forum
                 // A connection string for establishing a connection to the locally installed SQL Server Express.
                 string connectionString = @"Server=DESKTOP-NNCE23Q;Database=GamingForumDb;Trusted_Connection=True;";
                 //string connectionString = @"Server= DESKTOP-4PG8TL1\SQLEXPRESS ;Database=GamingForumDb;Trusted_Connection=True;";
-                //string connectionString = @"Server=ADD LOCAL NAME ;Database=GamingForumDb;Trusted_Connection=True;";
+                //string connectionString = @"Server=DESKTOP-3RO82EA ;Database=GamingForumDb;Trusted_Connection=True;";
 
 
                 // Configure the application to use the locally installed SQL Server Express.
@@ -44,38 +41,61 @@ namespace Gaming_Forum
                 // The following helps with debugging the trobled relationship between EF and SQL \_(-_-)_/ 
                 options.EnableSensitiveDataLogging();
             });
+
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(1000);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             // Repositories
             builder.Services.AddScoped<IPostRepository, PostRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
-           
+            builder.Services.AddScoped<ITagRepository, TagRepository>();
+            builder.Services.AddScoped<IReplyRepository, ReplyRepository>();
+
+
 
             // Services
             builder.Services.AddScoped<IPostService, PostService>();
             builder.Services.AddScoped<ICommentService, CommentService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<ITagService, TagService>();
+            builder.Services.AddScoped<IReplyService, ReplyService>();
 
             // Helpers
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
             builder.Services.AddScoped<AuthManager>();
-
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 
             app.UseDeveloperExceptionPage();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            app.UseRouting();
+
+            app.UseSession();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "AspNetCoreDemo API V1");
+                options.RoutePrefix = "api/swagger";
+            });
+
             app.UseStaticFiles();
+
+            app.UseRouting();
 
             app.UseAuthorization();
 
-            app.MapControllers();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
 
             app.Run();
         }

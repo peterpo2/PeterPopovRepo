@@ -115,28 +115,6 @@ namespace Gaming_Forum.Controllers.API
             }
         }
 
-        [HttpPost("{postId}/comments")]
-        public IActionResult CreateComment(int postId, [FromBody] CommentRequestDto commentDto, [FromHeader] string username)
-        {
-            try
-            {
-                User user = authManager.TryGetUser(username);
-                var comment = mapper.Map<Comment>(commentDto);
-
-                var createdComment = commentService.CreateComment(comment, user);
-
-                return StatusCode(StatusCodes.Status201Created, createdComment);
-            }
-            catch (EntityNotFoundException e)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, e.Message);
-            }
-            catch (DuplicateEntityException e)
-            {
-                return StatusCode(StatusCodes.Status409Conflict, e.Message);
-            }
-        }
-
         [HttpDelete("{postId}/comments/{commentId}")]
         public IActionResult DeleteComment(int postId, int commentId, [FromHeader] string username)
         {
@@ -156,9 +134,9 @@ namespace Gaming_Forum.Controllers.API
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
-                
+
         [HttpGet("{postId}/comments")]
-        public IActionResult GetAllComments(int postId)
+        public IActionResult GetAllCommentsFromPost(int postId)
         {
             try
             {
@@ -199,13 +177,77 @@ namespace Gaming_Forum.Controllers.API
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
             }
         }
+                
+        [HttpPost("{postId}/tags/{tagId}")]
+        public IActionResult AddTagToPost(int postId, int tagId)
+        {
+            var success = postService.AddTagToPost(postId, tagId);
 
-        [HttpGet("filter")]
-        public IActionResult FilterPosts([FromQuery] PostQueryParameters filterParameters)
+            if (success)
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status404NotFound);
+            }
+        }
+
+        [HttpPost("{postId}/likes")]
+        public IActionResult LikePost(int postId, [FromHeader] string username)
         {
             try
             {
-                var filteredPosts = postService.FilterPosts(filterParameters);
+                User user = authManager.TryGetUser(username);
+                var likedPost = postService.LikePost(postId, user);
+
+                return StatusCode(StatusCodes.Status200OK, mapper.Map<LikeResponseDto>(likedPost));
+            }
+            catch (UnauthorizedOperationException e)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (DuplicateEntityException e)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, e.Message);
+            }
+        }
+
+        [HttpDelete("{postId}/likes")]
+        public IActionResult DislikePost(int postId, [FromHeader] string username)
+        {
+            try
+            {
+                User user = authManager.TryGetUser(username);
+                var dislikedPost = postService.DislikePost(postId, user);
+
+                return StatusCode(StatusCodes.Status200OK, mapper.Map<LikeResponseDto>(dislikedPost));
+            }
+            catch (UnauthorizedOperationException e)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (DuplicateEntityException e)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, e.Message);
+            }
+        }
+
+        [HttpGet("filter")]
+        public IActionResult FilterPosts([FromQuery] SearchQueryParameters searchQueryParameters)
+        {
+            try
+            {
+                var filteredPosts = postService.FilterBy(searchQueryParameters );
+
                 return Ok(filteredPosts);
             }
             catch (Exception ex)
@@ -214,5 +256,6 @@ namespace Gaming_Forum.Controllers.API
             }
         }
 
+        
     }
 }

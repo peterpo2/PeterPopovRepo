@@ -16,8 +16,8 @@ namespace Gaming_Forum.Models
         public string Content { get; set; }
         public DateTime DateCreated { get; set; }
         public List<Comment> Comments { get; set; } 
-        public List<Post> Replies { get; set; } 
-        public List<Tag> Tags { get; set; } 
+        public List<Reply> Replies { get; set; } 
+        public List<Tag> Tags { get; set; } = new List<Tag>();
         public List<Like> Likes { get; set; } 
         public bool IsDeleted { get; set; }
 

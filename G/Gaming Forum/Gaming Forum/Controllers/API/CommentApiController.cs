@@ -46,6 +46,30 @@ namespace Gaming_Forum.Controllers.API
             return Ok(comments);
         }
 
+
+        [HttpPost("{postId}/comments")]
+        public IActionResult CreateComment(int postId, [FromBody] CommentRequestDto commentDto, [FromHeader] string username)
+        {
+            try
+            {
+                User user = authManager.TryGetUser(username);
+                var comment = mapper.Map<Comment>(commentDto);
+
+                var createdComment = commentService.CreateComment(postId, commentDto, user);
+
+                return StatusCode(StatusCodes.Status201Created, createdComment);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (DuplicateEntityException e)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, e.Message);
+            }
+        }
+
+
         [HttpPut("{id}")]
         public IActionResult UpdateComment(int id, [FromBody] CommentRequestDto commentDto, [FromHeader] string username)
         {
@@ -144,7 +168,8 @@ namespace Gaming_Forum.Controllers.API
             {
                 return StatusCode(StatusCodes.Status409Conflict, e.Message);
             }
-        }
+        }              
+               
     }
 }
 

@@ -2,9 +2,9 @@
 {
     public class LikeResponseDto
     {
+        public PostResponseDto Post { get; set; }
         public CommentResponseDto Comment { get; set; }
-
-        public string Post { get; set; }
+        public ReplyResponseDto Reply { get; set; }
 
     }
 }

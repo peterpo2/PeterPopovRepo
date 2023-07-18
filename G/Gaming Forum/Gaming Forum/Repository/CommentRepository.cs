@@ -41,13 +41,13 @@ namespace Gaming_Forum.Repository
         public Comment GetById(int id)
         {
             var comment = this.context.Comments.Include(c => c.User)
-                                                .Include(c => c.Likes)
-                                                    .ThenInclude(l => l.User)
-                                                .Include(c => c.Replies)
-                                                    .ThenInclude(r => r.User)
-                                                .Include(c => c.Post)
-                                                    .ThenInclude(p => p.User)
-                                                .FirstOrDefault(c => c.Id == id);
+                                               .Include(c => c.Likes)
+                                                   .ThenInclude(l => l.User)
+                                               .Include(c => c.Replies)
+                                                   .ThenInclude(r => r.User)
+                                               .Include(c => c.Post)
+                                                   .ThenInclude(p => p.User)
+                                               .FirstOrDefault(c => c.Id == id);
             if (comment == null || comment.IsDeleted)
             {
                 throw new EntityNotFoundException($"Comment with id={id} not found.");
@@ -65,6 +65,14 @@ namespace Gaming_Forum.Repository
                                         .Where(c => c.IsDeleted == false)
                                         .ToList();
         }
-        
+
+        public List<Comment> SearchComments(string query)
+        {
+            return context.Comments
+                .Include(c => c.User)
+                .Where(c => EF.Functions.Like(c.Content, $"%{query}%"))
+                .ToList();
+        }
+
     }
 }
