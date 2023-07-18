@@ -42,7 +42,7 @@ namespace Gaming_Forum.Controllers.API
         public IActionResult GetAllComments()
         {
             var comments = commentService.GetAll().Select(c => mapper.Map<CommentResponseDto>(c)).ToList();
-            
+
             return Ok(comments);
         }
 
@@ -127,7 +127,7 @@ namespace Gaming_Forum.Controllers.API
             try
             {
                 User user = authManager.TryGetUser(username);
-                
+
                 var likedComment = commentService.LikeComment(id, user);
 
                 return StatusCode(StatusCodes.Status200OK, mapper.Map<CommentResponseDto>(likedComment));
@@ -168,8 +168,8 @@ namespace Gaming_Forum.Controllers.API
             {
                 return StatusCode(StatusCodes.Status409Conflict, e.Message);
             }
-        }              
-               
+        }
+
     }
 }
 

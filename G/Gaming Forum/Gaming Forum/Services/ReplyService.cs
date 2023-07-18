@@ -1,8 +1,6 @@
-﻿using System;
-using Gaming_Forum.Exeptions;
+﻿using Gaming_Forum.Exeptions;
 using Gaming_Forum.Models;
 using Gaming_Forum.Models.Dto;
-using Gaming_Forum.Repository;
 using Gaming_Forum.Repository.Contracts;
 using Gaming_Forum.Services.Contracts;
 

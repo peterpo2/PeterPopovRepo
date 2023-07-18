@@ -16,7 +16,7 @@ namespace Gaming_Forum.Repository.Contracts
 
         Post Create(Post post);
 
-        Post Update (Post post);
+        Post Update(Post post);
 
         Post Delete(int id);
 

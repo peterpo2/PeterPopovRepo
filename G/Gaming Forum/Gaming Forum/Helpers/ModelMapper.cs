@@ -32,7 +32,7 @@ namespace Gaming_Forum.Helpers
             //Comment mpping
             CreateMap<Comment, CommentRequestDto>();
             CreateMap<CommentRequestDto, Comment>();
-            CreateMap<Comment, CommentResponseDto>().ForMember(c => c.CreatedBy, opt => opt.MapFrom(src =>src.User.Username))
+            CreateMap<Comment, CommentResponseDto>().ForMember(c => c.CreatedBy, opt => opt.MapFrom(src => src.User.Username))
                                                     .ForMember(c => c.Likes, opt => opt.MapFrom(src => src.Likes.Where(l => l.IsDeleted == false).Count()))
                                                     .ForMember(c => c.PostTitle, opt => opt.MapFrom(src => src.Post.Title));
             //Tag mpping
@@ -43,7 +43,7 @@ namespace Gaming_Forum.Helpers
             //Reply mapping
             CreateMap<ReplyRequestDto, Reply>();
             CreateMap<Reply, ReplyResponseDto>();
-            
+
 
         }
     }

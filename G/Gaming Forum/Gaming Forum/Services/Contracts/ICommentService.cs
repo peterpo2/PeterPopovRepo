@@ -1,6 +1,5 @@
 ﻿using Gaming_Forum.Models;
 using Gaming_Forum.Models.Dto;
-using Gaming_Forum.Repository;
 
 namespace Gaming_Forum.Services.Contracts
 {
@@ -13,6 +12,6 @@ namespace Gaming_Forum.Services.Contracts
         Comment UpdateComment(int commentId, Comment Comment, User user);
         Comment LikeComment(int commentId, User user);
         Comment DisslikeComment(int id, User user);
-                
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Gaming_Forum.Models.Dto
+﻿namespace Gaming_Forum.Models.Dto
 {
     public class PostUserResponseDto
     {
@@ -10,6 +8,6 @@ namespace Gaming_Forum.Models.Dto
         public List<CommentResponseDto> Comments { get; set; }
         public List<ReplyResponseDto> Replies { get; set; }
         public int Likes { get; set; }
-        
+
     }
 }

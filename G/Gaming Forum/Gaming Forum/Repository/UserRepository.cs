@@ -44,7 +44,7 @@ namespace Gaming_Forum.Data.Repositories
                                             .ThenInclude(p => p.User)
                                     .Include(u => u.Comments)
                                         .ThenInclude(c => c.Likes)
-                                            
+
                                     .Include(u => u.Posts)
                                         .ThenInclude(p => p.Comments)
                                     .Include(u => u.Posts)
@@ -101,7 +101,7 @@ namespace Gaming_Forum.Data.Repositories
 
         public User UpdateUser(User user)
         {
-            var updatedUser =context.Users.Update(user);
+            var updatedUser = context.Users.Update(user);
             context.SaveChanges();
             return updatedUser.Entity;
         }

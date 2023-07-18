@@ -60,7 +60,7 @@ namespace Gaming_Forum.Services
             {
                 throw new UnauthorizedOperationException(ModifyUserErrorMessage);
             }
-            
+
             if (newUserInfo.Email is not null)
             {
                 if (newUserInfo.Email != sender.Email && userRepository.CheckEmail(newUserInfo.Email))

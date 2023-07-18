@@ -56,7 +56,7 @@ namespace Gaming_Forum.Repository
         }
 
         public List<Reply> GetRepliesByComment(int commentId)
-        {            
+        {
             return context.Replies.Include(r => r.User)
                                   .Where(r => r.CommentId == commentId && !r.IsDeleted)
                                   .ToList();

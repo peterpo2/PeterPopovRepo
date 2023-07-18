@@ -1,5 +1,4 @@
 ﻿using Gaming_Forum.Models;
-using Gaming_Forum.Models.Dto;
 
 namespace Gaming_Forum.Services.Contracts
 {
@@ -15,5 +14,5 @@ namespace Gaming_Forum.Services.Contracts
         bool UsernameExists(string username);
         bool EmailExists(string email);
 
-	}
+    }
 }

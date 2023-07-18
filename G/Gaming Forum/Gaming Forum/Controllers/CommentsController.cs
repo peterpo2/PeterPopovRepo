@@ -3,7 +3,6 @@ using Gaming_Forum.Exeptions;
 using Gaming_Forum.Helpers;
 using Gaming_Forum.Models;
 using Gaming_Forum.Models.Dto;
-using Gaming_Forum.Models.ViewModels;
 using Gaming_Forum.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,9 +33,9 @@ namespace Gaming_Forum.Controllers
             try
             {
                 var comment = this.commentService.GetById(id);
-                foreach (var like in comment.Likes) 
+                foreach (var like in comment.Likes)
                 {
-                    if(like.UserId == this.authManager.CurrentUser.Id && like.IsDeleted is not true)
+                    if (like.UserId == this.authManager.CurrentUser.Id && like.IsDeleted is not true)
                     {
                         this.commentService.DisslikeComment(id, this.authManager.CurrentUser);
 
@@ -75,7 +74,7 @@ namespace Gaming_Forum.Controllers
             if (!this.ModelState.IsValid)
             {
                 return this.View(comment);
-            }            
+            }
 
             var user = this.authManager.CurrentUser;
             _ = this.commentService.CreateComment(id, comment, user);
@@ -83,67 +82,67 @@ namespace Gaming_Forum.Controllers
             return this.RedirectToAction("Details", "Posts", new { id });
         }
 
-		[HttpGet]
-		public IActionResult Edit([FromRoute] int id)
-		{
-			if (this.authManager.CurrentUser == null)
-			{
-				return this.RedirectToAction(actionName: "Login", controllerName: "Users");
-			}
+        [HttpGet]
+        public IActionResult Edit([FromRoute] int id)
+        {
+            if (this.authManager.CurrentUser == null)
+            {
+                return this.RedirectToAction(actionName: "Login", controllerName: "Users");
+            }
 
-			try
-			{
-				var comment = this.commentService.GetById(id);
+            try
+            {
+                var comment = this.commentService.GetById(id);
 
-				if (comment.UserId != this.authManager.CurrentUser.Id && !this.authManager.CurrentUser.IsAdmin)
-				{
-					this.Response.StatusCode = StatusCodes.Status403Forbidden;
-					this.ViewData["ErrorMessage"] = $"You cannot edit this post since your are not the author.";
+                if (comment.UserId != this.authManager.CurrentUser.Id && !this.authManager.CurrentUser.IsAdmin)
+                {
+                    this.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    this.ViewData["ErrorMessage"] = $"You cannot edit this post since your are not the author.";
 
-					return this.View("Error");
-				}
+                    return this.View("Error");
+                }
 
-				return this.View(mapper.Map<CommentRequestDto>(comment));
-			}
-			catch (EntityNotFoundException ex)
-			{
-				this.Response.StatusCode = StatusCodes.Status404NotFound;
-				this.ViewData["ErrorMessage"] = ex.Message;
+                return this.View(mapper.Map<CommentRequestDto>(comment));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                this.Response.StatusCode = StatusCodes.Status404NotFound;
+                this.ViewData["ErrorMessage"] = ex.Message;
 
-				return this.View("Error");
-			}
-		}
+                return this.View("Error");
+            }
+        }
 
-		[HttpPost]
-		public IActionResult Edit([FromRoute] int id, CommentRequestDto comment)
-		{
-			if (!this.ModelState.IsValid)
-			{
-				return this.View(comment);
-			}
+        [HttpPost]
+        public IActionResult Edit([FromRoute] int id, CommentRequestDto comment)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(comment);
+            }
 
-			try
-			{
-				var user = this.authManager.CurrentUser;
-				var updatedComment = this.commentService.UpdateComment(id, mapper.Map<Comment>(comment), user);
+            try
+            {
+                var user = this.authManager.CurrentUser;
+                var updatedComment = this.commentService.UpdateComment(id, mapper.Map<Comment>(comment), user);
 
-				return this.RedirectToAction("Details", "Posts", new { id = updatedComment.PostId});
-			}
-			catch (EntityNotFoundException ex)
-			{
-				this.Response.StatusCode = StatusCodes.Status404NotFound;
-				this.ViewData["ErrorMessage"] = ex.Message;
+                return this.RedirectToAction("Details", "Posts", new { id = updatedComment.PostId });
+            }
+            catch (EntityNotFoundException ex)
+            {
+                this.Response.StatusCode = StatusCodes.Status404NotFound;
+                this.ViewData["ErrorMessage"] = ex.Message;
 
-				return this.View("Error");
-			}
-			catch (UnauthorizedOperationException ex)
-			{
-				this.Response.StatusCode = StatusCodes.Status403Forbidden;
-				this.ViewData["ErrorMessage"] = ex.Message;
+                return this.View("Error");
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                this.Response.StatusCode = StatusCodes.Status403Forbidden;
+                this.ViewData["ErrorMessage"] = ex.Message;
 
-				return this.View("Error");
-			}
-		}
+                return this.View("Error");
+            }
+        }
         [HttpGet]
         public IActionResult Delete([FromRoute] int id)
         {

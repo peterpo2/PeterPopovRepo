@@ -4,9 +4,9 @@ namespace Gaming_Forum.Repository.Contracts
 {
     public interface ICommentRepository
     {
-        
+
         Comment GetById(int id);
-        
+
         Comment Create(Comment comment);
 
         Comment Update(Comment comment);

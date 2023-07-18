@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Gaming_Forum.Models.Dto
+﻿namespace Gaming_Forum.Models.Dto
 {
     public class UserResponseDto
     {

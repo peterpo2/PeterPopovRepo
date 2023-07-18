@@ -2,7 +2,6 @@
 using Gaming_Forum.Exeptions;
 using Gaming_Forum.Helpers;
 using Gaming_Forum.Models;
-using Gaming_Forum.Models.ViewModels;
 using Gaming_Forum.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -127,7 +126,7 @@ namespace Gaming_Forum.Controllers
         [HttpPost]
         public IActionResult Edit([FromRoute] int id, User user)
         {
-            
+
             _ = this.usersService.UpdateUser(id, user, this.authManager.CurrentUser);
 
             return this.RedirectToAction("Index", "Admins");

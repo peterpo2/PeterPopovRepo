@@ -60,7 +60,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 1,
                             Content = "World of Goo. Got frustrated part way through and never finished.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6732),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1465),
                             IsDeleted = false,
                             PostId = 1,
                             UserId = 2
@@ -69,7 +69,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 2,
                             Content = "Idk, looks messy. And I really find the main protag and story dull based on story trailers they've released.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6743),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1475),
                             IsDeleted = false,
                             PostId = 1,
                             UserId = 3
@@ -78,7 +78,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 3,
                             Content = "Will be refreshing until I can get it today.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6745),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1478),
                             IsDeleted = false,
                             PostId = 3,
                             UserId = 1
@@ -87,7 +87,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 4,
                             Content = "I watched that gameplay video, and it looks amazing! Can't wait to play Immortals Of      Aveum.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6747),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1481),
                             IsDeleted = false,
                             PostId = 2,
                             UserId = 4
@@ -96,7 +96,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 5,
                             Content = "The graphics and art style in Immortals Of Aveum are stunning. Definitely a game to look     out        for!",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6750),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1484),
                             IsDeleted = false,
                             PostId = 2,
                             UserId = 5
@@ -105,7 +105,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 6,
                             Content = "I preordered Starfield! Can't wait to explore the vastness of space in the game.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6753),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1488),
                             IsDeleted = false,
                             PostId = 3,
                             UserId = 6
@@ -114,7 +114,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 7,
                             Content = "I'm excited about Starfield's controller and headset. It's going to enhance the  immersive             experience.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6755),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1491),
                             IsDeleted = false,
                             PostId = 3,
                             UserId = 7
@@ -123,7 +123,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 8,
                             Content = "Some great multiplayer games to play with friends are Among Us, Fortnite, and Rocket       League.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6757),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1494),
                             IsDeleted = false,
                             PostId = 4,
                             UserId = 8
@@ -132,7 +132,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 9,
                             Content = "I highly recommend trying out Overcooked! It's a fun and chaotic multiplayer game.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6759),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1496),
                             IsDeleted = false,
                             PostId = 4,
                             UserId = 9
@@ -141,7 +141,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 10,
                             Content = "I'm looking forward to the release of Elder Scrolls VI and Halo Infinite in 2023.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6802),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1500),
                             IsDeleted = false,
                             PostId = 5,
                             UserId = 10
@@ -150,7 +150,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 11,
                             Content = "2023 is going to be a great year for gaming! So many exciting releases to lookforward      to.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6805),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1503),
                             IsDeleted = false,
                             PostId = 5,
                             UserId = 11
@@ -159,7 +159,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 12,
                             Content = "I enjoyed playing Cyberpunk 2077, but the bugs and performance issues were    disappointing.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6806),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1506),
                             IsDeleted = false,
                             PostId = 6,
                             UserId = 12
@@ -168,7 +168,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 13,
                             Content = "I agree, Cyberpunk 2077 had so much potential. Hopefully, future updates will addres   the           issues.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(6808),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(1508),
                             IsDeleted = false,
                             PostId = 6,
                             UserId = 13
@@ -249,7 +249,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 1,
                             Content = "I originally wanted to ask \"What was your first indie game?\", but I understand that the definition of what is indie and what isn't can be shaky the further you go back in time.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5766),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(551),
                             IsDeleted = false,
                             Title = "What was the first indie game you played?",
                             UserId = 3
@@ -258,7 +258,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 2,
                             Content = "ea let one random lets player record 40 minutes of footage",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5779),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(562),
                             IsDeleted = false,
                             Title = "Immortals Of Aveum 40 minutes of raw gameplay",
                             UserId = 2
@@ -267,7 +267,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 3,
                             Content = "DROP THE PREORDER LINKS WHEN YOU SEE THEM",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5782),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(565),
                             IsDeleted = false,
                             Title = "Starfield controller and headset out now!",
                             UserId = 1
@@ -276,7 +276,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 4,
                             Content = "Looking for suggestions on the best multiplayer games to play with friends. Any recommendations?",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5784),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(569),
                             IsDeleted = false,
                             Title = "Best Multiplayer Games to Play with Friends",
                             UserId = 4
@@ -285,7 +285,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 5,
                             Content = "What are some highly anticipated game releases that we can look forward to in 2023?",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5787),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(572),
                             IsDeleted = false,
                             Title = "Upcoming Game Releases in 2023",
                             UserId = 5
@@ -294,7 +294,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 6,
                             Content = "Just finished playing Cyberpunk 2077. Here's my review and thoughts on the game.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5790),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(635),
                             IsDeleted = false,
                             Title = "Game Review: Cyberpunk 2077",
                             UserId = 6
@@ -303,7 +303,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 7,
                             Content = "Looking for tips and recommendations on building a gaming PC. Any advice?",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5793),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(639),
                             IsDeleted = false,
                             Title = "Tips for Building a Gaming PC",
                             UserId = 7
@@ -312,7 +312,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 8,
                             Content = "What are your favorite open-world games and why? Share your recommendations!",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5796),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(642),
                             IsDeleted = false,
                             Title = "Favorite Open-World Games",
                             UserId = 8
@@ -321,7 +321,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 9,
                             Content = "Let's discuss the pros and cons of Xbox and PlayStation consoles. Which one do you  prefer     and        why?",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5798),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(646),
                             IsDeleted = false,
                             Title = "Gaming Console Comparison: Xbox vs PlayStation",
                             UserId = 9
@@ -330,7 +330,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 10,
                             Content = "Share your list of the best strategy games of all time. Which ones do you consider must-    play          titles?",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5801),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(650),
                             IsDeleted = false,
                             Title = "Best Strategy Games of All Time",
                             UserId = 10
@@ -339,7 +339,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 11,
                             Content = "Let's talk about our favorite retro games that bring back nostalgic memories. What are        yours?",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5804),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(653),
                             IsDeleted = false,
                             Title = "Retro Gaming: Nostalgic Favorites",
                             UserId = 11
@@ -348,7 +348,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 12,
                             Content = "Looking for game recommendations for casual gamers. Any suggestions that are easy to  pick    up     and      play?",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5807),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(656),
                             IsDeleted = false,
                             Title = "Game Recommendations for Casual Gamers",
                             UserId = 12
@@ -357,7 +357,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 13,
                             Content = "What are some of the most anticipated game sequels that you can't wait to play? Share   your            excitement!",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5809),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(660),
                             IsDeleted = false,
                             Title = "Most Anticipated Game Sequels",
                             UserId = 13
@@ -366,7 +366,7 @@ namespace Gaming_Forum.Migrations
                         {
                             Id = 14,
                             Content = "Discover and discuss hidden gem games that are underrated or often overlooked. Let's  give      them      some   recognition!",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(5811),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(663),
                             IsDeleted = false,
                             Title = "Hidden Gem Games: Underrated and Overlooked",
                             UserId = 14
@@ -422,7 +422,7 @@ namespace Gaming_Forum.Migrations
                             Id = 1,
                             CommentId = 1,
                             Content = "I agree, World of Goo was frustrating at times.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(8373),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(3039),
                             IsDeleted = false,
                             UserId = 3
                         },
@@ -431,7 +431,7 @@ namespace Gaming_Forum.Migrations
                             Id = 2,
                             CommentId = 1,
                             Content = "Yeah, some levels were really challenging.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(8384),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(3051),
                             IsDeleted = false,
                             UserId = 2
                         },
@@ -440,7 +440,7 @@ namespace Gaming_Forum.Migrations
                             Id = 3,
                             CommentId = 2,
                             Content = "The protagonist's story in Immortals of Aveum could have been better.",
-                            DateCreated = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(8386),
+                            DateCreated = new DateTime(2023, 7, 18, 11, 19, 54, 801, DateTimeKind.Local).AddTicks(3054),
                             IsDeleted = false,
                             UserId = 1
                         });
@@ -541,7 +541,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4745),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9376),
                             Email = "Adminkata@gmail.com",
                             FirstName = "ADMIN",
                             IsActive = true,
@@ -557,7 +557,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4781),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9412),
                             Email = "JoroJorkov@abv.bg",
                             FirstName = "Jorkata",
                             IsActive = true,
@@ -572,7 +572,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4784),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9415),
                             Email = "PeshoPoshov@abv.bg",
                             FirstName = "Pesho",
                             IsActive = true,
@@ -587,7 +587,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4787),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9419),
                             Email = "lisa.smith@example.com",
                             FirstName = "Lisa",
                             IsActive = true,
@@ -602,7 +602,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4789),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9422),
                             Email = "john.doe@example.com",
                             FirstName = "John",
                             IsActive = true,
@@ -617,7 +617,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4793),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9429),
                             Email = "sarah.johnson@example.com",
                             FirstName = "Sarah",
                             IsActive = true,
@@ -632,7 +632,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 7,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4796),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9432),
                             Email = "michael.smith@example.com",
                             FirstName = "Michael",
                             IsActive = true,
@@ -647,7 +647,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 8,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4798),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9435),
                             Email = "emily.jones@example.com",
                             FirstName = "Emily",
                             IsActive = true,
@@ -662,7 +662,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 9,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4800),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9439),
                             Email = "alex.wilson@example.com",
                             FirstName = "Alex",
                             IsActive = true,
@@ -677,7 +677,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 10,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4803),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9443),
                             Email = "jessica.brown@example.com",
                             FirstName = "Jessica",
                             IsActive = true,
@@ -692,7 +692,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 11,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4805),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9447),
                             Email = "ryan.smith@example.com",
                             FirstName = "Ryan",
                             IsActive = true,
@@ -707,7 +707,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 12,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4808),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9450),
                             Email = "lily.johnson@example.com",
                             FirstName = "Lily",
                             IsActive = true,
@@ -722,7 +722,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 13,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4835),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9453),
                             Email = "david.wilson@example.com",
                             FirstName = "David",
                             IsActive = true,
@@ -737,7 +737,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 14,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4837),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9456),
                             Email = "olivia.brown@example.com",
                             FirstName = "Olivia",
                             IsActive = true,
@@ -752,7 +752,7 @@ namespace Gaming_Forum.Migrations
                         new
                         {
                             Id = 15,
-                            CreatedDate = new DateTime(2023, 7, 16, 19, 30, 42, 546, DateTimeKind.Local).AddTicks(4839),
+                            CreatedDate = new DateTime(2023, 7, 18, 11, 19, 54, 800, DateTimeKind.Local).AddTicks(9459),
                             Email = "ethan.johnson@example.com",
                             FirstName = "Ethan",
                             IsActive = true,

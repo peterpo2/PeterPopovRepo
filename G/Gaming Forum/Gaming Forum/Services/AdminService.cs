@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Gaming_Forum.Data.Repositories;
+﻿using Gaming_Forum.Data.Repositories;
 using Gaming_Forum.Exeptions;
 using Gaming_Forum.Models;
-using Gaming_Forum.Repository.Contracts;
 using Gaming_Forum.Services.Contracts;
 
 namespace Gaming_Forum.Services
@@ -26,7 +24,7 @@ namespace Gaming_Forum.Services
                 var userToBlock = userRepository.GetUser(userId);
 
                 userToBlock.IsBlocked = true;
-                
+
                 return userRepository.UpdateUser(userToBlock);
             }
             throw new UnauthorizedOperationException(ModifyUserErrorMessage);
@@ -39,7 +37,7 @@ namespace Gaming_Forum.Services
                 var userToUnblock = userRepository.GetUser(userId);
 
                 userToUnblock.IsBlocked = false;
-                
+
                 return userRepository.UpdateUser(userToUnblock);
             }
             throw new UnauthorizedOperationException(ModifyUserErrorMessage);
@@ -55,8 +53,8 @@ namespace Gaming_Forum.Services
                     throw new DuplicateEntityException(AdminErrorMessage);
                 }
                 existingUser.IsAdmin = true;
-                
-                return userRepository.UpdateUser(existingUser); 
+
+                return userRepository.UpdateUser(existingUser);
             }
             throw new UnauthorizedOperationException(ModifyUserErrorMessage);
         }
@@ -71,8 +69,8 @@ namespace Gaming_Forum.Services
                     throw new DuplicateEntityException("This user is not an admin.");
                 }
                 existingUser.IsAdmin = false;
-                
-                return userRepository.UpdateUser(existingUser); 
+
+                return userRepository.UpdateUser(existingUser);
             }
             throw new UnauthorizedOperationException(ModifyUserErrorMessage);
         }

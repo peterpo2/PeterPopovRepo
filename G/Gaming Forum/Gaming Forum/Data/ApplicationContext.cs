@@ -304,7 +304,7 @@ namespace Gaming_Forum.Data
                      DateCreated = DateTime.Now
                   },
                  new Post{
-                 
+
                      Id = 6,
                      UserId = 6,
                      Title = "Game Review: Cyberpunk 2077",

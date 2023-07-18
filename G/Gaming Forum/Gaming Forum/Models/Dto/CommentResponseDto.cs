@@ -10,6 +10,6 @@ namespace Gaming_Forum.Models.Dto
         public string? CreatedBy { get; set; }
         public int? Likes { get; set; }
         public string? PostTitle { get; set; }
-        
+
     }
 }

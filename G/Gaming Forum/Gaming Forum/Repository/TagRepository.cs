@@ -1,8 +1,6 @@
 ﻿using Gaming_Forum.Data;
-using Gaming_Forum.Exeptions;
 using Gaming_Forum.Models;
 using Gaming_Forum.Repository.Contracts;
-using Microsoft.EntityFrameworkCore;
 
 namespace Gaming_Forum.Repository
 {

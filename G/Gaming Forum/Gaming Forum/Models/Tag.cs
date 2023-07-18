@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Value { get; set; }
-        public List<Post> Posts { get; set; } 
+        public List<Post> Posts { get; set; }
 
     }
 }

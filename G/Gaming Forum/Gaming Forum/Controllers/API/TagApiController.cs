@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Gaming_Forum.Exeptions;
 using Gaming_Forum.Helpers;
-using Gaming_Forum.Models;
 using Gaming_Forum.Models.Dto;
 using Gaming_Forum.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;

@@ -1,8 +1,6 @@
-﻿using System;
-using Gaming_Forum.Exeptions;
+﻿using Gaming_Forum.Exeptions;
 using Gaming_Forum.Models;
 using Gaming_Forum.Models.Dto;
-using Gaming_Forum.Repository;
 using Gaming_Forum.Repository.Contracts;
 using Gaming_Forum.Services.Contracts;
 
@@ -177,7 +175,7 @@ namespace Gaming_Forum.Services
             {
                 return false;
             }
-            
+
             post.Tags.Add(tag);
             postRepository.Update(post);
 
@@ -265,7 +263,7 @@ namespace Gaming_Forum.Services
             int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
             int pageNumber = searchQueryParameters.PageNumber;
 
-            
+
             var paginatedPosts = filteredPosts
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)

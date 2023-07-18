@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Gaming_Forum.Models.Dto
+﻿namespace Gaming_Forum.Models.Dto
 {
     public class PostResponseDto
     {
-        
+
         public User User { get; set; }
-        
+
         public string Title { get; set; }
 
         public string Content { get; set; }
@@ -15,6 +13,6 @@ namespace Gaming_Forum.Models.Dto
         public List<ReplyResponseDto> Replies { get; set; }
         public List<string> Tags { get; set; }
         public int Likes { get; set; }
-        
+
     }
 }

@@ -1,7 +1,5 @@
-﻿using Gaming_Forum.Exeptions;
-using Gaming_Forum.Models;
+﻿using Gaming_Forum.Models;
 using Gaming_Forum.Models.Dto;
-using Gaming_Forum.Repository;
 
 namespace Gaming_Forum.Services.Contracts
 {

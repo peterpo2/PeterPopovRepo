@@ -3,7 +3,6 @@ using Gaming_Forum.Exeptions;
 using Gaming_Forum.Helpers;
 using Gaming_Forum.Models;
 using Gaming_Forum.Models.Dto;
-using Gaming_Forum.Services;
 using Gaming_Forum.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -177,7 +176,7 @@ namespace Gaming_Forum.Controllers.API
                 return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message}");
             }
         }
-                
+
         [HttpPost("{postId}/tags/{tagId}")]
         public IActionResult AddTagToPost(int postId, int tagId)
         {
@@ -246,7 +245,7 @@ namespace Gaming_Forum.Controllers.API
         {
             try
             {
-                var filteredPosts = postService.FilterBy(searchQueryParameters );
+                var filteredPosts = postService.FilterBy(searchQueryParameters);
 
                 return Ok(filteredPosts);
             }
@@ -256,6 +255,6 @@ namespace Gaming_Forum.Controllers.API
             }
         }
 
-        
+
     }
 }

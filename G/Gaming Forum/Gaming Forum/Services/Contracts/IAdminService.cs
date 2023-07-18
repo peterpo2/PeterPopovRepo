@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Gaming_Forum.Models;
+﻿using Gaming_Forum.Models;
 
 namespace Gaming_Forum.Services.Contracts
 {

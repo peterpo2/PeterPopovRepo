@@ -83,7 +83,7 @@ namespace Gaming_Forum.Controllers.API
                 userService.CreateUser(newUser);
                 return Ok(mapper.Map<UserResponseDto>(newUser));
             }
-            catch(DuplicateEntityException ex)
+            catch (DuplicateEntityException ex)
             {
                 return Forbid(ex.Message);
             }

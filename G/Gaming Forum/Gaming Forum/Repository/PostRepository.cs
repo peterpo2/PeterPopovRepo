@@ -61,7 +61,7 @@ namespace Gaming_Forum.Repository
                 .ToList();
         }
 
-        
+
         public Post Create(Post post)
         {
             post.DateCreated = DateTime.Now;
@@ -135,7 +135,7 @@ namespace Gaming_Forum.Repository
             {
                 query = query.Where(p => p.Tags.Any(t => searchQueryParameters.Tags.Contains(t.Value)));
             }*/
-            
+
             int totalPages = (query.Count() + 1) / searchQueryParameters.PageSize;
 
             query = Paginate(query, searchQueryParameters.PageNumber, searchQueryParameters.PageSize);
