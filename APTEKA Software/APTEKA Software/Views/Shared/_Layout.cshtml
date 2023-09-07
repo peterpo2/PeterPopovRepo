@@ -1,0 +1,51 @@
+﻿@using APTEKA_Software.Helpers;
+@using APTEKA_Software.Models
+@using APTEKA_Software.Services
+@inject AuthManager authManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apteka Software - @ViewData["Title"]</title>
+    
+
+
+</head>
+<body class="border-0 bd-example">
+    <header>
+        @if (authManager.CurrentUser == null)
+        {
+            <form method="get" action="/Users/Login">
+                <button type="submit">Login</button>
+            </form>
+            <form method="get" action="/Users/Register">
+                <button type="submit">Register</button>
+            </form>
+        }
+        <nav>
+            <span class="navbar-text ms-auto me-4" style="color: black; font-weight: bold;">
+                @if (authManager.CurrentUser != null)
+                {
+                    <span>Logged in as: <strong>@authManager.CurrentUser.Username</strong></span>
+                }
+                else
+                {
+                    <span>Not Logged In</span>
+                }
+            </span>
+        </nav>
+    </header>
+
+    <div class="body-content">
+        @RenderBody()
+    </div>
+
+    <footer class="d-flex justify-content-center">
+        <small>© @DateTime.Now.Year, Apteka Software</small>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

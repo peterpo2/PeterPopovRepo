@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="text-center">
+            <h1 class="display-4">Apteka Software</h1>
+            <p class="lead">Best software ever</p>
+        </div>
+        <hr class="my-4">
+        <p>Join the community, share your thoughts and connect with fellow programmers.</p>
+    </div>
+
+
+    <div style="text-align: right;">
+        <p>
+            <span style="font-weight: bold; color: black;">
+                Today's Date: <span id="currentDate"></span>
+            </span>
+        </p>
+        <p>
+            <span style="font-weight: bold; color: black;">
+                Current Time: <span id="currentTime"></span>
+            </span>
+        </p>
+    </div>
+
+    <script>
+        var currentDate = new Date().toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        var currentTime = new Date().toLocaleTimeString("en-US", { hour: 'numeric', minute: 'numeric', hour12: true });
+
+        document.getElementById("currentDate").innerHTML = currentDate;
+        document.getElementById("currentTime").innerHTML = currentTime;
+    </script>
+</div>
