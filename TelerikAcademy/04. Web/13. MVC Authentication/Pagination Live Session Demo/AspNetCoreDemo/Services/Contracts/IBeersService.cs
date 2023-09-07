@@ -1,0 +1,16 @@
+﻿using AspNetCoreDemo.Models;
+
+using System.Collections.Generic;
+
+namespace AspNetCoreDemo.Services.Contracts
+{
+    public interface IBeersService
+    {
+        List<Beer> GetAll();
+        PaginatedList<Beer> FilterBy(BeerQueryParameters filterParameters);
+        Beer GetById(int id);
+        Beer Create(Beer beer, User user);
+        Beer Update(int id, Beer beer, User user);
+        Beer Delete(int id, User user);
+    }
+}

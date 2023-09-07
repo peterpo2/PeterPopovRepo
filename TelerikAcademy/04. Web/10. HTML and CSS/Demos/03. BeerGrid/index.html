@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <title>Awesome Beers</title>
+    <link href="./css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <button onclick="toggleSearchBar()">Trigger Search Button</button>
+    <div style="display: none" id="searchBar">
+      <input
+        onkeydown="onKeyDown()"
+        id="beer-search-field"
+        type="text"
+        placeholder="Search..."
+      />
+      <label for="style-select">Style:</label>
+      <select id="style-select">
+        <option value="">Any</option>
+        <option value="1">IPA</option>
+        <option value="2">EPA</option>
+        <option value="3">Weiss</option>
+        <option value="4">Stout</option>
+      </select>
+      <label for="country-select">Country:</label>
+      <select id="country-select">
+        <option value="">Any</option>
+        <option value="1">Bulgaria</option>
+        <option value="2">Germany</option>
+        <option value="3">Belgium</option>
+        <option value="4">England</option>
+      </select>
+      <button onclick="search()">Search!</button>
+    </div>
+
+    <table>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Brewery</th>
+        <th style="width: 15%">Actions</th>
+      </tr>
+      <tr>
+        <td class="beerIcon"><img src="./images/beerIcon.png" /></td>
+        <td>London Pride</td>
+        <td>Fullers Brewery</td>
+        <td>
+          <button>Add to wish list</button>
+          <button>Mark as drunk</button>
+        </td>
+      </tr>
+      <tr>
+        <td class="beerIcon"><img src="./images/beerIcon.png" /></td>
+        <td>Zagorka</td>
+        <td>Zagorka Brewery</td>
+        <td>
+          <button>Add to wish list</button>
+          <button>Mark as drunk</button>
+        </td>
+      </tr>
+      <tr>
+        <td class="beerIcon"><img src="./images/beerIcon.png" /></td>
+        <td>Schofferhofer</td>
+        <td>Schöfferhofer Hefeweizen</td>
+        <td>
+          <button>Add to wish list</button>
+          <button>Mark as drunk</button>
+        </td>
+      </tr>
+      <tr>
+        <td class="beerIcon"><img src="./images/beerIcon.png" /></td>
+        <td>Divo Pivo</td>
+        <td>Brewery 359</td>
+        <td>
+          <button>Add to wish list</button>
+          <button>Mark as drunk</button>
+        </td>
+      </tr>
+    </table>
+    <br />
+    <div id="myAwesomeForm">
+      <form>
+        <label for="beerName">Beer Name:</label><br />
+        <input type="text" id="beerName" name="beerName" value="" /><br />
+        <label for="beerDescription">Beer Description:</label><br />
+        <input
+          type="text"
+          id="beerDescription"
+          name="beerDescription"
+          value=""
+        /><br /><br />
+        <input type="submit" value="Izprati" />
+        <br />
+      </form>
+    </div>
+  </body>
+  <footer>
+    <script src="js/app.js"></script>
+  </footer>
+</html>

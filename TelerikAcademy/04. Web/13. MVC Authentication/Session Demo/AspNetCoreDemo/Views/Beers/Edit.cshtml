@@ -1,0 +1,12 @@
+﻿@{ 
+	this.ViewData["Title"] = "Edit";
+	this.ViewData["Action"] = "Edit";
+	this.ViewData["SubmitButton"] = "Save";
+	this.ViewData["BeerFormVisibility"] = "none";
+}
+
+<h2>@this.Model.Name</h2>
+
+<partial name="_BeerForm" />
+
+<br/>

@@ -1,0 +1,10 @@
+﻿@model AspNetCoreDemo.Models.BeerViewModel
+
+@{
+    this.ViewData["Action"] = "Create";
+    this.ViewData["ButtonText"] = "Create";
+    this.ViewData["NameVisibility"] = "name-visible";
+}
+
+<h2>Create a new beer</h2>
+<partial name="_BeerForm"/>
