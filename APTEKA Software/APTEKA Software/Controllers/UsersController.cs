@@ -2,6 +2,7 @@
 using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
 using APTEKA_Software.Models.ViewModels;
+using APTEKA_Software.Services;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,14 @@ namespace APTEKA_Software.Controllers
             this.authManager = authManager;
             this.usersService = userService;
             this.modelMapper = modelMapper;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            List<User> users = usersService.GetAllUsers();
+            List<UserViewModel> userViewModels = modelMapper.Map<List<UserViewModel>>(users);
+            return View(userViewModels);
         }
 
         [HttpGet]

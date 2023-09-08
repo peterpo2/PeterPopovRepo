@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using APTEKA_Software.Models.Dto;
 using APTEKA_Software.Helpers;
 using Microsoft.Extensions.Hosting;
+using APTEKA_Software.Services;
 
 namespace APTEKA_Software.Controllers
 {
@@ -27,9 +28,9 @@ namespace APTEKA_Software.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<Item> items = itemService.GetAllItems();
-            List<ItemViewModel> itemViewModels = modelMapper.Map<List<ItemViewModel>>(items);
-            return View(itemViewModels);
+            List<User> users = userService.GetAllUsers();
+            List<UserViewModel> userViewModels = modelMapper.Map<List<UserViewModel>>(users);
+            return View(userViewModels);
         }
 
         [HttpGet]
