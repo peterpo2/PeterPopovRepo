@@ -5,7 +5,6 @@ using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services;
 using APTEKA_Software.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 
 
 public class Program
