@@ -28,9 +28,9 @@ namespace APTEKA_Software.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<User> users = userService.GetAllUsers();
-            List<UserViewModel> userViewModels = modelMapper.Map<List<UserViewModel>>(users);
-            return View(userViewModels);
+            List<Item> items = itemService.GetAllItems();
+            List<ItemViewModel> itemViewModels = modelMapper.Map<List<ItemViewModel>>(items);
+            return View(itemViewModels);
         }
 
         [HttpGet]
