@@ -17,33 +17,19 @@ namespace APTEKA_Software.Repositories
 
         public List<Item> GetAllItems()
         {
-            return context.Items
-                .Include(i => i.User)
-                .ToList();
+            return context.Items.ToList();
         }
 
         public Item GetById(int Id)
         {
-            return context.Items
-                .Include(i => i.User)
-                .FirstOrDefault(i => i.Id == Id)
+            return context.Items.FirstOrDefault(i => i.Id == Id)
                 ?? throw new EntityNotFoundException($"Артикул с идентификационен номер {Id} не беше намерен.");
         }
 
         public Item GetByName(string name)
         {
-            return context.Items
-                .Include(i => i.User)
-                .SingleOrDefault(i => i.Name == name)
+            return context.Items.SingleOrDefault(i => i.Name == name)
                 ?? throw new EntityNotFoundException($"Артикул с име '{name}' не беше намерен.");
-        }
-
-        public List<Item> GetByUser(string username)
-        {
-            return context.Items
-                .Include(i => i.User)
-                .Where(i => i.User.Username == username)
-                .ToList();
         }
 
         public Item Create(Item item)

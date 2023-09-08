@@ -37,12 +37,12 @@ namespace APTEKA_Software.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     AvailableQuantity = table.Column<int>(type: "int", nullable: false),
                     SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,36 +112,36 @@ namespace APTEKA_Software.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "DateRegistered", "FirstName", "IsDeleted", "LastName", "Password", "Username" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(6217), "Peter", false, "Kompotov", "123456", "pesho" },
-                    { 2, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(6251), "George", false, "Paprikov", "222333", "gosho" },
-                    { 3, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(6253), "Ivan", false, "Krushov", "432432", "vanio" },
-                    { 4, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(6256), "Alexander", false, "Slivov", "654321", "sashko" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Items",
                 columns: new[] { "Id", "AvailableQuantity", "DateCreated", "IsDeleted", "Name", "SalePrice", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 10, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(7135), false, "Валидол", 5m, 1 },
-                    { 2, 20, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(7144), false, "NoSpa", 10m, 2 },
-                    { 3, 50, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(7146), false, "Vitamin C", 2m, 3 },
-                    { 4, 42, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(7149), false, "Vitamin D", 6m, 4 }
+                    { 1, 10, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6303), false, "Валидол", 5m, null },
+                    { 2, 20, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6308), false, "NoSpa", 10m, null },
+                    { 3, 50, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6310), false, "Vitamin C", 2m, null },
+                    { 4, 42, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6312), false, "Vitamin D", 6m, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "DateRegistered", "FirstName", "IsDeleted", "LastName", "Password", "Username" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6124), "Peter", false, "Kompotov", "123456", "pesho" },
+                    { 2, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6156), "George", false, "Paprikov", "222333", "gosho" },
+                    { 3, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6159), "Ivan", false, "Krushov", "432432", "vanio" },
+                    { 4, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6161), "Alexander", false, "Slivov", "654321", "sashko" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Deliveries",
                 columns: new[] { "Id", "DeliveryDate", "ItemId", "QuantityDelivered", "UserId" },
-                values: new object[] { 1, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(7781), 1, 20, 1 });
+                values: new object[] { 1, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6779), 1, 20, 1 });
 
             migrationBuilder.InsertData(
                 table: "Sales",
                 columns: new[] { "Id", "ItemId", "Quantity", "SaleDate", "TotalPrice", "UserId" },
-                values: new object[] { 1, 1, 5, new DateTime(2023, 9, 8, 12, 28, 36, 757, DateTimeKind.Local).AddTicks(7374), 25.0m, 1 });
+                values: new object[] { 1, 1, 5, new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6412), 25.0m, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deliveries_ItemId",

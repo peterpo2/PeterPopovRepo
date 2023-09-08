@@ -48,7 +48,7 @@ namespace APTEKA_Software.Controllers
             }
 
             var user = this.authManager.CurrentUser;
-            var createdItem = this.itemService.CreateItem(modelMapper.Map<ItemDto>(viewModel), user);
+            var createdItem = this.itemService.CreateItem(modelMapper.Map<ItemDto>(viewModel));
 
             return this.RedirectToAction("Index");
         }
@@ -77,7 +77,7 @@ namespace APTEKA_Software.Controllers
             User currentUser = authManager.CurrentUser;
 
             Item updatedItem = modelMapper.Map<Item>(viewModel);
-            itemService.UpdateItem(id, updatedItem, currentUser);
+            itemService.UpdateItem(id, updatedItem);
 
             return RedirectToAction("Index");
         }

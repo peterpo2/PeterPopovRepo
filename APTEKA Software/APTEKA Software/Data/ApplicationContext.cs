@@ -64,17 +64,12 @@ namespace APTEKA_Software.Data
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<User>().HasData(users);
 
-            modelBuilder.Entity<User>()
-                .HasMany(user => user.Items)
-                .WithOne(post => post.User)
-                .OnDelete(DeleteBehavior.NoAction);
 
             List<Item> items = new List<Item>()
             {
                 new Item
                 {
                     Id = 1,
-                    UserId = 1,
                     AvailableQuantity = 10,
                     Name = "Валидол",
                     SalePrice = 5,
@@ -83,7 +78,6 @@ namespace APTEKA_Software.Data
                 new Item
                 {
                     Id = 2,
-                    UserId = 2,
                     AvailableQuantity = 20,
                     Name = "NoSpa",
                     SalePrice = 10,
@@ -92,7 +86,6 @@ namespace APTEKA_Software.Data
                 new Item
                 {
                     Id = 3,
-                    UserId = 3,
                     AvailableQuantity = 50,
                     Name = "Vitamin C",
                     SalePrice = 2,
@@ -101,7 +94,6 @@ namespace APTEKA_Software.Data
                 new Item
                 {
                     Id = 4,
-                    UserId = 4,
                     AvailableQuantity = 42,
                     Name = "Vitamin D",
                     SalePrice = 6,
@@ -110,9 +102,6 @@ namespace APTEKA_Software.Data
             };
             modelBuilder.Entity<Item>().ToTable("Items");
             modelBuilder.Entity<Item>().HasData(items);
-
-            modelBuilder.Entity<Item>()
-                .HasOne(u => u.User);
 
             List<Sale> sales = new List<Sale>()
             {

@@ -30,7 +30,7 @@ namespace APTEKA_Software.Services
             return item;
         }
 
-        public Item CreateItem(ItemDto itemDto, User user)
+        public Item CreateItem(ItemDto itemDto)
         {
             var item = new Item
             {
@@ -38,21 +38,19 @@ namespace APTEKA_Software.Services
                 AvailableQuantity = itemDto.AvailableQuantity,
                 SalePrice = itemDto.SalePrice,               
                 IsDeleted = false,
-                User = user
             };
 
             var createdItem = this.itemRepository.Create(item);
             return createdItem;
         }
 
-        public Item UpdateItem(int itemId, Item updatedItem, User user)
+        public Item UpdateItem(int itemId, Item updatedItem)
         {
             var item = this.itemRepository.GetById(itemId);
             if (item == null)
             {
                 throw new EntityNotFoundException($"Артикул ={item} не съществува.");
             }
-            item.Name = updatedItem.Name;
             item.SalePrice = updatedItem.SalePrice;
 
             this.itemRepository.Update(item);

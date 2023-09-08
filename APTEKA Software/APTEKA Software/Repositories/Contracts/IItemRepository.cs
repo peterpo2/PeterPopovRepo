@@ -8,7 +8,6 @@ namespace APTEKA_Software.Repositories.Contracts
         List<Item> GetAllItems();
         Item GetById(int id);
         Item GetByName(string name);
-        List<Item> GetByUser(string username);
         Item Create(Item item);
         Item Update(Item item);
         Item Delete(int id);

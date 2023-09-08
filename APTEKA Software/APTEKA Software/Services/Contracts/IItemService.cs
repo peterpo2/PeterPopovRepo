@@ -6,11 +6,11 @@ namespace APTEKA_Software.Services.Contracts
 {
     public interface IItemService
     {
-        Item CreateItem(ItemDto itemDto, User user);
+        Item CreateItem(ItemDto itemDto);
         Item DeleteItem(int itemId);
         Item GetItemById(int itemId);
         List<Item> GetAllItems();
 
-        Item UpdateItem(int itemId, Item updatedItem, User user);
+        Item UpdateItem(int itemId, Item updatedItem);
     }
 }
