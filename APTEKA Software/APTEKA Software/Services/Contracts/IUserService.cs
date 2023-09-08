@@ -8,7 +8,7 @@ namespace APTEKA_Software.Services.Contracts
         User GetUserByUsername(string username);
         List<User> GetAllUsers();
         User CreateUser(User user);
-        User UpdateUser(int id, User user,User sender);
+        User UpdateUser(int id, User user);
         bool DeleteUser(int id, User user);
         bool UsernameExists(string username);
     }

@@ -43,14 +43,10 @@ namespace APTEKA_Software.Services
             return userRepository.CreateUser(user);
         }
 
-        public User UpdateUser(int id, User newUserInfo, User sender)
+        public User UpdateUser(int id, User newUserInfo)
         {
             var userToUpdate = userRepository.GetUser(id);
-            if (!userToUpdate.Username.Equals(sender))
-            {
-                throw new UnauthorizedOperationException(ModifyUserErrorMessage);
-            }
-
+            
             if (newUserInfo.FirstName is not null)
             {
                 userToUpdate.FirstName = newUserInfo.FirstName;

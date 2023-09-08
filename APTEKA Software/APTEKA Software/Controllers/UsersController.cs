@@ -6,6 +6,7 @@ using APTEKA_Software.Services;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace APTEKA_Software.Controllers
 {
@@ -26,7 +27,7 @@ namespace APTEKA_Software.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<User> users = usersService.GetAllUsers();
+            List<User> users = usersService.GetAllUsers().Where(u => !u.IsDeleted).ToList();
             List<UserViewModel> userViewModels = modelMapper.Map<List<UserViewModel>>(users);
             return View(userViewModels);
         }
@@ -105,42 +106,91 @@ namespace APTEKA_Software.Controllers
 
             return this.RedirectToAction("Login", "Users");
         }
+
         [HttpGet]
-        public IActionResult Profile([FromRoute] int id)
+        public IActionResult Edit(int id)
         {
-            try
-            {
-                var user = this.usersService.GetUser(id);
+            User user = usersService.GetUser(id);
 
-                return this.View(modelMapper.Map<RegisterViewModel>(user));
-            }
-            catch (EntityNotFoundException ex)
+            if (user == null)
             {
-                this.Response.StatusCode = StatusCodes.Status404NotFound;
-                this.ViewData["ErrorMessage"] = ex.Message;
-
-                return this.View("Error");
+                return RedirectToAction("Index");
             }
+
+            EditUserViewModel viewModel = new EditUserViewModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Profile([FromRoute] int id, RegisterViewModel viewModel)
+        public IActionResult Edit(int id, EditUserViewModel viewModel)
         {
-
-
-            if (viewModel.Password != viewModel.ConfirmPassword)
+            if (!ModelState.IsValid)
             {
-                this.ModelState.AddModelError("ConfirmPassword", "The password and confirmation password do not match.");
-
-                return this.View(viewModel);
+                return View(viewModel);
             }
-            if (!this.ModelState.IsValid)
+
+            User updatedUser = new User
             {
-                return this.View(viewModel);
-            }
-            var updatedUser = this.usersService.UpdateUser(id, modelMapper.Map<User>(viewModel), this.authManager.CurrentUser);
+                Id = viewModel.Id,
+                Username = viewModel.Username,
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName
+            };
 
-            return this.View(modelMapper.Map<RegisterViewModel>(updatedUser));
+            try
+            {
+                usersService.UpdateUser(id, updatedUser);
+
+                return RedirectToAction("Index");
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+
+                return View(viewModel);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ConfirmDelete(int id)
+        {
+            User user = usersService.GetUser(id);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmDelete(int id, bool confirm)
+        {
+            User user = usersService.GetUser(id);
+            
+            try
+            {
+                if (confirm)
+                {
+                    usersService.DeleteUser(id, user);
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+
+                return View(user);
+            }
         }
     }
 }
