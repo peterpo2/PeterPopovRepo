@@ -7,7 +7,7 @@ namespace APTEKA_Software.Services.Contracts
     public interface IItemService
     {
         Item CreateItem(ItemDto itemDto, User user);
-        bool DeleteItem(int itemId);
+        Item DeleteItem(int itemId);
         Item GetItemById(int itemId);
         List<Item> GetAllItems();
 

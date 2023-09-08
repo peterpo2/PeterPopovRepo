@@ -1,0 +1,39 @@
+﻿@using APTEKA_Software.Models.ViewModels
+@model List<ItemViewModel>
+@{
+    ViewData["Title"] = "Списък с артикули";
+}
+@{
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>Списък с артикули</h2>
+    <p>
+        <a class="nav-link" href="Items/Create/">Създай Нов Артикул</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Име</th>
+                <th>Наличност</th>
+                <th>Продажна цена</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.AvailableQuantity</td>
+                    <td>@item.SalePrice</td>
+                    <td>
+                        <a class="nav-link" href="/Items/Edit/@item.Id">Редактирай</a>
+                        <a class="nav-link" href="/Items/ConfirmDelete/@item.Id">Изтрий</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

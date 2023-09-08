@@ -76,7 +76,7 @@ namespace APTEKA_Software.Data
                     Id = 1,
                     UserId = 1,
                     AvailableQuantity = 10,
-                    Name = "Validol",
+                    Name = "Валидол",
                     SalePrice = 5,
                     DateCreated = DateTime.Now,
                 },

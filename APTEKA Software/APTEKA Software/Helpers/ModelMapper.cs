@@ -31,6 +31,13 @@ namespace APTEKA_Software.Helpers
             // Item mapping
             CreateMap<Item, ItemDto>();
             CreateMap<ItemDto, Item>();
+            CreateMap<Item, ItemViewModel>();
+            CreateMap<ItemViewModel, Item>();
+            CreateMap<ItemViewModel, ItemDto>();
+            CreateMap<ItemDto, Item>()
+           .ForMember(dest => dest.AvailableQuantity, opt => opt.MapFrom(src => src.AvailableQuantity))
+           .ForMember(dest => dest.SalePrice, opt => opt.MapFrom(src => src.SalePrice));
+
         }
     }
 }
