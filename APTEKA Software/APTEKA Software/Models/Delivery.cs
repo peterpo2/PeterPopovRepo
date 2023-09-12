@@ -1,14 +1,29 @@
-﻿namespace APTEKA_Software.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace APTEKA_Software.Models
 {
     public class Delivery
     {
-        public int Id { get; set; }
-        public int ItemId { get; set; }
-        public int QuantityDelivered { get; set; }
+        [Key]
+        public int DeliveryID { get; set; }
+
+        [Required]
+        [ForeignKey("User")]
+        public int UserID { get; set; }
+
+        [Required]
+        [ForeignKey("Item")]
+        public int ItemID { get; set; }
+
+        [Required]
         public DateTime DeliveryDate { get; set; }
-        public Item Item { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+
+        [Required]
+        public int QuantityDelivered { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual Item Item { get; set; }
     }
 
 }

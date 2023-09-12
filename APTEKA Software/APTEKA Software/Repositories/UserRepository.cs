@@ -2,7 +2,6 @@
 using APTEKA_Software.Exeptions;
 using APTEKA_Software.Models;
 using APTEKA_Software.Repositories.Contracts;
-using Microsoft.EntityFrameworkCore;
 
 namespace APTEKA_Software.Repositories
 {
@@ -16,8 +15,7 @@ namespace APTEKA_Software.Repositories
 
         public User GetUser(int id)
         {
-            var user = context.Users.Include(u => u.Items)
-                                    .FirstOrDefault(u => u.Id == id);
+            var user = context.Users.FirstOrDefault(u => u.Id == id);
 
             if (user == null)
             {
@@ -25,20 +23,22 @@ namespace APTEKA_Software.Repositories
             }
             return user;
         }
+
         public User GetUserByUsername(string username)
         {
-            var user = context.Users.Include(u => u.Items)
-                                    .FirstOrDefault(u => u.Username == username);
+            var user = context.Users.FirstOrDefault(u => u.Username == username);
             if (user == null)
             {
                 throw new EntityNotFoundException($"User with username='{username}' not found.");
             }
             return user;
         }
+
         public List<User> GetAllUsers()
         {
-            return context.Users.Include(u => u.Items).ToList();
+            return context.Users.ToList();
         }
+
         public User CreateUser(User user)
         {
             user.DateRegistered = DateTime.Now;

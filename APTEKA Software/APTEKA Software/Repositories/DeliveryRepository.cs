@@ -23,7 +23,7 @@ namespace APTEKA_Software.Repositories
         }
         public Delivery GetDeliveryById(int id)
         {
-            return context.Deliveries.Include(d => d.Item).Include(d => d.User).FirstOrDefault(d => d.Id == id);
+            return context.Deliveries.Include(d => d.Item).Include(d => d.User).FirstOrDefault(d => d.DeliveryID == id);
         }
         public void AddDelivery(Delivery delivery)
         {

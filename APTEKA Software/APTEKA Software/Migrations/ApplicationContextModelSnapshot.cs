@@ -24,40 +24,56 @@ namespace APTEKA_Software.Migrations
 
             modelBuilder.Entity("APTEKA_Software.Models.Delivery", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DeliveryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DeliveryID"));
 
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ItemId")
+                    b.Property<int>("ItemID")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantityDelivered")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("DeliveryID");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ItemID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Deliveries", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            DeliveryDate = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6779),
-                            ItemId = 1,
-                            QuantityDelivered = 20,
-                            UserId = 1
+                            DeliveryID = 1,
+                            DeliveryDate = new DateTime(2023, 9, 9, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(6186),
+                            ItemID = 1,
+                            QuantityDelivered = 15,
+                            UserID = 1
+                        },
+                        new
+                        {
+                            DeliveryID = 2,
+                            DeliveryDate = new DateTime(2023, 9, 19, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(6191),
+                            ItemID = 2,
+                            QuantityDelivered = 11,
+                            UserID = 2
+                        },
+                        new
+                        {
+                            DeliveryID = 3,
+                            DeliveryDate = new DateTime(2023, 9, 16, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(6194),
+                            ItemID = 3,
+                            QuantityDelivered = 30,
+                            UserID = 3
                         });
                 });
 
@@ -86,12 +102,7 @@ namespace APTEKA_Software.Migrations
                     b.Property<decimal>("SalePrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Items", (string)null);
 
@@ -100,7 +111,7 @@ namespace APTEKA_Software.Migrations
                         {
                             Id = 1,
                             AvailableQuantity = 10,
-                            DateCreated = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6303),
+                            DateCreated = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5691),
                             IsDeleted = false,
                             Name = "Валидол",
                             SalePrice = 5m
@@ -109,7 +120,7 @@ namespace APTEKA_Software.Migrations
                         {
                             Id = 2,
                             AvailableQuantity = 20,
-                            DateCreated = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6308),
+                            DateCreated = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5696),
                             IsDeleted = false,
                             Name = "NoSpa",
                             SalePrice = 10m
@@ -118,7 +129,7 @@ namespace APTEKA_Software.Migrations
                         {
                             Id = 3,
                             AvailableQuantity = 50,
-                            DateCreated = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6310),
+                            DateCreated = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5698),
                             IsDeleted = false,
                             Name = "Vitamin C",
                             SalePrice = 2m
@@ -127,7 +138,7 @@ namespace APTEKA_Software.Migrations
                         {
                             Id = 4,
                             AvailableQuantity = 42,
-                            DateCreated = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6312),
+                            DateCreated = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5701),
                             IsDeleted = false,
                             Name = "Vitamin D",
                             SalePrice = 6m
@@ -136,44 +147,62 @@ namespace APTEKA_Software.Migrations
 
             modelBuilder.Entity("APTEKA_Software.Models.Sale", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SaleID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleID"));
 
-                    b.Property<int>("ItemId")
+                    b.Property<int>("ItemID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("QuantitySold")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("SaleDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("TotalPrice")
+                    b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("SaleID");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ItemID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Sales", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            ItemId = 1,
-                            Quantity = 5,
-                            SaleDate = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6412),
-                            TotalPrice = 25.0m,
-                            UserId = 1
+                            SaleID = 1,
+                            ItemID = 1,
+                            QuantitySold = 3,
+                            SaleDate = new DateTime(2023, 9, 20, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5768),
+                            TotalAmount = 10.0m,
+                            UserID = 1
+                        },
+                        new
+                        {
+                            SaleID = 2,
+                            ItemID = 2,
+                            QuantitySold = 2,
+                            SaleDate = new DateTime(2023, 9, 18, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5774),
+                            TotalAmount = 5.0m,
+                            UserID = 2
+                        },
+                        new
+                        {
+                            SaleID = 3,
+                            ItemID = 3,
+                            QuantitySold = 2,
+                            SaleDate = new DateTime(2023, 9, 18, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5777),
+                            TotalAmount = 20.0m,
+                            UserID = 3
                         });
                 });
 
@@ -219,7 +248,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             Id = 1,
-                            DateRegistered = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6124),
+                            DateRegistered = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5500),
                             FirstName = "Peter",
                             IsDeleted = false,
                             LastName = "Kompotov",
@@ -229,7 +258,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             Id = 2,
-                            DateRegistered = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6156),
+                            DateRegistered = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5536),
                             FirstName = "George",
                             IsDeleted = false,
                             LastName = "Paprikov",
@@ -239,7 +268,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             Id = 3,
-                            DateRegistered = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6159),
+                            DateRegistered = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5539),
                             FirstName = "Ivan",
                             IsDeleted = false,
                             LastName = "Krushov",
@@ -249,7 +278,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             Id = 4,
-                            DateRegistered = new DateTime(2023, 9, 8, 16, 50, 1, 962, DateTimeKind.Local).AddTicks(6161),
+                            DateRegistered = new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5541),
                             FirstName = "Alexander",
                             IsDeleted = false,
                             LastName = "Slivov",
@@ -262,52 +291,38 @@ namespace APTEKA_Software.Migrations
                 {
                     b.HasOne("APTEKA_Software.Models.Item", "Item")
                         .WithMany()
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("APTEKA_Software.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Item");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("APTEKA_Software.Models.Item", b =>
-                {
-                    b.HasOne("APTEKA_Software.Models.User", null)
-                        .WithMany("Items")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("APTEKA_Software.Models.Sale", b =>
                 {
                     b.HasOne("APTEKA_Software.Models.Item", "Item")
                         .WithMany()
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("APTEKA_Software.Models.User", "User")
-                        .WithMany("Sales")
-                        .HasForeignKey("UserId")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Item");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("APTEKA_Software.Models.User", b =>
-                {
-                    b.Navigation("Items");
-
-                    b.Navigation("Sales");
                 });
 #pragma warning restore 612, 618
         }

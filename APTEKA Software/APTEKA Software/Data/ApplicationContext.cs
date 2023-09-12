@@ -27,7 +27,6 @@ namespace APTEKA_Software.Data
                     Password = "123456",
                     FirstName = "Peter",
                     LastName = "Kompotov",
-                    Items = new List<Item>(),
                     DateRegistered = DateTime.Now
                 },
                 new User
@@ -37,7 +36,6 @@ namespace APTEKA_Software.Data
                     Password = "222333",
                     FirstName = "George",
                     LastName = "Paprikov",
-                    Items = new List<Item>(),
                     DateRegistered = DateTime.Now
                 },
                 new User
@@ -47,7 +45,6 @@ namespace APTEKA_Software.Data
                     Password = "432432",
                     FirstName = "Ivan",
                     LastName = "Krushov",
-                    Items = new List<Item>(),
                     DateRegistered = DateTime.Now
                 },
                 new User
@@ -57,13 +54,11 @@ namespace APTEKA_Software.Data
                     Password = "654321",
                     FirstName = "Alexander",
                     LastName = "Slivov",
-                    Items = new List<Item>(),
                     DateRegistered = DateTime.Now
                 },
             };
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<User>().HasData(users);
-
 
             List<Item> items = new List<Item>()
             {
@@ -107,12 +102,30 @@ namespace APTEKA_Software.Data
             {
                 new Sale
                 {
-                    Id = 1,
-                    SaleDate = DateTime.Now,
+                    SaleId = 1,
                     ItemId = 1,
                     UserId = 1,
-                    Quantity = 5,
-                    TotalPrice = 25.0M
+                    SaleDate = DateTime.Now.AddDays(+8),
+                    QuantitySold = 3,
+                    TotalAmount = 10.0M
+                },
+                new Sale
+                {
+                    SaleId = 2,
+                    ItemId = 2,
+                    UserId = 2,
+                    SaleDate = DateTime.Now.AddDays(+6),
+                    QuantitySold = 2,
+                    TotalAmount = 5.0M
+                },
+                new Sale
+                {
+                    SaleId = 3,
+                    ItemId = 3,
+                    UserId = 3,
+                    SaleDate = DateTime.Now.AddDays(+6),
+                    QuantitySold = 2,
+                    TotalAmount = 20.0M
                 },
             };
 
@@ -123,17 +136,32 @@ namespace APTEKA_Software.Data
             {
                 new Delivery
                 {
-                    Id = 1,
-                    ItemId = 1,
-                    QuantityDelivered = 20,
-                    DeliveryDate = DateTime.Now,
-                    UserId = 1
+                    DeliveryID = 1,
+                    UserID = 1,
+                    ItemID = 1,
+                    QuantityDelivered = 15,
+                    DeliveryDate = DateTime.Now.AddDays(-3),
+                },
+                new Delivery
+                {
+                    DeliveryID = 2,
+                    ItemID = 2,
+                    UserID = 2,
+                    QuantityDelivered = 11,
+                    DeliveryDate = DateTime.Now.AddDays(+7),
+                },
+                new Delivery
+                {
+                    DeliveryID = 3,
+                    ItemID = 3,
+                    UserID = 3,
+                    QuantityDelivered = 30,
+                    DeliveryDate = DateTime.Now.AddDays(+4),
                 },
             };
-
+            
             modelBuilder.Entity<Delivery>().ToTable("Deliveries");
             modelBuilder.Entity<Delivery>().HasData(deliveries);
-
         }
     }
 }

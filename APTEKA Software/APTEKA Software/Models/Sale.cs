@@ -1,20 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APTEKA_Software.Models
 {
     public class Sale
     {
-        public int Id { get; set; }
-        public DateTime SaleDate { get; set; }
-        public int ItemId { get; set; }
+        [Key]
+        public int SaleId { get; set; }
+
+        [Required]
+        [ForeignKey("User")]
         public int UserId { get; set; }
-        public int Quantity { get; set; }
-        public decimal TotalPrice { get; set; }
 
-        [ForeignKey("ItemId")]
-        public Item Item { get; set; }
+        [Required]
+        [ForeignKey("Item")]
+        public int ItemId { get; set; }
 
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        [Required]
+        public DateTime SaleDate { get; set; }
+
+        [Required]
+        public int QuantitySold { get; set; }
+
+        [Required]
+        public decimal TotalAmount { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services;
 using APTEKA_Software.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.OpenApi.Models;
 
 public class Program
 {
@@ -21,6 +21,11 @@ public class Program
 
             options.UseSqlServer(connectionString);
             options.EnableSensitiveDataLogging();
+        });
+
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "APTEKA Software", Version = "v1" });
         });
 
         builder.Services.AddSession(options =>
@@ -45,6 +50,12 @@ public class Program
         builder.Services.AddHttpContextAccessor();
 
         var app = builder.Build();
+
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "APTEKA Software v1");
+        });
 
         app.UseDeveloperExceptionPage();
 

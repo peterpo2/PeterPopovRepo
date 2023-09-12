@@ -21,10 +21,7 @@ namespace APTEKA_Software.Models
         [Required]
         [StringLength(32, MinimumLength = 4, ErrorMessage = "Last name must be between 4 and 32 characters.")]
         public string LastName { get; set; }
-
-        public List<Item> Items { get; set; }
         public DateTime DateRegistered { get; set; }
         public bool IsDeleted { get; set; }
-        public List<Sale> Sales { get; set; }   
     }
 }

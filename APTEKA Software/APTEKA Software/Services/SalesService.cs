@@ -9,13 +9,18 @@ namespace APTEKA_Software.Services
     {
         private readonly IItemRepository itemRepository;
         private readonly IUserRepository userRepository;
+        private readonly ISaleRepository saleRepository;
 
-        public SalesService(IItemRepository itemRepository, IUserRepository userRepository)
+        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository)
         {
             this.itemRepository = itemRepository;
             this.userRepository = userRepository;
+            this.saleRepository = saleRepository;
         }
-
+        public List<Sale> GetAllSales()
+        {
+            return this.saleRepository.GetAll();
+        }
         public SaleResult MakeSale(int userId, int itemId, int quantity)
         {
             var user = userRepository.GetUser(userId);
@@ -27,19 +32,27 @@ namespace APTEKA_Software.Services
                 {
                     var totalSaleValue = quantity * item.SalePrice;
 
-                    item.AvailableQuantity -= quantity;
-
-                    itemRepository.Update(item);
-
-                    return new SaleResult
+                    if (item.AvailableQuantity >= quantity)
                     {
-                        Success = true,
-                        TotalSaleValue = totalSaleValue,
-                    };
+                        item.AvailableQuantity -= quantity;
+
+                        itemRepository.Update(item);
+
+                        return new SaleResult
+                        {
+                            Success = true,
+                            TotalSaleValue = totalSaleValue,
+                            RemainingQuantity = item.AvailableQuantity 
+                        };
+                    }
+                    else
+                    {
+                        throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.Name}.");
+                    }
                 }
                 else
                 {
-                    throw new EntityNotFoundException($"Недостатъчно количество на артикула {item}.");
+                    throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.Name}.");
                 }
             }
             else
@@ -47,5 +60,19 @@ namespace APTEKA_Software.Services
                 throw new EntityNotFoundException($"Невалиден потребител ({user}) или артикул ({item}).");
             }
         }
+        public int GetRemainingQuantity(int itemId)
+        {
+            var item = itemRepository.GetById(itemId);
+
+            if (item != null)
+            {
+                return item.AvailableQuantity;
+            }
+            else
+            {
+                throw new EntityNotFoundException($"Артикул с идентификационен номер {itemId} не беше намерен.");
+            }
+        }
+
     }
 }

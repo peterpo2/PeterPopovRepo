@@ -1,0 +1,37 @@
+﻿@using APTEKA_Software.Models.ViewModels
+@model List<SaleViewModel>
+
+@{
+    ViewData["Title"] = "Списък с продажби";
+}
+@{
+    Layout = "_Layout";
+}
+
+<a class="nav-link" href="Sales/MakeSale/">Направи продажба</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sale Id</th>
+            <th>User Name</th>
+            <th>Item Name</th>
+            <th>Sale Date</th>
+            <th>Quantity Sold</th>
+            <th>Total Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model)
+        {
+            <tr>
+                <td>@sale.SaleId</td>
+                <td>@sale.UserName</td>
+                <td>@sale.ItemName</td>
+                <td>@sale.SaleDate.ToShortDateString()</td>
+                <td>@sale.QuantitySold</td>
+                <td>@sale.TotalAmount.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -22,13 +22,20 @@ namespace APTEKA_Software.Repositories
 
         public Item GetById(int Id)
         {
-            return context.Items.FirstOrDefault(i => i.Id == Id)
-                ?? throw new EntityNotFoundException($"Артикул с идентификационен номер {Id} не беше намерен.");
+            var item = context.Items.FirstOrDefault(i => i.Id == Id);
+
+            if (item == null)
+            {
+                throw new EntityNotFoundException($"Артикул с идентификационен номер {Id} не беше намерен.");
+            }
+
+            return item;
         }
+
 
         public Item GetByName(string name)
         {
-            return context.Items.SingleOrDefault(i => i.Name == name)
+            return context.Items.FirstOrDefault(i => i.Name == name)
                 ?? throw new EntityNotFoundException($"Артикул с име '{name}' не беше намерен.");
         }
 

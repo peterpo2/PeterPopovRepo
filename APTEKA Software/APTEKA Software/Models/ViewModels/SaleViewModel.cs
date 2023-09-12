@@ -5,17 +5,27 @@ namespace APTEKA_Software.Models.ViewModels
 {
     public class SaleViewModel
     {
-        [Required(ErrorMessage = "Изберете артикул")]
+        public int SaleId { get; set; }
+
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+
         public int ItemId { get; set; }
+        public string ItemName { get; set; }
 
-        [Required(ErrorMessage = "Въведете количество")]
-        [Range(1, int.MaxValue, ErrorMessage = "Количество трябва да е положително число")]
-        public int Quantity { get; set; }
 
-        public decimal SalePrice { get; set; }
-        public decimal TotalSaleValue { get; set; }
-        public List<SaleItemViewModel> SaleItems { get; set; }
+        [Display(Name = "Дата на продажба")]
+        public DateTime SaleDate { get; set; }
 
+        [Display(Name = "Продадено количество")]
+        public int QuantitySold { get; set; }
+
+        [Display(Name = "Обща сума на артикули")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public decimal TotalAmount { get; set; }
         public List<SelectListItem> AvailableItems { get; set; }
+        public UserViewModel User { get; set; }
+        public ItemViewModel Item { get; set; }
+        public List<SaleItemViewModel> SaleItems { get; set; }
     }
 }

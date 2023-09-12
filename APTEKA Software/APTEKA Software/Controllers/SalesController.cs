@@ -1,6 +1,8 @@
-﻿using APTEKA_Software.Models.ViewModels;
-using APTEKA_Software.Services;
+﻿using APTEKA_Software.Helpers;
+using APTEKA_Software.Models;
+using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Services.Contracts;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -10,35 +12,41 @@ namespace APTEKA_Software.Controllers
     {
         private readonly ISalesService salesService;
         private readonly IItemService itemService;
+        private readonly AuthManager authManager;
+        private readonly IUserService userService;
 
-        public SalesController(ISalesService salesService, IItemService itemService)
+        public SalesController(ISalesService salesService, IItemService itemService, AuthManager authManager, IUserService userService)
         {
             this.salesService = salesService;
             this.itemService = itemService;
+            this.authManager = authManager;
+            this.userService = userService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
-        }
+            var sales = salesService.GetAllSales();
+            var saleViewModels = new List<SaleViewModel>();
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+            var mapper = HttpContext.RequestServices.GetService<IMapper>();
 
-        [HttpPost]
-        public IActionResult Create(SaleViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
+            foreach (var sale in sales)
             {
-                return View(viewModel);
+                var saleViewModel = mapper.Map<Sale, SaleViewModel>(sale);
+
+                var user = userService.GetUser(sale.UserId);
+                var item = itemService.GetItemById(sale.ItemId);
+
+                saleViewModel.UserName = $"{user.FirstName} {user.LastName}";
+                saleViewModel.ItemName = item.Name;
+
+                saleViewModels.Add(saleViewModel);
             }
 
-            return RedirectToAction("Index");
+            return View(saleViewModels);
         }
+
         [HttpGet]
         public IActionResult MakeSale()
         {
@@ -47,9 +55,11 @@ namespace APTEKA_Software.Controllers
             var items = itemService.GetAllItems();
             viewModel.AvailableItems = items.Select(item => new SelectListItem
             {
-                Text = $"{item.Name} (Продажна цена: {item.SalePrice})",
+                Text = $"{item.Name} (Цена: {item.SalePrice:C})",
                 Value = item.Id.ToString()
             }).ToList();
+
+            viewModel.SaleItems = new List<SaleItemViewModel>();
 
             return View(viewModel);
         }
@@ -57,20 +67,45 @@ namespace APTEKA_Software.Controllers
         [HttpPost]
         public IActionResult MakeSale(SaleViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                var items = itemService.GetAllItems();
-                viewModel.AvailableItems = items.Select(item => new SelectListItem
-                {
-                    Text = $"{item.Name} (Продажна цена: {item.SalePrice})",
-                    Value = item.Id.ToString()
-                }).ToList();
+            //if (!ModelState.IsValid)
+            //{
+            //    var items = itemService.GetAllItems();
+            //    viewModel.AvailableItems = items.Select(item => new SelectListItem
+            //    {
+            //        Text = $"{item.Name} (Цена: {item.SalePrice:C})",
+            //        Value = item.Id.ToString() 
+            //    }).ToList();
 
+            //    return View(viewModel);
+            //}
+
+            var selectedItem = itemService.GetItemById(viewModel.ItemId);
+
+            var saleItemViewModel = new SaleItemViewModel
+            {
+                ItemName = selectedItem.Name,
+                Quantity = viewModel.QuantitySold,
+                SalePrice = selectedItem.SalePrice,
+                TotalPrice = viewModel.QuantitySold * selectedItem.SalePrice
+            };
+
+            viewModel.SaleItems ??= new List<SaleItemViewModel>();
+            viewModel.SaleItems.Add(saleItemViewModel);
+
+            viewModel.TotalAmount = viewModel.SaleItems.Sum(item => item.TotalPrice);
+
+            var userId = this.authManager.CurrentUser.Id;
+            var saleResult = salesService.MakeSale(userId, viewModel.ItemId, viewModel.QuantitySold);
+
+            if (saleResult.Success)
+            {
+                return RedirectToAction("SaleConfirmation", new { totalSaleValue = viewModel.TotalAmount });
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "The sale could not be completed.");
                 return View(viewModel);
             }
-
-            return RedirectToAction("MakeSale");
         }
-
     }
 }
