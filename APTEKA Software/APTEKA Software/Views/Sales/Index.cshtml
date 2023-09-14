@@ -13,19 +13,17 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Sale Id</th>
-            <th>User Name</th>
-            <th>Item Name</th>
-            <th>Sale Date</th>
-            <th>Quantity Sold</th>
-            <th>Total Amount</th>
+            <th>Продавач</th>
+            <th>Артикул</th>
+            <th>Цена на продажба</th>
+            <th>Продадено количество</th>
+            <th>Общо количество</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var sale in Model)
         {
             <tr>
-                <td>@sale.SaleId</td>
                 <td>@sale.UserName</td>
                 <td>@sale.ItemName</td>
                 <td>@sale.SaleDate.ToShortDateString()</td>

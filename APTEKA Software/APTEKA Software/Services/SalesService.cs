@@ -73,6 +73,5 @@ namespace APTEKA_Software.Services
                 throw new EntityNotFoundException($"Артикул с идентификационен номер {itemId} не беше намерен.");
             }
         }
-
     }
 }

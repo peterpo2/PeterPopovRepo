@@ -18,9 +18,14 @@ namespace APTEKA_Software.Helpers
             CreateMap<User, UserViewModel>();
             CreateMap<UserViewModel,User >();
 
-            // Delivery mapping
+            // Delivery 
             CreateMap<Delivery, DeliveryDto>();
-            CreateMap<DeliveryDto, Delivery>();
+            CreateMap<DeliveryResultDto, Delivery>();
+            CreateMap<DeliveryRequestDto, Delivery>();
+            CreateMap<Delivery, DeliveryRequestDto>();
+            CreateMap<Delivery, DeliveryResponseDto>();
+            CreateMap<Delivery,DeliveryViewModel>();
+            CreateMap<DeliveryViewModel, Delivery>();
 
             // Sale mapping
             CreateMap<Sale, SaleDto>();

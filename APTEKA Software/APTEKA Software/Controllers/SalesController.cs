@@ -67,17 +67,6 @@ namespace APTEKA_Software.Controllers
         [HttpPost]
         public IActionResult MakeSale(SaleViewModel viewModel)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    var items = itemService.GetAllItems();
-            //    viewModel.AvailableItems = items.Select(item => new SelectListItem
-            //    {
-            //        Text = $"{item.Name} (Цена: {item.SalePrice:C})",
-            //        Value = item.Id.ToString() 
-            //    }).ToList();
-
-            //    return View(viewModel);
-            //}
 
             var selectedItem = itemService.GetItemById(viewModel.ItemId);
 

@@ -9,6 +9,7 @@ namespace APTEKA_Software.Models
         [StringLength(32, MinimumLength = 3, ErrorMessage = "Item name must be between 3 and 32 characters.")]
         public string Name { get; set; }
         public int AvailableQuantity { get; set; }
+        public decimal DeliveryPrice { get; set; }
         public decimal SalePrice { get; set; }
         public DateTime DateCreated { get; set; }
         public bool IsDeleted { get; set; }

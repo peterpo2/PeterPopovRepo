@@ -105,7 +105,7 @@ namespace APTEKA_Software.Data
                     SaleId = 1,
                     ItemId = 1,
                     UserId = 1,
-                    SaleDate = DateTime.Now.AddDays(+8),
+                    SaleDate = DateTime.Now,
                     QuantitySold = 3,
                     TotalAmount = 10.0M
                 },
@@ -114,7 +114,7 @@ namespace APTEKA_Software.Data
                     SaleId = 2,
                     ItemId = 2,
                     UserId = 2,
-                    SaleDate = DateTime.Now.AddDays(+6),
+                    SaleDate = DateTime.Now,
                     QuantitySold = 2,
                     TotalAmount = 5.0M
                 },
@@ -123,7 +123,7 @@ namespace APTEKA_Software.Data
                     SaleId = 3,
                     ItemId = 3,
                     UserId = 3,
-                    SaleDate = DateTime.Now.AddDays(+6),
+                    SaleDate = DateTime.Now,
                     QuantitySold = 2,
                     TotalAmount = 20.0M
                 },
@@ -136,27 +136,27 @@ namespace APTEKA_Software.Data
             {
                 new Delivery
                 {
-                    DeliveryID = 1,
-                    UserID = 1,
-                    ItemID = 1,
+                    DeliveryId = 1,
+                    UserId = 1,
+                    ItemId = 1,
                     QuantityDelivered = 15,
-                    DeliveryDate = DateTime.Now.AddDays(-3),
+                    DeliveryDate = DateTime.Now,
                 },
                 new Delivery
                 {
-                    DeliveryID = 2,
-                    ItemID = 2,
-                    UserID = 2,
+                    DeliveryId = 2,
+                    ItemId = 2,
+                    UserId = 2,
                     QuantityDelivered = 11,
-                    DeliveryDate = DateTime.Now.AddDays(+7),
+                    DeliveryDate = DateTime.Now,
                 },
                 new Delivery
                 {
-                    DeliveryID = 3,
-                    ItemID = 3,
-                    UserID = 3,
+                    DeliveryId = 3,
+                    ItemId = 3,
+                    UserId = 3,
                     QuantityDelivered = 30,
-                    DeliveryDate = DateTime.Now.AddDays(+4),
+                    DeliveryDate = DateTime.Now,
                 },
             };
             

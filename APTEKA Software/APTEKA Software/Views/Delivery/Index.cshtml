@@ -1,0 +1,38 @@
+﻿@using APTEKA_Software.Models.ViewModels
+@model List<DeliveryViewModel>
+
+@{
+    ViewData["Title"] = "Списък с доставки";
+}
+@{
+    Layout = "_Layout";
+}
+<a class="nav-link" href="Delivery/MakeDelivery/">Направи доставка</a>
+
+<h2>Списък с Доставки</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Доставка</th>
+            <th>Потребител</th>
+            <th>Артикул</th>
+            <th>Дата на Доставка</th>
+            <th>Количество Доставено</th>
+            <th>Общо количество</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var delivery in Model)
+        {
+            <tr>
+                <td>@delivery.DeliveryId</td>
+                <td>@delivery.UserName</td>
+                <td>@delivery.ItemName</td>
+                <td>@delivery.DeliveryDate.ToString("dd/MM/yyyy")</td>
+                <td>@delivery.QuantityDelivered</td>
+                <td>@delivery.TotalAmount</td>
+            </tr>
+        }
+    </tbody>
+</table>

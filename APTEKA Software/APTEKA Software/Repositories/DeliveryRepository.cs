@@ -2,9 +2,6 @@
 using APTEKA_Software.Models;
 using APTEKA_Software.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace APTEKA_Software.Repositories
 {
@@ -17,33 +14,30 @@ namespace APTEKA_Software.Repositories
             this.context = context;
         }
 
-        public IEnumerable<Delivery> GetAllDeliveries()
+        public List<Delivery> GetAllDeliveries()
         {
-            return context.Deliveries.Include(d => d.Item).Include(d => d.User).ToList();
+            return context.Deliveries.ToList();
+        }
+        public Delivery MakeDelivery(Delivery delivery)
+        {
+            try
+            {
+                context.Deliveries.Add(delivery);
+                context.SaveChanges();
+                return delivery;
+            }
+            catch (DbUpdateException)
+            {
+                throw new Exception("Failed to make the delivery.");
+            }
+        }
+        public List<Delivery> GetDeliveriesByUserId(int userId)
+        {
+            return context.Deliveries.Where(delivery => delivery.UserId == userId).ToList();
         }
         public Delivery GetDeliveryById(int id)
         {
-            return context.Deliveries.Include(d => d.Item).Include(d => d.User).FirstOrDefault(d => d.DeliveryID == id);
-        }
-        public void AddDelivery(Delivery delivery)
-        {
-            delivery.DeliveryDate = DateTime.Now;
-            context.Deliveries.Add(delivery);
-            context.SaveChanges();
-        }
-        public void UpdateDelivery(Delivery delivery)
-        {
-            context.Deliveries.Update(delivery);
-            context.SaveChanges();
-        }
-        public void DeleteDelivery(int id)
-        {
-            var delivery = context.Deliveries.Find(id);
-            if (delivery != null)
-            {
-                context.Deliveries.Remove(delivery);
-                context.SaveChanges();
-            }
+            return context.Deliveries.Include(d => d.Item).Include(d => d.User).FirstOrDefault(d => d.DeliveryId == id);
         }
     }
 }

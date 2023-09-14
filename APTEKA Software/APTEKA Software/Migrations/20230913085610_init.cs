@@ -21,6 +21,7 @@ namespace APTEKA_Software.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     AvailableQuantity = table.Column<int>(type: "int", nullable: false),
+                    DeliveryPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -52,25 +53,25 @@ namespace APTEKA_Software.Migrations
                 name: "Deliveries",
                 columns: table => new
                 {
-                    DeliveryID = table.Column<int>(type: "int", nullable: false)
+                    DeliveryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    ItemID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
                     DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QuantityDelivered = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Deliveries", x => x.DeliveryID);
+                    table.PrimaryKey("PK_Deliveries", x => x.DeliveryId);
                     table.ForeignKey(
-                        name: "FK_Deliveries_Items_ItemID",
-                        column: x => x.ItemID,
+                        name: "FK_Deliveries_Items_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Deliveries_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Deliveries_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -80,26 +81,26 @@ namespace APTEKA_Software.Migrations
                 name: "Sales",
                 columns: table => new
                 {
-                    SaleID = table.Column<int>(type: "int", nullable: false)
+                    SaleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserID = table.Column<int>(type: "int", nullable: false),
-                    ItemID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
                     SaleDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QuantitySold = table.Column<int>(type: "int", nullable: false),
                     TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sales", x => x.SaleID);
+                    table.PrimaryKey("PK_Sales", x => x.SaleId);
                     table.ForeignKey(
-                        name: "FK_Sales_Items_ItemID",
-                        column: x => x.ItemID,
+                        name: "FK_Sales_Items_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sales_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Sales_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -107,13 +108,13 @@ namespace APTEKA_Software.Migrations
 
             migrationBuilder.InsertData(
                 table: "Items",
-                columns: new[] { "Id", "AvailableQuantity", "DateCreated", "IsDeleted", "Name", "SalePrice" },
+                columns: new[] { "Id", "AvailableQuantity", "DateCreated", "DeliveryPrice", "IsDeleted", "Name", "SalePrice" },
                 values: new object[,]
                 {
-                    { 1, 10, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5691), false, "Валидол", 5m },
-                    { 2, 20, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5696), false, "NoSpa", 10m },
-                    { 3, 50, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5698), false, "Vitamin C", 2m },
-                    { 4, 42, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5701), false, "Vitamin D", 6m }
+                    { 1, 10, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5459), 0m, false, "Валидол", 5m },
+                    { 2, 20, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5464), 0m, false, "NoSpa", 10m },
+                    { 3, 50, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5466), 0m, false, "Vitamin C", 2m },
+                    { 4, 42, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5468), 0m, false, "Vitamin D", 6m }
                 });
 
             migrationBuilder.InsertData(
@@ -121,51 +122,51 @@ namespace APTEKA_Software.Migrations
                 columns: new[] { "Id", "DateRegistered", "FirstName", "IsDeleted", "LastName", "Password", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5500), "Peter", false, "Kompotov", "123456", "pesho" },
-                    { 2, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5536), "George", false, "Paprikov", "222333", "gosho" },
-                    { 3, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5539), "Ivan", false, "Krushov", "432432", "vanio" },
-                    { 4, new DateTime(2023, 9, 12, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5541), "Alexander", false, "Slivov", "654321", "sashko" }
+                    { 1, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5234), "Peter", false, "Kompotov", "123456", "pesho" },
+                    { 2, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5270), "George", false, "Paprikov", "222333", "gosho" },
+                    { 3, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5272), "Ivan", false, "Krushov", "432432", "vanio" },
+                    { 4, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5275), "Alexander", false, "Slivov", "654321", "sashko" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Deliveries",
-                columns: new[] { "DeliveryID", "DeliveryDate", "ItemID", "QuantityDelivered", "UserID" },
+                columns: new[] { "DeliveryId", "DeliveryDate", "ItemId", "QuantityDelivered", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 9, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(6186), 1, 15, 1 },
-                    { 2, new DateTime(2023, 9, 19, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(6191), 2, 11, 2 },
-                    { 3, new DateTime(2023, 9, 16, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(6194), 3, 30, 3 }
+                    { 1, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5933), 1, 15, 1 },
+                    { 2, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5939), 2, 11, 2 },
+                    { 3, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5941), 3, 30, 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Sales",
-                columns: new[] { "SaleID", "ItemID", "QuantitySold", "SaleDate", "TotalAmount", "UserID" },
+                columns: new[] { "SaleId", "ItemId", "QuantitySold", "SaleDate", "TotalAmount", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, 3, new DateTime(2023, 9, 20, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5768), 10.0m, 1 },
-                    { 2, 2, 2, new DateTime(2023, 9, 18, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5774), 5.0m, 2 },
-                    { 3, 3, 2, new DateTime(2023, 9, 18, 10, 50, 1, 327, DateTimeKind.Local).AddTicks(5777), 20.0m, 3 }
+                    { 1, 1, 3, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5537), 10.0m, 1 },
+                    { 2, 2, 2, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5543), 5.0m, 2 },
+                    { 3, 3, 2, new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5546), 20.0m, 3 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deliveries_ItemID",
+                name: "IX_Deliveries_ItemId",
                 table: "Deliveries",
-                column: "ItemID");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deliveries_UserID",
+                name: "IX_Deliveries_UserId",
                 table: "Deliveries",
-                column: "UserID");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_ItemID",
+                name: "IX_Sales_ItemId",
                 table: "Sales",
-                column: "ItemID");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_UserID",
+                name: "IX_Sales_UserId",
                 table: "Sales",
-                column: "UserID");
+                column: "UserId");
         }
 
         /// <inheritdoc />

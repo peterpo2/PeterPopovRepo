@@ -4,10 +4,9 @@ namespace APTEKA_Software.Repositories.Contracts
 {
     public interface IDeliveryRepository
     {
-        IEnumerable<Delivery> GetAllDeliveries();
+        List<Delivery> GetAllDeliveries();
+        Delivery MakeDelivery(Delivery delivery);
         Delivery GetDeliveryById(int id);
-        void AddDelivery(Delivery delivery);
-        void UpdateDelivery(Delivery delivery);
-        void DeleteDelivery(int id);
+        List<Delivery> GetDeliveriesByUserId(int userId);
     }
 }

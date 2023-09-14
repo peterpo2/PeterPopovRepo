@@ -1,0 +1,31 @@
+﻿@model APTEKA_Software.Models.ViewModels.DeliveryViewModel
+
+@{
+    ViewData["Title"] = "Доставка на артикули";
+    Layout = "_Layout";
+}
+
+<h2>Създай Нова Доставка</h2>
+
+<form asp-controller="Delivery" asp-action="MakeDelivery" method="post">
+    <div class="form-group">
+        <label for="ItemId">Избери Артикул</label>
+        <select asp-for="ItemId" class="form-control" id="ItemId">
+            <option value="">Избери Артикул</option>
+            @if (Model.AvailableItems != null)
+            {
+                @foreach (var item in Model.AvailableItems)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="ItemId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="QuantityDelivered">Доставено количество </label>
+        <input type="number" asp-for="@Model.QuantityDelivered" class="form-control" id="QuantityDelivered" />
+        <span asp-validation-for="QuantityDelivered" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Изпрати</button>
+</form>
