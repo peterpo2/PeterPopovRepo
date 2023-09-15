@@ -18,6 +18,8 @@ namespace APTEKA_Software.Models.ViewModels
 
         [Display(Name = "Продадено количество")]
         public int QuantitySold { get; set; }
+        [Display(Name = "Доставено количество")]
+        public int QuantityDelivered { get; set; }
 
         [Display(Name = "Цена на продажба")]
         public decimal SalePrice { get; set; }

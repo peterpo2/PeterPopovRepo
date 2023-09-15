@@ -13,7 +13,7 @@ namespace APTEKA_Software.Models
         public int ItemId { get; set; }
         public DateTime DeliveryDate { get; set; }
         public int QuantityDelivered { get; set; }
-
+        public decimal TotalAmount { get; set; }
         public virtual User User { get; set; }
         public virtual Item Item { get; set; }
     }

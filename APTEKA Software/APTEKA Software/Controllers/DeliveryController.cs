@@ -1,10 +1,9 @@
 ﻿using APTEKA_Software.Helpers;
-using APTEKA_Software.Models.Dto;
+using APTEKA_Software.Models;
 using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace APTEKA_Software.Controllers
 {
@@ -42,57 +41,51 @@ namespace APTEKA_Software.Controllers
             return View(deliveryViewModels);
         }
         [HttpGet]
-        public IActionResult MakeDelivery()
+        public IActionResult MakeDelivery(int Id)
         {
             if (this.authManager.CurrentUser == null)
             {
                 return this.RedirectToAction("Login", "Users");
             }
+            Item item = itemService.GetItemById(Id);
 
-            var deliveryDto = new DeliveryDto();
-
-            var items = itemService.GetAllItems();
-            if (items != null)
+            if (item == null)
             {
-                deliveryDto.Items = items.Select(item => new SelectListItem
-                {
-                    Value = item.ItemId.ToString(),
-                    Text = item.ItemName
-                }).ToList();
+                return NotFound();
             }
+            ItemViewModel itemViewModel = mapper.Map<ItemViewModel>(item);
 
-            deliveryDto.DeliveryDate = DateTime.Now;
-
-            return this.View(deliveryDto);
+            return View(itemViewModel);
         }
 
         [HttpPost]
-        public IActionResult MakeDelivery(DeliveryDto deliveryDto)
+        public IActionResult MakeDelivery(int id, ItemViewModel itemViewModel)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return this.View(deliveryDto);
+                return View(itemViewModel);
             }
-
-            deliveryDto.DeliveryDate = DateTime.Now;
-            
             var userIdClaim = this.authManager.CurrentUser;
-
             if (userIdClaim != null)
             {
                 int currentUserId = userIdClaim.UserId;
-                deliveryDto.UserId = currentUserId;
+                itemViewModel.UserId = currentUserId;
+                Item updatedItem = mapper.Map<Item>(itemViewModel);
 
-                this.deliveryService.CreateDelivery(deliveryDto);
+                int remainingQuantity = deliveryService.GetRemainingQuantity(id);
+                int newAvailableQuantity = remainingQuantity - itemViewModel.QuantitySold;
 
+                var item = itemService.GetItemById(id);
+                item.AvailableQuantity = newAvailableQuantity;
+                itemService.UpdateItem(id, item);
+                this.deliveryService.CreateDelivery(itemViewModel, id);
             }
-
             else
             {
                 throw new Exception("shit");
             }
 
-            return this.RedirectToAction("Index");
+            return RedirectToAction("Index", "Sales");
         }
     }
 }

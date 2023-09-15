@@ -27,6 +27,8 @@ namespace APTEKA_Software.Services
         {
             return this.saleRepository.GetAll();
         }
+
+        //API CONTROLLER
         public SaleResult MakeSale(int userId, int itemId, int quantity)
         {
             var user = userRepository.GetUser(userId);
@@ -66,18 +68,7 @@ namespace APTEKA_Software.Services
                 throw new EntityNotFoundException($"Невалиден потребител ({user}) или артикул ({item}).");
             }
         }
-        //public void CreateSale(SaleDto saleDto)
-        //{
-        //    var user = userService.GetUser(saleDto.UserId);
-        //    var sale = new Sale
-        //    {
-        //        UserId = user.UserId,
-        //        ItemId = saleDto.ItemId,
-        //        SaleDate = saleDto.SaleDate,
-        //        QuantitySold = saleDto.QuantitySold,
-        //    };
-        //    saleRepository.MakeSale(sale);
-        //}
+        //RAZOR PAGES CONTROLLER
         public void CreateSale(ItemViewModel itemViewModel,int itemId)
         {
             var item = itemService.GetItemById(itemId);

@@ -23,9 +23,7 @@ namespace APTEKA_Software.Models.ViewModels
         [Display(Name = "Обща сума на артикули")]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal TotalAmount { get; set; }
-        public List<SelectListItem> AvailableItems { get; set; }
         public UserViewModel User { get; set; }
         public ItemViewModel Item { get; set; }
-        public List<SaleItemViewModel> SaleItems { get; set; }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
-using APTEKA_Software.Models.Dto;
 using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace APTEKA_Software.Controllers
 {
@@ -64,19 +62,12 @@ namespace APTEKA_Software.Controllers
                 return NotFound();
             }
             ItemViewModel itemViewModel = modelMapper.Map<ItemViewModel>(item);
-            //var itemViewModel = new ItemViewModel
-            //{
-            //    ItemId = item.ItemId,
-            //    ItemName = item.ItemName,
-            //    AvailableQuantity = item.AvailableQuantity,
-            //    SalePrice = item.SalePrice
-            //};
 
             return View(itemViewModel);
         }
 
         [HttpPost]
-        public IActionResult MakeSale(int id,ItemViewModel itemViewModel)
+        public IActionResult MakeSale(int id, ItemViewModel itemViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -94,8 +85,8 @@ namespace APTEKA_Software.Controllers
 
                 var item = itemService.GetItemById(id);
                 item.AvailableQuantity = newAvailableQuantity;
-                itemService.UpdateItem(id,item);
-                this.salesService.CreateSale(itemViewModel,id);
+                itemService.UpdateItem(id, item);
+                this.salesService.CreateSale(itemViewModel, id);
             }
             else
             {

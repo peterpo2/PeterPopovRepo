@@ -107,7 +107,7 @@ namespace APTEKA_Software.Data
                     UserId = 1,
                     SaleDate = DateTime.Now,
                     QuantitySold = 3,
-                    TotalAmount = 10.0M
+                    TotalAmount = 15
                 },
                 new Sale
                 {
@@ -116,7 +116,7 @@ namespace APTEKA_Software.Data
                     UserId = 2,
                     SaleDate = DateTime.Now,
                     QuantitySold = 2,
-                    TotalAmount = 5.0M
+                    TotalAmount = 20
                 },
                 new Sale
                 {
@@ -125,7 +125,7 @@ namespace APTEKA_Software.Data
                     UserId = 3,
                     SaleDate = DateTime.Now,
                     QuantitySold = 2,
-                    TotalAmount = 20.0M
+                    TotalAmount = 4
                 },
             };
 
@@ -141,6 +141,7 @@ namespace APTEKA_Software.Data
                     ItemId = 1,
                     QuantityDelivered = 15,
                     DeliveryDate = DateTime.Now,
+                    TotalAmount = 75
                 },
                 new Delivery
                 {
@@ -149,6 +150,7 @@ namespace APTEKA_Software.Data
                     UserId = 2,
                     QuantityDelivered = 11,
                     DeliveryDate = DateTime.Now,
+                    TotalAmount = 110
                 },
                 new Delivery
                 {
@@ -157,6 +159,7 @@ namespace APTEKA_Software.Data
                     UserId = 3,
                     QuantityDelivered = 30,
                     DeliveryDate = DateTime.Now,
+                    TotalAmount = 60
                 },
             };
             
