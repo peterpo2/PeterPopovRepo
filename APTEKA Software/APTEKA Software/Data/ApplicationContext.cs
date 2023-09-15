@@ -22,7 +22,7 @@ namespace APTEKA_Software.Data
             {
                 new User
                 {
-                    Id = 1,
+                    UserId = 1,
                     Username = "pesho",
                     Password = "123456",
                     FirstName = "Peter",
@@ -31,7 +31,7 @@ namespace APTEKA_Software.Data
                 },
                 new User
                 {
-                    Id = 2,
+                    UserId = 2,
                     Username = "gosho",
                     Password = "222333",
                     FirstName = "George",
@@ -40,7 +40,7 @@ namespace APTEKA_Software.Data
                 },
                 new User
                 {
-                    Id = 3,
+                    UserId = 3,
                     Username = "vanio",
                     Password = "432432",
                     FirstName = "Ivan",
@@ -49,7 +49,7 @@ namespace APTEKA_Software.Data
                 },
                 new User
                 {
-                    Id = 4,
+                    UserId = 4,
                     Username = "sashko",
                     Password = "654321",
                     FirstName = "Alexander",
@@ -64,33 +64,33 @@ namespace APTEKA_Software.Data
             {
                 new Item
                 {
-                    Id = 1,
+                    ItemId = 1,
                     AvailableQuantity = 10,
-                    Name = "Валидол",
+                    ItemName = "Валидол",
                     SalePrice = 5,
                     DateCreated = DateTime.Now,
                 },
                 new Item
                 {
-                    Id = 2,
+                    ItemId = 2,
                     AvailableQuantity = 20,
-                    Name = "NoSpa",
+                    ItemName = "NoSpa",
                     SalePrice = 10,
                     DateCreated = DateTime.Now,
                 },
                 new Item
                 {
-                    Id = 3,
+                    ItemId = 3,
                     AvailableQuantity = 50,
-                    Name = "Vitamin C",
+                    ItemName = "Vitamin C",
                     SalePrice = 2,
                     DateCreated = DateTime.Now,
                 },
                 new Item
                 {
-                    Id = 4,
+                    ItemId = 4,
                     AvailableQuantity = 42,
-                    Name = "Vitamin D",
+                    ItemName = "Vitamin D",
                     SalePrice = 6,
                     DateCreated = DateTime.Now,
                 }

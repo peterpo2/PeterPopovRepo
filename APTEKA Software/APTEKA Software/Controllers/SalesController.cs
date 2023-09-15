@@ -1,5 +1,6 @@
 ﻿using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
+using APTEKA_Software.Models.Dto;
 using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
@@ -39,7 +40,7 @@ namespace APTEKA_Software.Controllers
                 var item = itemService.GetItemById(sale.ItemId);
 
                 saleViewModel.UserName = $"{user.FirstName} {user.LastName}";
-                saleViewModel.ItemName = item.Name;
+                saleViewModel.ItemName = item.ItemName;
 
                 saleViewModels.Add(saleViewModel);
             }
@@ -50,51 +51,55 @@ namespace APTEKA_Software.Controllers
         [HttpGet]
         public IActionResult MakeSale()
         {
-            var viewModel = new SaleViewModel();
+            if (this.authManager.CurrentUser == null)
+            {
+                return this.RedirectToAction("Login", "Users");
+            }
+
+            var saleDto = new SaleDto();
 
             var items = itemService.GetAllItems();
-            viewModel.AvailableItems = items.Select(item => new SelectListItem
+            if (items != null)
             {
-                Text = $"{item.Name} (Цена: {item.SalePrice:C})",
-                Value = item.Id.ToString()
-            }).ToList();
+                saleDto.Items = items.Select(item => new SelectListItem
+                {
+                    Value = item.ItemId.ToString(),
+                    Text = item.ItemName
+                }).ToList();
+            }
 
-            viewModel.SaleItems = new List<SaleItemViewModel>();
+            saleDto.DeliveryDate = DateTime.Now;
 
-            return View(viewModel);
+            return this.View(saleDto);
         }
 
         [HttpPost]
-        public IActionResult MakeSale(SaleViewModel viewModel)
+        public IActionResult MakeSale(SaleDto saleDto)
         {
-
-            var selectedItem = itemService.GetItemById(viewModel.ItemId);
-
-            var saleItemViewModel = new SaleItemViewModel
+            if (!this.ModelState.IsValid)
             {
-                ItemName = selectedItem.Name,
-                Quantity = viewModel.QuantitySold,
-                SalePrice = selectedItem.SalePrice,
-                TotalPrice = viewModel.QuantitySold * selectedItem.SalePrice
-            };
-
-            viewModel.SaleItems ??= new List<SaleItemViewModel>();
-            viewModel.SaleItems.Add(saleItemViewModel);
-
-            viewModel.TotalAmount = viewModel.SaleItems.Sum(item => item.TotalPrice);
-
-            var userId = this.authManager.CurrentUser.Id;
-            var saleResult = salesService.MakeSale(userId, viewModel.ItemId, viewModel.QuantitySold);
-
-            if (saleResult.Success)
-            {
-                return RedirectToAction("SaleConfirmation", new { totalSaleValue = viewModel.TotalAmount });
+                return this.View(saleDto);
             }
+
+            saleDto.DeliveryDate = DateTime.Now;
+
+            var userIdClaim = this.authManager.CurrentUser;
+
+            if (userIdClaim != null)
+            {
+                int currentUserId = userIdClaim.UserId;
+                saleDto.UserId = currentUserId;
+
+                this.salesService.CreateSale(saleDto);
+
+            }
+
             else
             {
-                ModelState.AddModelError(string.Empty, "The sale could not be completed.");
-                return View(viewModel);
+                throw new Exception("shit");
             }
+
+            return this.RedirectToAction("Index");
         }
     }
 }

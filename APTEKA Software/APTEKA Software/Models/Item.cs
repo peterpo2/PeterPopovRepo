@@ -4,10 +4,8 @@ namespace APTEKA_Software.Models
 {
     public class Item
     {
-        public int Id { get; set; }
-        [Required(ErrorMessage = "Item name is empty.")]
-        [StringLength(32, MinimumLength = 3, ErrorMessage = "Item name must be between 3 and 32 characters.")]
-        public string Name { get; set; }
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
         public int AvailableQuantity { get; set; }
         public decimal DeliveryPrice { get; set; }
         public decimal SalePrice { get; set; }

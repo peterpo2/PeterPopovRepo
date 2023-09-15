@@ -7,18 +7,11 @@ namespace APTEKA_Software.Models
     {
         [Key]
         public int DeliveryId { get; set; }
-
-        [Required]
         [ForeignKey("User")]
         public int UserId { get; set; }
-
         [ForeignKey("Item")]
         public int ItemId { get; set; }
-
-        [Required]
         public DateTime DeliveryDate { get; set; }
-
-        [Required]
         public int QuantityDelivered { get; set; }
 
         public virtual User User { get; set; }

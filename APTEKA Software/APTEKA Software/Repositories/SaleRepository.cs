@@ -13,6 +13,12 @@ namespace APTEKA_Software.Repositories
             this.context = context;
         }
 
+        public void MakeSale(Sale sale)
+        {
+            context.Sale.Add(sale);
+            context.SaveChanges();
+        }
+
         public List<Sale> GetAll()
         {
             return context.Sale.ToList();

@@ -1,5 +1,4 @@
 ﻿using APTEKA_Software.Helpers;
-using APTEKA_Software.Models;
 using APTEKA_Software.Models.Dto;
 using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Services.Contracts;
@@ -12,44 +11,36 @@ namespace APTEKA_Software.Controllers
     public class DeliveryController : Controller
     {
         private readonly IDeliveryService deliveryService;
-        private readonly IUserService userService;
         private readonly IItemService itemService;
         private readonly AuthManager authManager;
+        private readonly IUserService userService;
         private readonly IMapper mapper;
 
-        public DeliveryController(IDeliveryService deliveryService, IUserService userService, IItemService itemService, AuthManager authManager,IMapper mapper)
+        public DeliveryController(IDeliveryService deliveryService, IItemService itemService, AuthManager authManager, IUserService userService, IMapper mapper)
         {
             this.deliveryService = deliveryService;
-            this.userService = userService;
             this.itemService = itemService;
             this.authManager = authManager;
+            this.userService = userService;
             this.mapper = mapper;
         }
-
         [HttpGet]
         public IActionResult Index()
         {
             var deliveries = deliveryService.GetAllDeliveries();
-            var deliveryViewModels = new List<DeliveryViewModel>();
+            var deliveryViewModels = mapper.Map<List<DeliveryViewModel>>(deliveries);
 
-            var mapper = HttpContext.RequestServices.GetService<IMapper>();
-
-            foreach (var delivery in deliveries)
+            foreach (var deliveryViewModel in deliveryViewModels)
             {
-                var deliveryViewModel = mapper.Map<Delivery, DeliveryViewModel>(delivery);
-
-                var user = userService.GetUser(delivery.UserId);
-                var item = itemService.GetItemById(delivery.ItemId);
+                var user = userService.GetUser(deliveryViewModel.UserId);
+                var item = itemService.GetItemById(deliveryViewModel.ItemId);
 
                 deliveryViewModel.UserName = $"{user.FirstName} {user.LastName}";
-                deliveryViewModel.ItemName = item.Name;
-
-                deliveryViewModels.Add(deliveryViewModel);
+                deliveryViewModel.ItemName = item.ItemName;
             }
 
             return View(deliveryViewModels);
         }
-
         [HttpGet]
         public IActionResult MakeDelivery()
         {
@@ -58,56 +49,50 @@ namespace APTEKA_Software.Controllers
                 return this.RedirectToAction("Login", "Users");
             }
 
-            var viewModel = new DeliveryViewModel();
+            var deliveryDto = new DeliveryDto();
 
             var items = itemService.GetAllItems();
-            viewModel.AvailableItems = items.Select(item => new SelectListItem
+            if (items != null)
             {
-                Text = item.Name,
-                Value = item.Id.ToString()
-            }).ToList();
+                deliveryDto.Items = items.Select(item => new SelectListItem
+                {
+                    Value = item.ItemId.ToString(),
+                    Text = item.ItemName
+                }).ToList();
+            }
 
-            return this.View(viewModel);
+            deliveryDto.DeliveryDate = DateTime.Now;
+
+            return this.View(deliveryDto);
         }
 
         [HttpPost]
-        public IActionResult MakeDelivery(DeliveryViewModel viewModel)
+        public IActionResult MakeDelivery(DeliveryDto deliveryDto)
         {
-            try
+            if (!this.ModelState.IsValid)
             {
-                if (this.authManager.CurrentUser == null)
-                {
-                    return this.RedirectToAction("Login", "Users");
-                }
-
-                if (!this.ModelState.IsValid)
-                {
-                    viewModel.AvailableItems = itemService.GetAllItems()
-                        .Select(item => new SelectListItem
-                        {
-                            Text = item.Name,
-                            Value = item.Id.ToString()
-                        }).ToList();
-
-                    return this.View(viewModel);
-                }
-
-                var user = this.authManager.CurrentUser;
-                var deliveryDto = new DeliveryDto
-                {
-                    ItemId = viewModel.ItemId,
-                    QuantityDelivered = viewModel.QuantityDelivered,
-                    DeliveryDate = DateTime.Now
-                };
-
-                var deliveryResult = deliveryService.MakeDelivery(deliveryDto, user, viewModel.ItemId);
-
-                return this.RedirectToAction("Deliveries", new { id = deliveryResult.Id });
+                return this.View(deliveryDto);
             }
-            catch (Exception ex)
+
+            deliveryDto.DeliveryDate = DateTime.Now;
+            
+            var userIdClaim = this.authManager.CurrentUser;
+
+            if (userIdClaim != null)
             {
-                return StatusCode(500, "Internal Server Error: " + ex.Message);
+                int currentUserId = userIdClaim.UserId;
+                deliveryDto.UserId = currentUserId;
+
+                this.deliveryService.CreateDelivery(deliveryDto);
+
             }
+
+            else
+            {
+                throw new Exception("shit");
+            }
+
+            return this.RedirectToAction("Index");
         }
     }
 }

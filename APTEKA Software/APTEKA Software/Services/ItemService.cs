@@ -34,7 +34,7 @@ namespace APTEKA_Software.Services
         {
             var item = new Item
             {
-                Name = itemDto.Name,
+                ItemName = itemDto.Name,
                 AvailableQuantity = itemDto.AvailableQuantity,
                 SalePrice = itemDto.SalePrice,               
                 IsDeleted = false,

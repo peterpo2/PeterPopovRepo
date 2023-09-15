@@ -119,7 +119,7 @@ namespace APTEKA_Software.Controllers
 
             EditUserViewModel viewModel = new EditUserViewModel
             {
-                Id = user.Id,
+                Id = user.UserId,
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName
@@ -138,7 +138,7 @@ namespace APTEKA_Software.Controllers
 
             User updatedUser = new User
             {
-                Id = viewModel.Id,
+                UserId = viewModel.Id,
                 Username = viewModel.Username,
                 FirstName = viewModel.FirstName,
                 LastName = viewModel.LastName

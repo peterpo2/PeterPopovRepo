@@ -2,6 +2,7 @@
 using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services.Contracts;
 using APTEKA_Software.Exeptions;
+using APTEKA_Software.Models.Dto;
 
 namespace APTEKA_Software.Services
 {
@@ -10,12 +11,14 @@ namespace APTEKA_Software.Services
         private readonly IItemRepository itemRepository;
         private readonly IUserRepository userRepository;
         private readonly ISaleRepository saleRepository;
+        private readonly IUserService userService;
 
-        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository)
+        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository,IUserService userService)
         {
             this.itemRepository = itemRepository;
             this.userRepository = userRepository;
             this.saleRepository = saleRepository;
+            this.userService = userService;
         }
         public List<Sale> GetAllSales()
         {
@@ -47,18 +50,30 @@ namespace APTEKA_Software.Services
                     }
                     else
                     {
-                        throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.Name}.");
+                        throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.ItemName}.");
                     }
                 }
                 else
                 {
-                    throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.Name}.");
+                    throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.ItemName}.");
                 }
             }
             else
             {
                 throw new EntityNotFoundException($"Невалиден потребител ({user}) или артикул ({item}).");
             }
+        }
+        public void CreateSale(SaleDto saleDto)
+        {
+            var user = userService.GetUser(saleDto.UserId);
+            var sale = new Sale
+            {
+                UserId = user.UserId,
+                ItemId = saleDto.ItemId,
+                SaleDate = saleDto.DeliveryDate,
+                QuantitySold = saleDto.QuantitySold,
+            };
+            saleRepository.MakeSale(sale);
         }
         public int GetRemainingQuantity(int itemId)
         {

@@ -9,7 +9,7 @@
 }
 <a class="nav-link" href="Delivery/MakeDelivery/">Направи доставка</a>
 
-<h2>Списък с Доставки</h2>
+<h2>Списък с доставки</h2>
 
 <table class="table">
     <thead>
@@ -19,7 +19,6 @@
             <th>Артикул</th>
             <th>Дата на Доставка</th>
             <th>Количество Доставено</th>
-            <th>Общо количество</th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +30,6 @@
                 <td>@delivery.ItemName</td>
                 <td>@delivery.DeliveryDate.ToString("dd/MM/yyyy")</td>
                 <td>@delivery.QuantityDelivered</td>
-                <td>@delivery.TotalAmount</td>
             </tr>
         }
     </tbody>

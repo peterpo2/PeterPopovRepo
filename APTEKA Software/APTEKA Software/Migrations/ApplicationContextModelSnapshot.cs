@@ -54,7 +54,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             DeliveryId = 1,
-                            DeliveryDate = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5933),
+                            DeliveryDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3888),
                             ItemId = 1,
                             QuantityDelivered = 15,
                             UserId = 1
@@ -62,7 +62,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             DeliveryId = 2,
-                            DeliveryDate = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5939),
+                            DeliveryDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3894),
                             ItemId = 2,
                             QuantityDelivered = 11,
                             UserId = 2
@@ -70,7 +70,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             DeliveryId = 3,
-                            DeliveryDate = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5941),
+                            DeliveryDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3897),
                             ItemId = 3,
                             QuantityDelivered = 30,
                             UserId = 3
@@ -79,11 +79,11 @@ namespace APTEKA_Software.Migrations
 
             modelBuilder.Entity("APTEKA_Software.Models.Item", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
 
                     b.Property<int>("AvailableQuantity")
                         .HasColumnType("int");
@@ -97,57 +97,56 @@ namespace APTEKA_Software.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ItemName")
                         .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("SalePrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ItemId");
 
                     b.ToTable("Items", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            ItemId = 1,
                             AvailableQuantity = 10,
-                            DateCreated = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5459),
+                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3409),
                             DeliveryPrice = 0m,
                             IsDeleted = false,
-                            Name = "Валидол",
+                            ItemName = "Валидол",
                             SalePrice = 5m
                         },
                         new
                         {
-                            Id = 2,
+                            ItemId = 2,
                             AvailableQuantity = 20,
-                            DateCreated = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5464),
+                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3414),
                             DeliveryPrice = 0m,
                             IsDeleted = false,
-                            Name = "NoSpa",
+                            ItemName = "NoSpa",
                             SalePrice = 10m
                         },
                         new
                         {
-                            Id = 3,
+                            ItemId = 3,
                             AvailableQuantity = 50,
-                            DateCreated = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5466),
+                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3416),
                             DeliveryPrice = 0m,
                             IsDeleted = false,
-                            Name = "Vitamin C",
+                            ItemName = "Vitamin C",
                             SalePrice = 2m
                         },
                         new
                         {
-                            Id = 4,
+                            ItemId = 4,
                             AvailableQuantity = 42,
-                            DateCreated = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5468),
+                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3418),
                             DeliveryPrice = 0m,
                             IsDeleted = false,
-                            Name = "Vitamin D",
+                            ItemName = "Vitamin D",
                             SalePrice = 6m
                         });
                 });
@@ -189,7 +188,7 @@ namespace APTEKA_Software.Migrations
                             SaleId = 1,
                             ItemId = 1,
                             QuantitySold = 3,
-                            SaleDate = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5537),
+                            SaleDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3487),
                             TotalAmount = 10.0m,
                             UserId = 1
                         },
@@ -198,7 +197,7 @@ namespace APTEKA_Software.Migrations
                             SaleId = 2,
                             ItemId = 2,
                             QuantitySold = 2,
-                            SaleDate = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5543),
+                            SaleDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3491),
                             TotalAmount = 5.0m,
                             UserId = 2
                         },
@@ -207,7 +206,7 @@ namespace APTEKA_Software.Migrations
                             SaleId = 3,
                             ItemId = 3,
                             QuantitySold = 2,
-                            SaleDate = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5546),
+                            SaleDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3494),
                             TotalAmount = 20.0m,
                             UserId = 3
                         });
@@ -215,11 +214,11 @@ namespace APTEKA_Software.Migrations
 
             modelBuilder.Entity("APTEKA_Software.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<DateTime>("DateRegistered")
                         .HasColumnType("datetime2");
@@ -247,15 +246,15 @@ namespace APTEKA_Software.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            DateRegistered = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5234),
+                            UserId = 1,
+                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3189),
                             FirstName = "Peter",
                             IsDeleted = false,
                             LastName = "Kompotov",
@@ -264,8 +263,8 @@ namespace APTEKA_Software.Migrations
                         },
                         new
                         {
-                            Id = 2,
-                            DateRegistered = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5270),
+                            UserId = 2,
+                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3220),
                             FirstName = "George",
                             IsDeleted = false,
                             LastName = "Paprikov",
@@ -274,8 +273,8 @@ namespace APTEKA_Software.Migrations
                         },
                         new
                         {
-                            Id = 3,
-                            DateRegistered = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5272),
+                            UserId = 3,
+                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3223),
                             FirstName = "Ivan",
                             IsDeleted = false,
                             LastName = "Krushov",
@@ -284,8 +283,8 @@ namespace APTEKA_Software.Migrations
                         },
                         new
                         {
-                            Id = 4,
-                            DateRegistered = new DateTime(2023, 9, 13, 11, 56, 10, 4, DateTimeKind.Local).AddTicks(5275),
+                            UserId = 4,
+                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3225),
                             FirstName = "Alexander",
                             IsDeleted = false,
                             LastName = "Slivov",

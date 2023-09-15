@@ -26,6 +26,12 @@ namespace APTEKA_Software.Helpers
             CreateMap<Delivery, DeliveryResponseDto>();
             CreateMap<Delivery,DeliveryViewModel>();
             CreateMap<DeliveryViewModel, Delivery>();
+            CreateMap<DeliveryViewModel, DeliveryDto>();
+            CreateMap<Delivery, DeliveryViewModel>()
+    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName))
+    .ForMember(dest => dest.ItemName, opt => opt.MapFrom(src => src.Item.ItemName));
+
+
 
             // Sale mapping
             CreateMap<Sale, SaleDto>();

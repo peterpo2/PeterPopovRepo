@@ -58,7 +58,7 @@ namespace APTEKA_Software.Controllers.API
             try
             {
                 var createdItem = itemService.CreateItem(itemDto);
-                return CreatedAtAction(nameof(GetItemById), new { id = createdItem.Id }, createdItem);
+                return CreatedAtAction(nameof(GetItemById), new { id = createdItem.ItemId }, createdItem);
             }
             catch (Exception ex)
             {

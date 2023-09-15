@@ -22,7 +22,7 @@ namespace APTEKA_Software.Repositories
 
         public Item GetById(int Id)
         {
-            var item = context.Items.FirstOrDefault(i => i.Id == Id);
+            var item = context.Items.FirstOrDefault(i => i.ItemId == Id);
 
             if (item == null)
             {
@@ -35,7 +35,7 @@ namespace APTEKA_Software.Repositories
 
         public Item GetByName(string name)
         {
-            return context.Items.FirstOrDefault(i => i.Name == name)
+            return context.Items.FirstOrDefault(i => i.ItemName == name)
                 ?? throw new EntityNotFoundException($"Артикул с име '{name}' не беше намерен.");
         }
 

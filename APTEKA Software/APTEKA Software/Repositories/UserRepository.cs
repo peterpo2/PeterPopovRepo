@@ -15,7 +15,7 @@ namespace APTEKA_Software.Repositories
 
         public User GetUser(int id)
         {
-            var user = context.Users.FirstOrDefault(u => u.Id == id);
+            var user = context.Users.FirstOrDefault(u => u.UserId == id);
 
             if (user == null)
             {

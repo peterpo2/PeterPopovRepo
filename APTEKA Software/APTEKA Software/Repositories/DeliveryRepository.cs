@@ -18,18 +18,10 @@ namespace APTEKA_Software.Repositories
         {
             return context.Deliveries.ToList();
         }
-        public Delivery MakeDelivery(Delivery delivery)
+        public void MakeDelivery(Delivery delivery)
         {
-            try
-            {
-                context.Deliveries.Add(delivery);
-                context.SaveChanges();
-                return delivery;
-            }
-            catch (DbUpdateException)
-            {
-                throw new Exception("Failed to make the delivery.");
-            }
+            context.Deliveries.Add(delivery);
+            context.SaveChanges();
         }
         public List<Delivery> GetDeliveriesByUserId(int userId)
         {
