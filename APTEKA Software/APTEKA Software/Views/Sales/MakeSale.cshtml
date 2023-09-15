@@ -1,36 +1,33 @@
-﻿@model APTEKA_Software.Models.ViewModels.SaleViewModel
-
+﻿@model APTEKA_Software.Models.ViewModels.ItemViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Продажба на артикули";
+    ViewData["Title"] = "Направи продажба";
     Layout = "_Layout";
 }
 
 <div class="container">
-    <h2>Продажба на артикули</h2>
-    <form asp-action="MakeSale" method="post">
-        <div class="form-group">
-            <label asp-for="ItemId">Изберете артикул</label>
-            <select asp-for="ItemId" class="form-control">
-                <option value="">Изберете артикул</option>
-                @foreach (var item in Model.AvailableItems)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            </select>
-            <span asp-validation-for="ItemId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="QuantitySold">Количество</label>
-            <input asp-for="QuantitySold" class="form-control" />
-            <span asp-validation-for="QuantitySold" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Добави към продажбата</button>
-    </form>
-    <hr />
+    <h2>Направи продажба</h2>
+    <p>
+        <a class="nav-link" asp-controller="Items" asp-action="Index">Обратно към списъка с артикули</a>
+    </p>
 
-    <h3>Обща стойност на продажбата: @Model.TotalAmount</h3>
-   
-    <form asp-action="CompleteSale" method="post">
-        <button type="submit" class="btn btn-success">Завърши продажбата</button>
+    <form asp-controller="Sales" asp-action="MakeSale" method="post">
+        <div class="form-group">
+            <label for="ItemName">Име:</label>
+            <input type="text" class="form-control" id="ItemName" name="ItemName" value="@Model.ItemName" />
+        </div>
+        <div class="form-group">
+            <label for="RemainingQuantity">Оставащо количество:</label>
+            <input type="text" id="RemainingQuantity" class="form-control" value="@Model.AvailableQuantity">
+        </div>
+        <div class="form-group">
+            <label for="SalePrice">Цена на артикула:</label>
+            <input type="text" id="SalePrice" class="form-control" value="@Model.SalePrice">
+        </div>
+        <div class="form-group">
+            <label for="QuantitySold">Количество за продажба:</label>
+            <input type="number" id="QuantitySold" class="form-control" name="QuantitySold" min="1" max="@Model.AvailableQuantity">
+        </div>
+        <button type="submit" class="btn btn-primary">Направи продажба</button>
     </form>
 </div>

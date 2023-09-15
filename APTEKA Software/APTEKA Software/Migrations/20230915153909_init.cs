@@ -21,7 +21,6 @@ namespace APTEKA_Software.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AvailableQuantity = table.Column<int>(type: "int", nullable: false),
-                    DeliveryPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -108,13 +107,13 @@ namespace APTEKA_Software.Migrations
 
             migrationBuilder.InsertData(
                 table: "Items",
-                columns: new[] { "ItemId", "AvailableQuantity", "DateCreated", "DeliveryPrice", "IsDeleted", "ItemName", "SalePrice" },
+                columns: new[] { "ItemId", "AvailableQuantity", "DateCreated", "IsDeleted", "ItemName", "SalePrice" },
                 values: new object[,]
                 {
-                    { 1, 10, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3409), 0m, false, "Валидол", 5m },
-                    { 2, 20, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3414), 0m, false, "NoSpa", 10m },
-                    { 3, 50, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3416), 0m, false, "Vitamin C", 2m },
-                    { 4, 42, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3418), 0m, false, "Vitamin D", 6m }
+                    { 1, 10, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(770), false, "Валидол", 5m },
+                    { 2, 20, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(774), false, "NoSpa", 10m },
+                    { 3, 50, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(777), false, "Vitamin C", 2m },
+                    { 4, 42, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(779), false, "Vitamin D", 6m }
                 });
 
             migrationBuilder.InsertData(
@@ -122,10 +121,10 @@ namespace APTEKA_Software.Migrations
                 columns: new[] { "UserId", "DateRegistered", "FirstName", "IsDeleted", "LastName", "Password", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3189), "Peter", false, "Kompotov", "123456", "pesho" },
-                    { 2, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3220), "George", false, "Paprikov", "222333", "gosho" },
-                    { 3, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3223), "Ivan", false, "Krushov", "432432", "vanio" },
-                    { 4, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3225), "Alexander", false, "Slivov", "654321", "sashko" }
+                    { 1, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(576), "Peter", false, "Kompotov", "123456", "pesho" },
+                    { 2, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(615), "George", false, "Paprikov", "222333", "gosho" },
+                    { 3, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(618), "Ivan", false, "Krushov", "432432", "vanio" },
+                    { 4, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(620), "Alexander", false, "Slivov", "654321", "sashko" }
                 });
 
             migrationBuilder.InsertData(
@@ -133,9 +132,9 @@ namespace APTEKA_Software.Migrations
                 columns: new[] { "DeliveryId", "DeliveryDate", "ItemId", "QuantityDelivered", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3888), 1, 15, 1 },
-                    { 2, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3894), 2, 11, 2 },
-                    { 3, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3897), 3, 30, 3 }
+                    { 1, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(1220), 1, 15, 1 },
+                    { 2, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(1226), 2, 11, 2 },
+                    { 3, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(1228), 3, 30, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -143,9 +142,9 @@ namespace APTEKA_Software.Migrations
                 columns: new[] { "SaleId", "ItemId", "QuantitySold", "SaleDate", "TotalAmount", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, 3, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3487), 10.0m, 1 },
-                    { 2, 2, 2, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3491), 5.0m, 2 },
-                    { 3, 3, 2, new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3494), 20.0m, 3 }
+                    { 1, 1, 3, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(873), 10.0m, 1 },
+                    { 2, 2, 2, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(878), 5.0m, 2 },
+                    { 3, 3, 2, new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(880), 20.0m, 3 }
                 });
 
             migrationBuilder.CreateIndex(

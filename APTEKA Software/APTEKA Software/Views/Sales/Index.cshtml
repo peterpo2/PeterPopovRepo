@@ -8,8 +8,6 @@
     Layout = "_Layout";
 }
 
-<a class="nav-link" href="Sales/MakeSale/">Направи продажба</a>
-
 <h2>Списък с продажби</h2>
 
 <table class="table">
@@ -17,7 +15,7 @@
         <tr>
             <th>Продавач</th>
             <th>Артикул</th>
-            <th>Цена на продажба</th>
+            <th>Дата на продажба</th>
             <th>Продадено количество</th>
             <th>Общо количество</th>
         </tr>
@@ -28,7 +26,7 @@
             <tr>
                 <td>@sale.UserName</td>
                 <td>@sale.ItemName</td>
-                <td>@sale.SaleDate.ToShortDateString()</td>
+                <td>@sale.SaleDate</td>
                 <td>@sale.QuantitySold</td>
                 <td>@sale.TotalAmount.ToString("C")</td>
             </tr>

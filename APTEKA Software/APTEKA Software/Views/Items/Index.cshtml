@@ -11,8 +11,8 @@
     <h2>Списък с артикули</h2>
     <p>
         <a class="nav-link" href="Items/Create/">Създай Нов Артикул</a>
-        <a class="nav-link" href="Sales/MakeSale/">Направи продажба</a>
-        <a class="nav-link" href="Deliveries/MakeDelivery/">Направи продажба</a>
+        <a class="nav-link" href="Sales/Index/">История на продажбите</a>
+        <a class="nav-link" href="Delivery/Index/">История на доставките</a>
     </p>
     <table class="table">
         <thead>
@@ -27,12 +27,14 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Name</td>
+                    <td>@item.ItemName</td>
                     <td>@item.AvailableQuantity</td>
                     <td>@item.SalePrice</td>
                     <td>
-                        <a class="nav-link" href="/Items/Edit/@item.Id">Редактирай</a>
-                        <a class="nav-link" href="/Items/ConfirmDelete/@item.Id">Изтрий</a>
+                        <a class="nav-link" href="/Items/Edit/@item.ItemId">Редактирай</a>
+                        <a class="nav-link" href="/Items/ConfirmDelete/@item.ItemId">Изтрий</a>
+                        <a class="nav-link" href="/Sales/MakeSale/@item.ItemId">Направи Продажба</a>
+                        <a class="nav-link" href="/Delivery/MakeDelivery/@item.ItemId">Направи доставка</a>
                     </td>
                 </tr>
             }

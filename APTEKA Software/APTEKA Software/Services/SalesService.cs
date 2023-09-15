@@ -3,6 +3,7 @@ using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services.Contracts;
 using APTEKA_Software.Exeptions;
 using APTEKA_Software.Models.Dto;
+using APTEKA_Software.Models.ViewModels;
 
 namespace APTEKA_Software.Services
 {
@@ -12,13 +13,15 @@ namespace APTEKA_Software.Services
         private readonly IUserRepository userRepository;
         private readonly ISaleRepository saleRepository;
         private readonly IUserService userService;
+        private readonly IItemService itemService;
 
-        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository,IUserService userService)
+        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository,IUserService userService, IItemService itemService)
         {
             this.itemRepository = itemRepository;
             this.userRepository = userRepository;
             this.saleRepository = saleRepository;
             this.userService = userService;
+            this.itemService = itemService;
         }
         public List<Sale> GetAllSales()
         {
@@ -63,18 +66,41 @@ namespace APTEKA_Software.Services
                 throw new EntityNotFoundException($"Невалиден потребител ({user}) или артикул ({item}).");
             }
         }
-        public void CreateSale(SaleDto saleDto)
+        //public void CreateSale(SaleDto saleDto)
+        //{
+        //    var user = userService.GetUser(saleDto.UserId);
+        //    var sale = new Sale
+        //    {
+        //        UserId = user.UserId,
+        //        ItemId = saleDto.ItemId,
+        //        SaleDate = saleDto.SaleDate,
+        //        QuantitySold = saleDto.QuantitySold,
+        //    };
+        //    saleRepository.MakeSale(sale);
+        //}
+        public void CreateSale(ItemViewModel itemViewModel,int itemId)
         {
-            var user = userService.GetUser(saleDto.UserId);
+            var item = itemService.GetItemById(itemId);
+            var user = userService.GetUser(itemViewModel.UserId);
+
+            if (item == null || item.AvailableQuantity < itemViewModel.QuantitySold)
+            {
+                throw new Exception("Артикулът не е наличен или няма достатъчно количество за продажба.");
+            }
+
             var sale = new Sale
             {
                 UserId = user.UserId,
-                ItemId = saleDto.ItemId,
-                SaleDate = saleDto.DeliveryDate,
-                QuantitySold = saleDto.QuantitySold,
+                ItemId = itemId,
+                SaleDate = DateTime.Now,
+                QuantitySold = itemViewModel.QuantitySold,
+                TotalAmount = itemViewModel.QuantitySold * item.SalePrice
             };
+
             saleRepository.MakeSale(sale);
+            item.AvailableQuantity -= itemViewModel.QuantitySold;
         }
+
         public int GetRemainingQuantity(int itemId)
         {
             var item = itemRepository.GetById(itemId);

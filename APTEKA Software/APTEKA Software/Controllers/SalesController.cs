@@ -15,13 +15,15 @@ namespace APTEKA_Software.Controllers
         private readonly IItemService itemService;
         private readonly AuthManager authManager;
         private readonly IUserService userService;
+        private readonly IMapper modelMapper;
 
-        public SalesController(ISalesService salesService, IItemService itemService, AuthManager authManager, IUserService userService)
+        public SalesController(ISalesService salesService, IItemService itemService, AuthManager authManager, IUserService userService, IMapper modelMapper)
         {
             this.salesService = salesService;
             this.itemService = itemService;
             this.authManager = authManager;
             this.userService = userService;
+            this.modelMapper = modelMapper;
         }
 
         [HttpGet]
@@ -49,57 +51,58 @@ namespace APTEKA_Software.Controllers
         }
 
         [HttpGet]
-        public IActionResult MakeSale()
+        public IActionResult MakeSale(int Id)
         {
             if (this.authManager.CurrentUser == null)
             {
                 return this.RedirectToAction("Login", "Users");
             }
+            Item item = itemService.GetItemById(Id);
 
-            var saleDto = new SaleDto();
-
-            var items = itemService.GetAllItems();
-            if (items != null)
+            if (item == null)
             {
-                saleDto.Items = items.Select(item => new SelectListItem
-                {
-                    Value = item.ItemId.ToString(),
-                    Text = item.ItemName
-                }).ToList();
+                return NotFound();
             }
+            ItemViewModel itemViewModel = modelMapper.Map<ItemViewModel>(item);
+            //var itemViewModel = new ItemViewModel
+            //{
+            //    ItemId = item.ItemId,
+            //    ItemName = item.ItemName,
+            //    AvailableQuantity = item.AvailableQuantity,
+            //    SalePrice = item.SalePrice
+            //};
 
-            saleDto.DeliveryDate = DateTime.Now;
-
-            return this.View(saleDto);
+            return View(itemViewModel);
         }
 
         [HttpPost]
-        public IActionResult MakeSale(SaleDto saleDto)
+        public IActionResult MakeSale(int id,ItemViewModel itemViewModel)
         {
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return this.View(saleDto);
+                return View(itemViewModel);
             }
-
-            saleDto.DeliveryDate = DateTime.Now;
-
             var userIdClaim = this.authManager.CurrentUser;
-
             if (userIdClaim != null)
             {
                 int currentUserId = userIdClaim.UserId;
-                saleDto.UserId = currentUserId;
+                itemViewModel.UserId = currentUserId;
+                Item updatedItem = modelMapper.Map<Item>(itemViewModel);
 
-                this.salesService.CreateSale(saleDto);
+                int remainingQuantity = salesService.GetRemainingQuantity(id);
+                int newAvailableQuantity = remainingQuantity - itemViewModel.QuantitySold;
 
+                var item = itemService.GetItemById(id);
+                item.AvailableQuantity = newAvailableQuantity;
+                itemService.UpdateItem(id,item);
+                this.salesService.CreateSale(itemViewModel,id);
             }
-
             else
             {
                 throw new Exception("shit");
             }
 
-            return this.RedirectToAction("Index");
+            return RedirectToAction("Index", "Sales");
         }
     }
 }

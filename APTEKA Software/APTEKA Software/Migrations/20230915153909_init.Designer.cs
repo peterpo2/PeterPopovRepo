@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APTEKA_Software.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230915105731_init")]
+    [Migration("20230915153909_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -57,7 +57,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             DeliveryId = 1,
-                            DeliveryDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3888),
+                            DeliveryDate = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(1220),
                             ItemId = 1,
                             QuantityDelivered = 15,
                             UserId = 1
@@ -65,7 +65,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             DeliveryId = 2,
-                            DeliveryDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3894),
+                            DeliveryDate = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(1226),
                             ItemId = 2,
                             QuantityDelivered = 11,
                             UserId = 2
@@ -73,7 +73,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             DeliveryId = 3,
-                            DeliveryDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3897),
+                            DeliveryDate = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(1228),
                             ItemId = 3,
                             QuantityDelivered = 30,
                             UserId = 3
@@ -94,9 +94,6 @@ namespace APTEKA_Software.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("DeliveryPrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -116,8 +113,7 @@ namespace APTEKA_Software.Migrations
                         {
                             ItemId = 1,
                             AvailableQuantity = 10,
-                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3409),
-                            DeliveryPrice = 0m,
+                            DateCreated = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(770),
                             IsDeleted = false,
                             ItemName = "Валидол",
                             SalePrice = 5m
@@ -126,8 +122,7 @@ namespace APTEKA_Software.Migrations
                         {
                             ItemId = 2,
                             AvailableQuantity = 20,
-                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3414),
-                            DeliveryPrice = 0m,
+                            DateCreated = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(774),
                             IsDeleted = false,
                             ItemName = "NoSpa",
                             SalePrice = 10m
@@ -136,8 +131,7 @@ namespace APTEKA_Software.Migrations
                         {
                             ItemId = 3,
                             AvailableQuantity = 50,
-                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3416),
-                            DeliveryPrice = 0m,
+                            DateCreated = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(777),
                             IsDeleted = false,
                             ItemName = "Vitamin C",
                             SalePrice = 2m
@@ -146,8 +140,7 @@ namespace APTEKA_Software.Migrations
                         {
                             ItemId = 4,
                             AvailableQuantity = 42,
-                            DateCreated = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3418),
-                            DeliveryPrice = 0m,
+                            DateCreated = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(779),
                             IsDeleted = false,
                             ItemName = "Vitamin D",
                             SalePrice = 6m
@@ -191,7 +184,7 @@ namespace APTEKA_Software.Migrations
                             SaleId = 1,
                             ItemId = 1,
                             QuantitySold = 3,
-                            SaleDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3487),
+                            SaleDate = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(873),
                             TotalAmount = 10.0m,
                             UserId = 1
                         },
@@ -200,7 +193,7 @@ namespace APTEKA_Software.Migrations
                             SaleId = 2,
                             ItemId = 2,
                             QuantitySold = 2,
-                            SaleDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3491),
+                            SaleDate = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(878),
                             TotalAmount = 5.0m,
                             UserId = 2
                         },
@@ -209,7 +202,7 @@ namespace APTEKA_Software.Migrations
                             SaleId = 3,
                             ItemId = 3,
                             QuantitySold = 2,
-                            SaleDate = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3494),
+                            SaleDate = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(880),
                             TotalAmount = 20.0m,
                             UserId = 3
                         });
@@ -257,7 +250,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             UserId = 1,
-                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3189),
+                            DateRegistered = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(576),
                             FirstName = "Peter",
                             IsDeleted = false,
                             LastName = "Kompotov",
@@ -267,7 +260,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             UserId = 2,
-                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3220),
+                            DateRegistered = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(615),
                             FirstName = "George",
                             IsDeleted = false,
                             LastName = "Paprikov",
@@ -277,7 +270,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             UserId = 3,
-                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3223),
+                            DateRegistered = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(618),
                             FirstName = "Ivan",
                             IsDeleted = false,
                             LastName = "Krushov",
@@ -287,7 +280,7 @@ namespace APTEKA_Software.Migrations
                         new
                         {
                             UserId = 4,
-                            DateRegistered = new DateTime(2023, 9, 15, 13, 57, 30, 941, DateTimeKind.Local).AddTicks(3225),
+                            DateRegistered = new DateTime(2023, 9, 15, 18, 39, 9, 114, DateTimeKind.Local).AddTicks(620),
                             FirstName = "Alexander",
                             IsDeleted = false,
                             LastName = "Slivov",
