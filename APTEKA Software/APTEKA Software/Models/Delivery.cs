@@ -12,7 +12,6 @@ namespace APTEKA_Software.Models
         [ForeignKey("User")]
         public int UserId { get; set; }
 
-        [Required]
         [ForeignKey("Item")]
         public int ItemId { get; set; }
 
