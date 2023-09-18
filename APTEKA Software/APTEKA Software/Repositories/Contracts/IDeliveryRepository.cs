@@ -6,7 +6,5 @@ namespace APTEKA_Software.Repositories.Contracts
     {
         List<Delivery> GetAllDeliveries();
         void MakeDelivery(Delivery delivery);
-        Delivery GetDeliveryById(int id);
-        List<Delivery> GetDeliveriesByUserId(int userId);
     }
 }

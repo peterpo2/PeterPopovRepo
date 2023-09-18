@@ -1,9 +1,8 @@
-﻿using APTEKA_Software.Models;
+﻿using APTEKA_Software.Exeptions;
+using APTEKA_Software.Models;
+using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services.Contracts;
-using APTEKA_Software.Exeptions;
-using APTEKA_Software.Models.Dto;
-using APTEKA_Software.Models.ViewModels;
 
 namespace APTEKA_Software.Services
 {
@@ -15,7 +14,7 @@ namespace APTEKA_Software.Services
         private readonly IUserService userService;
         private readonly IItemService itemService;
 
-        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository,IUserService userService, IItemService itemService)
+        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository, IUserService userService, IItemService itemService)
         {
             this.itemRepository = itemRepository;
             this.userRepository = userRepository;
@@ -50,7 +49,7 @@ namespace APTEKA_Software.Services
                         {
                             Success = true,
                             TotalSaleValue = totalSaleValue,
-                            RemainingQuantity = item.AvailableQuantity 
+                            RemainingQuantity = item.AvailableQuantity
                         };
                     }
                     else
@@ -69,7 +68,7 @@ namespace APTEKA_Software.Services
             }
         }
         //RAZOR PAGES CONTROLLER
-        public void CreateSale(ItemViewModel itemViewModel,int itemId)
+        public void CreateSale(ItemViewModel itemViewModel, int itemId)
         {
             var item = itemService.GetItemById(itemId);
             var user = userService.GetUser(itemViewModel.UserId);
