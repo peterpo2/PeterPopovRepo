@@ -10,7 +10,5 @@
         public DateTime SaleDate { get; set; }
         public bool Success { get; set; }
         public decimal TotalSaleValue { get; set; }
-        public Item Item { get; set; } 
-        public User User { get; set; } 
     }
 }

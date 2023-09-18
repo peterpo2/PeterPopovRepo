@@ -8,9 +8,9 @@
     <h2>Създай артикул</h2>
     <form asp-action="Create" method="post">
         <div class="form-group">
-            <label asp-for="Name">Име</label>
-            <input asp-for="Name" name="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="ItemName">Име</label>
+            <input asp-for="ItemName" name="ItemName" class="form-control" />
+            <span asp-validation-for="ItemName" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="AvailableQuantity">Налично количество</label>
@@ -18,7 +18,7 @@
             <span asp-validation-for="AvailableQuantity" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="SalePrice">Цена</label>
+            <label asp-for="SalePrice">Цена за една бройка</label>
             <input asp-for="SalePrice" name="SalePrice" class="form-control" />
             <span asp-validation-for="SalePrice" class="text-danger"></span>
         </div>

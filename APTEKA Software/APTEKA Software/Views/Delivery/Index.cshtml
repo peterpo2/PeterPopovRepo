@@ -13,22 +13,22 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Доставка</th>
-            <th>Потребител</th>
+            <th>Доставчик</th>
             <th>Артикул</th>
             <th>Дата на Доставка</th>
             <th>Количество доставено</th>
+            <th>Сума на доставката</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var delivery in Model)
         {
             <tr>
-                <td>@delivery.DeliveryId</td>
                 <td>@delivery.UserName</td>
                 <td>@delivery.ItemName</td>
                 <td>@delivery.DeliveryDate.ToString("dd/MM/yyyy")</td>
                 <td>@delivery.QuantityDelivered</td>
+                <td>@delivery.DeliverySum</td>
             </tr>
         }
     </tbody>

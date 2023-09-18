@@ -61,5 +61,45 @@ namespace APTEKA_Software.Services
         {
             return this.deliveryRepository.GetAllDeliveries();
         }
+        //API CONTROLLER
+        public DeliveryResult MakeDelivery(int userId, int itemId, int quantityDelivered)
+        {
+            var item = itemService.GetItemById(itemId);
+            var user = userService.GetUser(userId);
+
+            if (item == null || item.AvailableQuantity < quantityDelivered)
+            {
+                throw new Exception("Артикулът не е наличен или няма достатъчно количество за доставка.");
+            }
+
+            var delivery = new Delivery
+            {
+                UserId = user.UserId,
+                ItemId = itemId,
+                DeliveryDate = DateTime.Now,
+                QuantityDelivered = quantityDelivered,
+            };
+            deliveryRepository.MakeDelivery(delivery);
+
+            var deliverySum = item.SalePrice * quantityDelivered;
+
+            item.AvailableQuantity += quantityDelivered;
+            itemService.UpdateItem(itemId, item);
+
+            var deliveryResult = new DeliveryResult
+            {
+                Success = true,
+                QuantityDelivered = quantityDelivered,
+                NewAvailableQuantity = item.AvailableQuantity,
+                Id = delivery.DeliveryId,
+                ItemId = delivery.ItemId,
+                RemainingQuantity = GetRemainingQuantity(itemId),
+                Quantity = delivery.QuantityDelivered,
+                DeliveryDate = delivery.DeliveryDate,
+                DeliverySum = deliverySum
+            };
+
+            return deliveryResult;
+        }
     }
 }

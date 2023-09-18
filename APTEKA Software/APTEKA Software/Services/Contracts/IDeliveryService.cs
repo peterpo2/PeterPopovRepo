@@ -9,8 +9,6 @@ namespace APTEKA_Software.Services.Contracts
         void CreateDelivery(ItemViewModel itemViewModel, int itemId);
         List<Delivery> GetAllDeliveries();
         int GetRemainingQuantity(int itemId);
-        //void AddDelivery(Delivery delivery);
-        //void UpdateDelivery(Delivery delivery);
-        //void DeleteDelivery(int id);
+        DeliveryResult MakeDelivery(int userId, int itemId, int quantityDelivered);
     }
 }

@@ -8,30 +8,69 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Apteka Software - @ViewData["Title"]</title>
-    <!-- Добави тук всички CSS файлове -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- CSS -->
+    <style>
+        body {
+            background-image: url('/images/cs.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.7); /* Начална прозрачност */
+            transition: background-color 0.3s; /* Плавен преход на прозрачността */
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Прозрачен фон на контейнера */
+            border-radius: 10px; /* Закръглени ръбове на контейнера */
+            padding: 20px;
+            margin-top: 20px; /* Отстъп от горния край на страницата */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Сянка на контейнера */
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9); /* Прозрачен фон на футъра */
+            border-radius: 5px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 <body class="border-0 bd-example">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="/">Apteka Software</a>
-                <div class="collapse navbar-collapse">
+                <a class="navbar-brand text-center" href="/" style="font-size: 24px;">Apteka Software</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Начало</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Items">Артикули</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Users">Потребители</a>
-                        </li> 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Sales">Продажби</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Delivery">Доставки</a>
-                        </li>
+                        @if (authManager.CurrentUser != null)
+                        {
+                            <li class="nav-item"><a class="nav-link text-danger" href="/swagger/index.html" style="font-weight: bold;">Developer API</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Items">Артикули</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Users">Потребители</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Sales">Продажби</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Delivery">Доставки</a>
+                            </li>
+                        }
                     </ul>
                     <ul class="navbar-nav ml-auto">
                         @if (authManager.CurrentUser == null)
@@ -62,9 +101,10 @@
         @RenderBody()
     </div>
 
-    <footer class="d-flex justify-content-center">
-        <small>© @DateTime.Now.Year, Apteka Software</small>
+    <footer class="d-flex justify-content-center bg-dark">
+        <small style="color: #ffffff;">© @DateTime.Now.Year, Apteka Software</small>
     </footer>
-    <!-- Останалите скриптове -->
+
+    
 </body>
 </html>

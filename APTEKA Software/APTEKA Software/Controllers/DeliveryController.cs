@@ -23,23 +23,33 @@ namespace APTEKA_Software.Controllers
             this.userService = userService;
             this.mapper = mapper;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
             var deliveries = deliveryService.GetAllDeliveries();
-            var deliveryViewModels = mapper.Map<List<DeliveryViewModel>>(deliveries);
+            var deliveryViewModels = new List<DeliveryViewModel>();
 
-            foreach (var deliveryViewModel in deliveryViewModels)
+            var mapper = HttpContext.RequestServices.GetService<IMapper>();
+
+            foreach (var delivery in deliveries)
             {
-                var user = userService.GetUser(deliveryViewModel.UserId);
-                var item = itemService.GetItemById(deliveryViewModel.ItemId);
+                var deliveryViewModel = mapper.Map<Delivery, DeliveryViewModel>(delivery);
+
+                var user = userService.GetUser(delivery.UserId);
+                var item = itemService.GetItemById(delivery.ItemId);
 
                 deliveryViewModel.UserName = $"{user.FirstName} {user.LastName}";
                 deliveryViewModel.ItemName = item.ItemName;
+
+                deliveryViewModel.DeliverySum = item.SalePrice * deliveryViewModel.QuantityDelivered;
+
+                deliveryViewModels.Add(deliveryViewModel);
             }
 
             return View(deliveryViewModels);
         }
+
         [HttpGet]
         public IActionResult MakeDelivery(int Id)
         {
@@ -73,7 +83,7 @@ namespace APTEKA_Software.Controllers
                 Item updatedItem = mapper.Map<Item>(itemViewModel);
 
                 int remainingQuantity = deliveryService.GetRemainingQuantity(id);
-                int newAvailableQuantity = remainingQuantity - itemViewModel.QuantitySold;
+                int newAvailableQuantity = remainingQuantity + itemViewModel.QuantityDelivered;
 
                 var item = itemService.GetItemById(id);
                 item.AvailableQuantity = newAvailableQuantity;
@@ -85,7 +95,7 @@ namespace APTEKA_Software.Controllers
                 throw new Exception("shit");
             }
 
-            return RedirectToAction("Index", "Sales");
+            return RedirectToAction("Index", "Delivery");
         }
     }
 }

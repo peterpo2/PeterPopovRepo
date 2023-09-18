@@ -19,7 +19,6 @@ namespace APTEKA_Software.Services
         {
             return this.itemRepository.GetAllItems();
         }
-
         public Item GetItemById(int Id)
         {
             var item = this.itemRepository.GetById(Id);
@@ -34,7 +33,7 @@ namespace APTEKA_Software.Services
         {
             var item = new Item
             {
-                ItemName = itemDto.Name,
+                ItemName = itemDto.ItemName,
                 AvailableQuantity = itemDto.AvailableQuantity,
                 SalePrice = itemDto.SalePrice,               
                 IsDeleted = false,
@@ -51,6 +50,7 @@ namespace APTEKA_Software.Services
             {
                 throw new EntityNotFoundException($"Артикул ={item} не съществува.");
             }
+            item.ItemName = updatedItem.ItemName;
             item.SalePrice = updatedItem.SalePrice;
 
             this.itemRepository.Update(item);

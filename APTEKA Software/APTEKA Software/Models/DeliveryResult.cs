@@ -10,7 +10,6 @@
         public int RemainingQuantity { get; set; }
         public int Quantity { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public Item Item { get; set; }
-        public User User { get; set; }
+        public decimal DeliverySum { get; set; }
     }
 }

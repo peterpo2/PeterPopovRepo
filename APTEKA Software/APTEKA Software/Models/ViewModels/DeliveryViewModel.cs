@@ -1,4 +1,6 @@
-﻿namespace APTEKA_Software.Models.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace APTEKA_Software.Models.ViewModels
 {
     public class DeliveryViewModel
     {
@@ -9,5 +11,6 @@
         public string ItemName { get; set; }
         public DateTime DeliveryDate { get; set; }
         public int QuantityDelivered { get; set; }
+        public decimal DeliverySum { get; set; }
     }
 }
