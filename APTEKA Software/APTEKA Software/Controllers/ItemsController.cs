@@ -26,12 +26,34 @@ namespace APTEKA_Software.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int pageIndex = 1, int pageSize = 3)
         {
             List<Item> items = itemService.GetAllItems();
-            List<ItemViewModel> itemViewModels = modelMapper.Map<List<ItemViewModel>>(items);
+
+            int totalItems = items.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            if (pageIndex < 1)
+            {
+                pageIndex = 1;
+            }
+            else if (pageIndex > totalPages)
+            {
+                pageIndex = totalPages;
+            }
+
+            List<Item> visibleItems = items.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            List<ItemViewModel> itemViewModels = modelMapper.Map<List<ItemViewModel>>(visibleItems);
+
+            var paginationViewModel = new PaginationViewModel
+            {
+                PageIndex = pageIndex,
+                TotalPages = totalPages
+            };
 
             ViewBag.ItemNames = new List<string> { "Валидол", "Валидол", "Vitamin C", "Vitamin D" };
+            ViewBag.paginationViewModel = paginationViewModel;
 
             return View(itemViewModels);
         }

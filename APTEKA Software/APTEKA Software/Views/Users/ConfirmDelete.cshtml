@@ -3,15 +3,32 @@
 @{
     ViewData["Title"] = "Delete User";
 }
-
-<h2>Delete User</h2>
-
-<h2>Сигурни ли сте, че искате да изтриете потребителя "@Model.Username"?</h2>
-<form method="post" action="@Url.Action("ConfirmDelete", "Users")">
-    <input type="hidden" name="id" value="@Model.UserId" />
-    <input type="hidden" name="confirm" value="true" />
-    <input type="submit" value="Да" class="btn btn-danger" />
-</form>
-<form method="get" action="@Url.Action("Index", "Users")">
-    <input type="submit" value="Не" class="btn btn-secondary" />
-</form>
+@{
+    Layout = "_Layout";
+}
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Delete User</h2>
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center">Сигурни ли сте, че искате да изтриете потребителя "@Model.Username"?</h2>
+                    <form method="post" action="@Url.Action("ConfirmDelete", "Users")">
+                        <input type="hidden" name="id" value="@Model.UserId" />
+                        <input type="hidden" name="confirm" value="true" />
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger">Да</button>
+                        </div>
+                    </form>
+                    <form method="get" action="@Url.Action("Index", "Users")">
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-secondary">Не</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
