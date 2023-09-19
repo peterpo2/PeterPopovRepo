@@ -141,7 +141,6 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
             int itemIdToDelete = 1;
             var itemToDelete = new Item { ItemId = itemIdToDelete };
 
-            // Настройване на Delete да връща itemToDelete
             itemRepositoryMock.Setup(repo => repo.Delete(itemIdToDelete)).Returns(itemToDelete);
 
             // Act
@@ -151,7 +150,6 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
             Assert.IsNotNull(result);
             Assert.AreEqual(itemIdToDelete, result.ItemId);
 
-            // Проверка дали Delete е извикан по един път
             itemRepositoryMock.Verify(repo => repo.Delete(itemIdToDelete), Times.Once);
         }
 
@@ -161,7 +159,6 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
             // Arrange
             int itemIdToDelete = 1;
 
-            // Настройване на Delete да връща null, за да представи ситуацията, че артикула не съществува
             itemRepositoryMock.Setup(repo => repo.Delete(itemIdToDelete)).Returns((Item)null);
 
             // Act
@@ -170,8 +167,28 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
             // Assert
             Assert.IsNull(result);
 
-            // Проверка дали Delete е извикан по един път
             itemRepositoryMock.Verify(repo => repo.Delete(itemIdToDelete), Times.Once);
+        }
+
+        [TestMethod]
+        public void TestGetAllItemNames_ReturnsAllItemNames()
+        {
+            // Arrange
+            var items = new List<Item>
+            {
+                new Item { ItemId = 1, ItemName = "Item1" },
+                new Item { ItemId = 2, ItemName = "Item2" },
+                new Item { ItemId = 3, ItemName = "Item3" },
+            };
+
+            itemRepositoryMock.Setup(repo => repo.GetAllItems()).Returns(items);
+
+            // Act
+            var result = itemService.GetAllItemNames();
+
+            // Assert
+            Assert.AreEqual(3, result.Count);
+            CollectionAssert.AreEqual(new List<string> { "Item1", "Item2", "Item3" }, result);
         }
     }
 }

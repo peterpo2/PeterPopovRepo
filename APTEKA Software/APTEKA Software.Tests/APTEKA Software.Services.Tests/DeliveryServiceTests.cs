@@ -132,5 +132,57 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
             deliveryRepositoryMock.Verify(repo => repo.MakeDelivery(It.IsAny<Delivery>()), Times.Once);
 
         }
+        [TestMethod]
+        public void TestGetDeliveriesByUserId_ReturnsDeliveriesForUser()
+        {
+            // Arrange
+            int userId = 1;
+
+            var deliveries = new List<Delivery>
+            {
+                new Delivery { UserId = userId, DeliveryId = 1 },
+                new Delivery { UserId = userId, DeliveryId = 2 },
+                new Delivery { UserId = 2, DeliveryId = 3 }, 
+            };
+
+            deliveryRepositoryMock.Setup(repo => repo.GetAllDeliveries()).Returns(deliveries);
+
+            // Act
+            var result = deliveryService.GetDeliveriesByUserId(userId);
+
+            // Assert
+            Assert.AreEqual(2, result.Count);
+            CollectionAssert.AreEqual(new List<int> { 1, 2 }, result.Select(d => d.DeliveryId).ToList());
+        }
+
+        [TestMethod]
+        public void TestGetDeliveryViewModelsByUserId_ReturnsDeliveryViewModelsForUser()
+        {
+            // Arrange
+            int userId = 1;
+
+            var deliveries = new List<Delivery>
+            {
+                new Delivery { UserId = userId, DeliveryId = 1, ItemId = 10 },
+                new Delivery { UserId = userId, DeliveryId = 2, ItemId = 20 },
+                new Delivery { UserId = 2, DeliveryId = 3, ItemId = 30 }, 
+            };
+
+            var items = new List<Item>
+            {
+                new Item { ItemId = 10, ItemName = "Item1" },
+                new Item { ItemId = 20, ItemName = "Item2" },
+            };
+
+            deliveryRepositoryMock.Setup(repo => repo.GetAllDeliveries()).Returns(deliveries);
+            itemServiceMock.Setup(repo => repo.GetItemById(It.IsAny<int>())).Returns<int>(itemId => items.FirstOrDefault(i => i.ItemId == itemId));
+
+            // Act
+            var result = deliveryService.GetDeliveryViewModelsByUserId(userId);
+
+            // Assert
+            Assert.AreEqual(2, result.Count);
+            CollectionAssert.AreEqual(new List<string> { "Item1", "Item2" }, result.Select(d => d.ItemName).ToList());
+        }
     }
 }

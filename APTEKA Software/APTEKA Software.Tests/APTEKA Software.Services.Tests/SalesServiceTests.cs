@@ -212,13 +212,62 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
                 salesService.CreateSale(itemViewModel, itemId);
 
                 // Assert
-                // Проверете дали продажбата е добавена успешно, но няма изключение.
             }
             catch (Exception ex)
             {
-                // Ако стигнете до този catch блок, този тест ще се отбележи като неуспешен.
                 Assert.Fail($"Unexpected exception: {ex.Message}");
             }
+        }
+        [TestMethod]
+        public void TestGetSalesByUserId_ReturnsSalesForUser()
+        {
+            // Arrange
+            int userId = 1;
+            var sales = new List<Sale>
+        {
+            new Sale { SaleId = 1, UserId = userId },
+            new Sale { SaleId = 2, UserId = userId },
+            new Sale { SaleId = 3, UserId = 2 }, // Sale not related to the user
+        };
+            saleRepositoryMock.Setup(repo => repo.GetAll()).Returns(sales);
+
+            // Act
+            var result = salesService.GetSalesByUserId(userId);
+
+            // Assert
+            Assert.AreEqual(2, result.Count);
+            CollectionAssert.AreEqual(new List<int> { 1, 2 }, result.Select(s => s.SaleId).ToList());
+        }
+
+        [TestMethod]
+        public void TestGetSaleViewModelsByUserId_ReturnsSaleViewModelsForUser()
+        {
+            // Arrange
+            int userId = 1;
+            var sales = new List<Sale>
+        {
+            new Sale { SaleId = 1, UserId = userId, ItemId = 101 },
+            new Sale { SaleId = 2, UserId = userId, ItemId = 102 },
+        };
+            var user = new User { UserId = userId, Username = "User1" };
+            var items = new List<Item>
+        {
+            new Item { ItemId = 101, ItemName = "Item1" },
+            new Item { ItemId = 102, ItemName = "Item2" },
+        };
+
+            saleRepositoryMock.Setup(repo => repo.GetAll()).Returns(sales);
+            userServiceMock.Setup(repo => repo.GetUser(userId)).Returns(user);
+            itemServiceMock.Setup(repo => repo.GetItemById(It.IsAny<int>())).Returns<int>((id) => items.FirstOrDefault(item => item.ItemId == id));
+
+            // Act
+            var result = salesService.GetSaleViewModelsByUserId(userId);
+
+            // Assert
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(user.Username, result[0].UserName);
+            Assert.AreEqual("Item1", result[0].ItemName);
+            Assert.AreEqual("Item2", result[1].ItemName);
         }
     }
 }
