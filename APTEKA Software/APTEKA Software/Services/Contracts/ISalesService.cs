@@ -9,7 +9,8 @@ namespace APTEKA_Software.Services.Contracts
         List<Sale> GetAllSales();
         SaleResult MakeSale(int userId, int itemId, int quantity);
         int GetRemainingQuantity(int itemId);
-        //void CreateSale(SaleDto saleDto);
+        List<Sale> GetSalesByUserId(int userId);
         void CreateSale(ItemViewModel itemViewModel, int itemId);
+        List<SaleViewModel> GetSaleViewModelsByUserId(int userId);
     }
 }

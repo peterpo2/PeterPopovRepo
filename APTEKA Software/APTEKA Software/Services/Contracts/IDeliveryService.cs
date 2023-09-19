@@ -10,5 +10,7 @@ namespace APTEKA_Software.Services.Contracts
         List<Delivery> GetAllDeliveries();
         int GetRemainingQuantity(int itemId);
         DeliveryResult MakeDelivery(int userId, int itemId, int quantityDelivered);
+        List<Delivery> GetDeliveriesByUserId(int userId);
+        List<DeliveryViewModel> GetDeliveryViewModelsByUserId(int userId);
     }
 }

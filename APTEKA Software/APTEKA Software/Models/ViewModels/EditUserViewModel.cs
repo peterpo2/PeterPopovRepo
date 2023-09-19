@@ -4,7 +4,7 @@ namespace APTEKA_Software.Models.ViewModels
 {
     public class EditUserViewModel
     {
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         [Required(ErrorMessage = "Username is required.")]
         [StringLength(32, MinimumLength = 4, ErrorMessage = "Username must be between 4 and 32 characters.")]

@@ -61,5 +61,15 @@ namespace APTEKA_Software.Services
         {
             return itemRepository.Delete(itemId);
         }
+        public List<Item> GetItemsByFilter(string filter)
+        {
+            return itemRepository.GetAllItems()
+                .Where(item => item.ItemName.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+        public List<string> GetAllItemNames()
+        {
+            return itemRepository.GetAllItems().Select(item => item.ItemName).ToList();
+        }
     }
 }

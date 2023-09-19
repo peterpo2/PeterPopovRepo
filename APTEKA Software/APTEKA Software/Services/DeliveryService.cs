@@ -101,5 +101,27 @@ namespace APTEKA_Software.Services
 
             return deliveryResult;
         }
+
+        public List<Delivery> GetDeliveriesByUserId(int id)
+        {
+            return this.deliveryRepository.GetAllDeliveries()
+                                          .Where(delivery => delivery.UserId == id)
+                                          .ToList();
+        }
+        public List<DeliveryViewModel> GetDeliveryViewModelsByUserId(int id)
+        {
+            List<Delivery> deliveries = GetDeliveriesByUserId(id);
+
+            List<DeliveryViewModel> deliveryViewModels = deliveries.Select(delivery => new DeliveryViewModel
+            {
+                UserName = userService.GetUser(delivery.UserId)?.Username,
+                ItemName = itemService.GetItemById(delivery.ItemId)?.ItemName,
+                DeliveryDate = delivery.DeliveryDate,
+                QuantityDelivered = delivery.QuantityDelivered,
+                DeliverySum = delivery.TotalAmount
+            }).ToList();
+
+            return deliveryViewModels;
+        }
     }
 }

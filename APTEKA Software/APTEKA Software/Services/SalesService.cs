@@ -104,5 +104,26 @@ namespace APTEKA_Software.Services
                 throw new EntityNotFoundException($"Артикул с идентификационен номер {itemId} не беше намерен.");
             }
         }
+        public List<Sale> GetSalesByUserId(int id)
+        {
+            return this.saleRepository.GetAll()
+                                      .Where(sale => sale.UserId == id)
+                                      .ToList();
+        }
+        public List<SaleViewModel> GetSaleViewModelsByUserId(int id)
+        {
+            List<Sale> sales = GetSalesByUserId(id);
+
+            List<SaleViewModel> saleViewModels = sales.Select(sale => new SaleViewModel
+            {
+                UserName = userService.GetUser(sale.UserId)?.Username,
+                ItemName = itemService.GetItemById(sale.ItemId)?.ItemName,
+                SaleDate = sale.SaleDate,
+                QuantitySold = sale.QuantitySold,
+                TotalAmount = sale.TotalAmount
+            }).ToList();
+
+            return saleViewModels;
+        }
     }
 }

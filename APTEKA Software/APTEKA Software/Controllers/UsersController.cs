@@ -16,12 +16,18 @@ namespace APTEKA_Software.Controllers
         private readonly AuthManager authManager;
         private readonly IUserService usersService;
         private readonly IMapper modelMapper;
+        private readonly IDeliveryService deliveryService;
+        private readonly ISalesService salesService;
+        private readonly IItemService itemService;
 
-        public UsersController(AuthManager authManager, IUserService userService, IMapper modelMapper)
+        public UsersController(AuthManager authManager, IUserService userService, IMapper modelMapper, IDeliveryService deliveryService, ISalesService salesService, IItemService itemService)
         {
             this.authManager = authManager;
             this.usersService = userService;
             this.modelMapper = modelMapper;
+            this.deliveryService = deliveryService;
+            this.salesService = salesService;
+            this.itemService = itemService;
         }
 
         [HttpGet]
@@ -119,7 +125,7 @@ namespace APTEKA_Software.Controllers
 
             EditUserViewModel viewModel = new EditUserViewModel
             {
-                Id = user.UserId,
+                UserId = user.UserId,
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName
@@ -138,7 +144,7 @@ namespace APTEKA_Software.Controllers
 
             User updatedUser = new User
             {
-                UserId = viewModel.Id,
+                UserId = viewModel.UserId,
                 Username = viewModel.Username,
                 FirstName = viewModel.FirstName,
                 LastName = viewModel.LastName
@@ -191,6 +197,51 @@ namespace APTEKA_Software.Controllers
 
                 return View(user);
             }
+        }
+
+        [HttpGet]
+        public IActionResult Detail(int id)
+        {
+            User user = usersService.GetUser(id);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            List<DeliveryViewModel> deliveries = deliveryService.GetDeliveryViewModelsByUserId(id);
+            List<SaleViewModel> sales = salesService.GetSaleViewModelsByUserId(id);
+
+            List<DeliveryViewModel> deliveryViewModels = deliveries.Select(delivery => new DeliveryViewModel
+            {
+                UserName = delivery.UserName,
+                ItemName = delivery.ItemName,
+                DeliveryDate = delivery.DeliveryDate,
+                QuantityDelivered = delivery.QuantityDelivered,
+                DeliverySum = delivery.DeliverySum,
+                UserId = id 
+            }).ToList();
+
+            List<SaleViewModel> saleViewModels = sales.Select(sale => new SaleViewModel
+            {
+                UserName= sale.UserName,
+                ItemName= sale.ItemName,
+                SaleDate = sale.SaleDate,
+                QuantitySold = sale.QuantitySold,
+                TotalAmount = sale.TotalAmount,
+                UserId = id 
+            }).ToList();
+
+
+            UserDetailViewModel viewModel = new UserDetailViewModel
+            {
+                UserId = user.UserId,
+                UserName = user.Username,
+                Deliveries = deliveryViewModels,
+                Sales = saleViewModels
+            };
+
+            return View(viewModel);
         }
     }
 }

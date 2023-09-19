@@ -9,11 +9,16 @@
 
 <div class="container">
     <h2>Списък с артикули</h2>
-    <p>
-        <div class="d-flex">
-            <a class="nav-link mr-3" href="Items/Create/">Създай Нов Артикул</a>
+    <div class="d-flex">
+        <a class="nav-link mr-3" href="Items/Create/">Създай Нов Артикул</a>
+    </div>
+    @using (Html.BeginForm("FilteredItems", "Items", FormMethod.Get))
+    {
+        <div class="form-group">
+            @Html.DropDownList("filterByItem", new SelectList(ViewBag.ItemNames), "Изберете артикул", new { @class = "form-control" })
+            <button type="submit" class="btn btn-primary">Филтрирай</button>
         </div>
-    </p>
+    }
     <table class="table">
         <thead>
             <tr>

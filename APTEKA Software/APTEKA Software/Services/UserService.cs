@@ -45,7 +45,10 @@ namespace APTEKA_Software.Services
         public User UpdateUser(int id, User newUserInfo)
         {
             var userToUpdate = userRepository.GetUser(id);
-            
+            if(newUserInfo.Username is not null)
+            {
+                userToUpdate.Username = newUserInfo.Username;
+            }
             if (newUserInfo.FirstName is not null)
             {
                 userToUpdate.FirstName = newUserInfo.FirstName;

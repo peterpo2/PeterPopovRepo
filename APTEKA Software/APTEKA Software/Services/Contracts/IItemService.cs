@@ -12,5 +12,7 @@ namespace APTEKA_Software.Services.Contracts
         List<Item> GetAllItems();
 
         Item UpdateItem(int itemId, Item updatedItem);
+        List<Item> GetItemsByFilter(string filter);
+        List<string> GetAllItemNames();
     }
 }
