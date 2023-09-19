@@ -2,11 +2,9 @@
 using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
 using APTEKA_Software.Models.ViewModels;
-using APTEKA_Software.Services;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace APTEKA_Software.Controllers
 {
@@ -181,7 +179,7 @@ namespace APTEKA_Software.Controllers
         public IActionResult ConfirmDelete(int id, bool confirm)
         {
             User user = usersService.GetUser(id);
-            
+
             try
             {
                 if (confirm)
@@ -219,17 +217,17 @@ namespace APTEKA_Software.Controllers
                 DeliveryDate = delivery.DeliveryDate,
                 QuantityDelivered = delivery.QuantityDelivered,
                 DeliverySum = delivery.DeliverySum,
-                UserId = id 
+                UserId = id
             }).ToList();
 
             List<SaleViewModel> saleViewModels = sales.Select(sale => new SaleViewModel
             {
-                UserName= sale.UserName,
-                ItemName= sale.ItemName,
+                UserName = sale.UserName,
+                ItemName = sale.ItemName,
                 SaleDate = sale.SaleDate,
                 QuantitySold = sale.QuantitySold,
                 TotalAmount = sale.TotalAmount,
-                UserId = id 
+                UserId = id
             }).ToList();
 
 
