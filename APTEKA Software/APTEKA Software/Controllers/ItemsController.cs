@@ -1,16 +1,14 @@
-﻿using APTEKA_Software.Models.ViewModels;
+﻿using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
+using APTEKA_Software.Models.Dto;
+using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using APTEKA_Software.Models.Dto;
-using APTEKA_Software.Helpers;
-using Microsoft.Extensions.Hosting;
-using APTEKA_Software.Services;
 
 namespace APTEKA_Software.Controllers
 {
-    public class ItemsController:Controller
+    public class ItemsController : Controller
     {
         private readonly IItemService itemService;
         private readonly IUserService userService;
@@ -22,42 +20,47 @@ namespace APTEKA_Software.Controllers
             this.itemService = itemService;
             this.modelMapper = modelMapper;
             this.userService = userService;
-            this.authManager = authManager; 
+            this.authManager = authManager;
         }
 
         [HttpGet]
-        public IActionResult Index(int pageIndex = 1, int pageSize = 3)
+        public IActionResult Index(/*int pageIndex = 1, int pageSize = 3*/)
         {
             List<Item> items = itemService.GetAllItems();
+            List<ItemViewModel> itemViewModels = modelMapper.Map<List<ItemViewModel>>(items);
 
-            int totalItems = items.Count;
-            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
-
-            if (pageIndex < 1)
-            {
-                pageIndex = 1;
-            }
-            else if (pageIndex > totalPages)
-            {
-                pageIndex = totalPages;
-            }
-
-            List<Item> visibleItems = items.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-
-            List<ItemViewModel> itemViewModels = modelMapper.Map<List<ItemViewModel>>(visibleItems);
-
-            var paginationViewModel = new PaginationViewModel
-            {
-                PageIndex = pageIndex,
-                TotalPages = totalPages
-            };
-
-            ViewBag.ItemNames = new List<string> { "Валидол", "Валидол", "Vitamin C", "Vitamin D" };
-            ViewBag.paginationViewModel = paginationViewModel;
+            ViewBag.ItemNames = new List<string> { "Валидол", "NoSpa", "Vitamin C", "Vitamin D" };
 
             return View(itemViewModels);
-        }
+            //List<Item> items = itemService.GetAllItems();
 
+            //int totalItems = items.Count;
+            //int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            //if (pageIndex < 1)
+            //{
+            //    pageIndex = 1;
+            //}
+            //else if (pageIndex > totalPages)
+            //{
+            //    pageIndex = totalPages;
+            //}
+
+            //List<Item> visibleItems = items.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            //List<ItemViewModel> itemViewModels = modelMapper.Map<List<ItemViewModel>>(visibleItems);
+
+            //var paginationViewModel = new PaginationViewModel
+            //{
+            //    PageIndex = pageIndex,
+            //    TotalPages = totalPages
+            //};
+
+            //ViewBag.ItemNames = new List<string> { "Валидол", "Vitamin C", "Vitamin D", "NoSpa" };
+            //ViewBag.paginationViewModel = paginationViewModel;
+
+            //return View(itemViewModels);
+        }
 
         [HttpGet]
         public IActionResult Create()

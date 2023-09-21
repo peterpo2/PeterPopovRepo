@@ -33,40 +33,30 @@ namespace APTEKA_Software.Services
             var user = userRepository.GetUser(userId);
             var item = itemRepository.GetById(itemId);
 
-            if (user != null && item != null)
-            {
-                if (item.AvailableQuantity >= quantity)
-                {
-                    var totalSaleValue = quantity * item.SalePrice;
-
-                    if (item.AvailableQuantity >= quantity)
-                    {
-                        item.AvailableQuantity -= quantity;
-
-                        itemRepository.Update(item);
-
-                        return new SaleResult
-                        {
-                            Success = true,
-                            TotalSaleValue = totalSaleValue,
-                            RemainingQuantity = item.AvailableQuantity
-                        };
-                    }
-                    else
-                    {
-                        throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.ItemName}.");
-                    }
-                }
-                else
-                {
-                    throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.ItemName}.");
-                }
-            }
-            else
+            if (user == null || item == null)
             {
                 throw new EntityNotFoundException($"Невалиден потребител ({user}) или артикул ({item}).");
             }
+
+            if (item.AvailableQuantity < quantity)
+            {
+                throw new EntityNotFoundException($"Недостатъчно количество на артикула {item.ItemName}.");
+
+            }
+
+            var totalSaleValue = quantity * item.SalePrice;
+            item.AvailableQuantity -= quantity;
+
+            itemRepository.Update(item);
+
+            return new SaleResult
+            {
+                Success = true,
+                TotalSaleValue = totalSaleValue,
+                RemainingQuantity = item.AvailableQuantity
+            };
         }
+
         //RAZOR PAGES CONTROLLER
         public void CreateSale(ItemViewModel itemViewModel, int itemId)
         {
