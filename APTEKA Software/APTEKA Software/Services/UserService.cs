@@ -2,10 +2,11 @@
 using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services.Contracts;
 using APTEKA_Software.Exeptions;
+using System.Reflection;
 
 namespace APTEKA_Software.Services
 {
-    public class UserService:IUserService
+    public class UserService : IUserService
     {
         private const string ModifyUserErrorMessage = "Only owner can modify a user.";
         private const string DuplicateUsernameErrorMessage = "Username '{0}' is already taken.";
@@ -42,10 +43,14 @@ namespace APTEKA_Software.Services
             return userRepository.CreateUser(user);
         }
 
-        public User UpdateUser(int id, User newUserInfo)
+        public User UpdateUser(int id, User newUserInfo, User sender)
         {
             var userToUpdate = userRepository.GetUser(id);
-            if(newUserInfo.Username is not null)
+            if (!userToUpdate.Username.Equals(sender) && !sender.IsAdmin)
+            {
+                throw new UnauthorizedOperationException(ModifyUserErrorMessage);
+            }
+            if (newUserInfo.Username is not null)
             {
                 userToUpdate.Username = newUserInfo.Username;
             }
@@ -67,7 +72,7 @@ namespace APTEKA_Software.Services
         public bool DeleteUser(int id, User user)
         {
             var userToDelete = userRepository.GetUser(id);
-            if (!userToDelete.Equals(user))
+            if (!userToDelete.Equals(user) && !user.IsAdmin)
             {
                 throw new UnauthorizedOperationException(ModifyUserErrorMessage);
             }

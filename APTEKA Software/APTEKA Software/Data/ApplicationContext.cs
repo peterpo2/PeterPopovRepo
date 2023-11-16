@@ -27,7 +27,8 @@ namespace APTEKA_Software.Data
                     Password = "123456",
                     FirstName = "Peter",
                     LastName = "Kompotov",
-                    DateRegistered = DateTime.Now
+                    DateRegistered = DateTime.Now,
+                    IsAdmin = true
                 },
                 new User
                 {
@@ -36,7 +37,8 @@ namespace APTEKA_Software.Data
                     Password = "222333",
                     FirstName = "George",
                     LastName = "Paprikov",
-                    DateRegistered = DateTime.Now
+                    DateRegistered = DateTime.Now,
+                    IsAdmin = false
                 },
                 new User
                 {
@@ -45,7 +47,8 @@ namespace APTEKA_Software.Data
                     Password = "432432",
                     FirstName = "Ivan",
                     LastName = "Krushov",
-                    DateRegistered = DateTime.Now
+                    DateRegistered = DateTime.Now,
+                    IsAdmin = false
                 },
                 new User
                 {
@@ -54,7 +57,8 @@ namespace APTEKA_Software.Data
                     Password = "654321",
                     FirstName = "Alexander",
                     LastName = "Slivov",
-                    DateRegistered = DateTime.Now
+                    DateRegistered = DateTime.Now,
+                    IsAdmin = false
                 },
             };
             modelBuilder.Entity<User>().ToTable("Users");

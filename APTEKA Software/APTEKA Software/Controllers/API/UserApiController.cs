@@ -79,7 +79,7 @@ namespace APTEKA_Software.Controllers.API
             try
             {
                 var user = authManager.TryGetUser(username);
-                var updatetedUser = userService.UpdateUser(id, mapper.Map<User>(newUserInfo));
+                var updatetedUser = userService.UpdateUser(id, mapper.Map<User>(newUserInfo),this.authManager.CurrentUser);
                 return Ok(mapper.Map<UserResponseDto>(updatetedUser));
             }
             catch (UnauthorizedOperationException e)

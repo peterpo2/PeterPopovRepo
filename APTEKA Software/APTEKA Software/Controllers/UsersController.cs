@@ -150,7 +150,7 @@ namespace APTEKA_Software.Controllers
 
             try
             {
-                usersService.UpdateUser(id, updatedUser);
+                usersService.UpdateUser(id, updatedUser,this.authManager.CurrentUser);
 
                 return RedirectToAction("Index");
             }

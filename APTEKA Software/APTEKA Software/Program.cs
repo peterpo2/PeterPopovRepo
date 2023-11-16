@@ -44,6 +44,7 @@ public class Program
         builder.Services.AddScoped<IItemService, ItemService>();
         builder.Services.AddScoped<ISalesService, SalesService>();
         builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+        builder.Services.AddScoped<IAdminService, AdminService>();
 
         builder.Services.AddAutoMapper(typeof(Program).Assembly);
         builder.Services.AddScoped<AuthManager>();

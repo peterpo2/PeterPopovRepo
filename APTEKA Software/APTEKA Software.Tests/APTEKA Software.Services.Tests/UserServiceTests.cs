@@ -1,4 +1,5 @@
 ﻿using APTEKA_Software.Exeptions;
+using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
 using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services;
@@ -12,6 +13,7 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
     {
         private IUserService userService;
         private Mock<IUserRepository> userRepositoryMock;
+        private AuthManager authManager;
 
         [TestInitialize]
         public void Initialize()
@@ -77,7 +79,7 @@ namespace APTEKA_Software.Tests.APTEKA_Software.Services.Tests
             userRepositoryMock.Setup(repo => repo.UpdateUser(userToUpdate)).Returns(updatedUserInfo);
 
             // Act
-            var result = userService.UpdateUser(userId, updatedUserInfo);
+            var result = userService.UpdateUser(userId, updatedUserInfo,this.authManager.CurrentUser);
 
             // Assert
             Assert.IsNotNull(result);

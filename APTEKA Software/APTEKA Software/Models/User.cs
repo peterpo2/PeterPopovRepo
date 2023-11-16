@@ -23,5 +23,7 @@ namespace APTEKA_Software.Models
         public string LastName { get; set; }
         public DateTime DateRegistered { get; set; }
         public bool IsDeleted { get; set; }
+        public bool IsAdmin { get; set; }
+        public bool IsBlocked { get; set; }
     }
 }
