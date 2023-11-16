@@ -1,4 +1,0 @@
-﻿1. Virtual keyword introduced for Order.AddItem()
-  Pros:
-   - We now have the flexibility to both use the base implementation of Order.AddItem() but also to override it whenever we need to.
-   - For example, we want to forbid adding more items than 5 for our international orders. This is why we've overriden the InternationalOrder.AddItem() method adding this logic.

@@ -1,7 +1,0 @@
-﻿1. Our Order class was meant to serve domestic orders only. However, now we want to serve international orders too so we've introduced a new class - InternationalOrder which inherits from Order.
-  Pros:
-   - We can use base implementation of Order(all of its members) so we don't have to add those to our InternationalOrder class but only those, that are new or different.
-   - We can now hide base implementation of DisplayGeneralInfo() as well as introduce new properties which we need for our international orders(Carrier, CustomsPercentage).
-   - We can now instantiate two different orders.
-  Cons:
-   - We need to create a separate collection of international orders.

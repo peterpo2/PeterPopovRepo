@@ -1,8 +1,0 @@
-﻿1. Abstract class Order now introduced. 
-  Pros:
-   - We wouldn't want to instantiate class Order as it serves as a base class thus we've made it abstract.
-   - We can now mark Order class members as abstract(using abstract keyword) and allow derrived classes to override the behaviour(ex. DisplayGeneralInfo() is marked as abstract and thus is overriden in both derrived classes).
-   - We've introduced a new class for DomesticOrders which handles only domestic.
-   - We can now extend this even further by creating a PromotionalOrder which has a coupon or a discount property. All we will have to do is create a new PromotionOrder class, inherit from Order and add the new functionality
-  Cons:
-   - We must always use all class members from Order class

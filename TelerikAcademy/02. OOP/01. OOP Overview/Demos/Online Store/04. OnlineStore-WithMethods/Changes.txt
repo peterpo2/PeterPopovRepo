@@ -1,6 +1,0 @@
-﻿1. Order functionality moved inside the Order class itself.
-  Pros:
-   - We no longer have to worry how to format the result when we call a method from the Order class - it's done within the class itself.
-   - No unnecessary code inside our Main method.
-  Cons:
-   - Products are still just a collection of strings, perhaps we should introduce a class for that as well?

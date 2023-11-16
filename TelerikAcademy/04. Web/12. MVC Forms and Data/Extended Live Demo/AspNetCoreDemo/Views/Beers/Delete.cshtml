@@ -1,9 +1,0 @@
-﻿@model AspNetCoreDemo.Models.Beer;
-
-<h2>Delete <b>@this.Model.Name</b>?</h2>
-
-<form asp-controller="Beers" asp-action="Delete" method="post">
-    <input type="submit" value="Delete" class="btn-danger" />
-</form>
-
-<a asp-controller="Beers" asp-action="Index" class="nav">Back</a>

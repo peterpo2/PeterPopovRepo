@@ -1,7 +1,0 @@
-﻿1. Properties to Order and Product class added.
-  Pros:
-   - Easy to set certain rules when initializing those fields(ex. validating string length etc.)
-   - When we want to access data from this class from another class we should use properties.
-   - Encapsulating our data(setters are private thus we can't set the values from the outside when using properties)
-  Cons:
-   - Fields are public so we can still use them instead of the properties and bypass all the rules we've just created

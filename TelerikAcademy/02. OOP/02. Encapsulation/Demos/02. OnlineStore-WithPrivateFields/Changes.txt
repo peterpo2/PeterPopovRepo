@@ -1,7 +1,0 @@
-﻿1. All fields of class Order and Product are now private. No reason to expose our internals to the outside world - properties should be used instead
-  Pros:
-   - We can only use properties to access data now. We can't modify data once an instance has been initialized(due to private setters).
-   - Even if we remove the private setter and want to change the value of a field the validation will still take place(since we are using the property which validates data in it's setter).
-   - The List<Product> in the Order class was public thus exposing our data. There was no reason for this as the only method we were using was Add(). We've encapsulated the collection(field is private readonly, there is no property) but we've added an AddItem() method.
-
-We have now properly encapsulated our data
