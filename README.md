@@ -1,10 +1,1 @@
-Telerik Academy 2023
-
-An intensive and challenging half an year training program for software developers. With over 20 in-depth courses in cutting-edge technologies, Telerik Academy helps students of almost any age and background develop programming skills and land jobs in the competitive IT industry.
-
-There am I learning a large range of technologies starting from C#, Databases and more to come.
-
-Programming languages / Technologies / Principles / Concepts /
-C# Fundamentals
-C# Object-Oriented Programing
-C# Data Structures and Algorithms
+From March to September, I dedicated myself to mastering a diverse set of skills at Telerik Academy. Successfully completing the program, I now boast a comprehensive knowledge base that includes proficiency in C#, SQL, MSTest, MVC, ASP.Net Core, HTML, CSS, and React. This journey also saw me applying my skills during a rewarding three-month internship. Notably, I independently undertook and completed the solo project "AptekaSoftware." This experience has not only broadened my technical expertise but has also equipped me with practical, hands-on experience in the field. Excited to leverage these skills and contribute meaningfully in future endeavors!
