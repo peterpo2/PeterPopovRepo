@@ -11,5 +11,6 @@ namespace APTEKA_Software.Services.Contracts
         User UpdateUser(int id, User user, User sender);
         bool DeleteUser(int id, User user);
         bool UsernameExists(string username);
+        void ReassignUserRecords(int oldUserId, int newUserId);
     }
 }

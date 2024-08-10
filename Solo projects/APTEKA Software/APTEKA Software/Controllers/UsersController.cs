@@ -161,29 +161,37 @@ namespace APTEKA_Software.Controllers
                 return View(viewModel);
             }
         }
-
         [HttpGet]
         public IActionResult ConfirmDelete(int id)
         {
-            User user = usersService.GetUser(id);
+            var user = usersService.GetUser(id);
 
             if (user == null)
             {
                 return RedirectToAction("Index");
             }
 
+            var users = usersService.GetAllUsers().Where(u => u.UserId != id).ToList();
+            ViewBag.Users = users;
+
             return View(user);
         }
 
         [HttpPost]
-        public IActionResult ConfirmDelete(int id, bool confirm)
+        public IActionResult ConfirmDelete(int id, int? reassignToUserId)
         {
-            User user = usersService.GetUser(id);
+            var user = usersService.GetUser(id);
 
             try
             {
-                if (confirm)
+                if (reassignToUserId.HasValue)
                 {
+                    // Reassign deliveries and sales to another user
+                    usersService.ReassignUserRecords(id, reassignToUserId.Value);
+                }
+                else
+                {
+                    // Delete the user
                     usersService.DeleteUser(id, user);
                 }
 
@@ -193,9 +201,13 @@ namespace APTEKA_Software.Controllers
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
 
+                var users = usersService.GetAllUsers().Where(u => u.UserId != id).ToList();
+                ViewBag.Users = users;
+
                 return View(user);
             }
         }
+
 
         [HttpGet]
         public IActionResult Detail(int id)

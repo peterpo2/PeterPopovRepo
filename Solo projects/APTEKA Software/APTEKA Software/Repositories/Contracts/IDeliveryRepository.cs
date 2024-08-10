@@ -6,5 +6,8 @@ namespace APTEKA_Software.Repositories.Contracts
     {
         List<Delivery> GetAllDeliveries();
         void MakeDelivery(Delivery delivery);
+
+        void ReassignDeliveries(int oldUserId, int newUserId);
     }
+
 }

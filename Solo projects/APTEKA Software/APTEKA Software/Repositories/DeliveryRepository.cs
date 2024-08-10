@@ -1,6 +1,7 @@
 ﻿using APTEKA_Software.Data;
 using APTEKA_Software.Models;
 using APTEKA_Software.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace APTEKA_Software.Repositories
 {
@@ -20,6 +21,17 @@ namespace APTEKA_Software.Repositories
         public void MakeDelivery(Delivery delivery)
         {
             context.Deliveries.Add(delivery);
+            context.SaveChanges();
+        }
+        public void ReassignDeliveries(int oldUserId, int newUserId)
+        {
+            var deliveries = context.Deliveries.Where(d => d.UserId == oldUserId).ToList();
+
+            foreach (var delivery in deliveries)
+            {
+                delivery.UserId = newUserId;
+            }
+
             context.SaveChanges();
         }
     }

@@ -3,6 +3,7 @@ using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services.Contracts;
 using APTEKA_Software.Exeptions;
 using System.Reflection;
+using APTEKA_Software.Repositories;
 
 namespace APTEKA_Software.Services
 {
@@ -12,6 +13,8 @@ namespace APTEKA_Software.Services
         private const string DuplicateUsernameErrorMessage = "Username '{0}' is already taken.";
 
         private readonly IUserRepository userRepository;
+        private readonly ISaleRepository salesRepository;
+        private readonly IDeliveryRepository deliveryRepository;
 
         public UserService(IUserRepository userRepository)
         {
@@ -94,5 +97,20 @@ namespace APTEKA_Software.Services
 
             return usernameExists;
         }
+
+        public void ReassignUserRecords(int oldUserId, int newUserId)
+        {
+            var oldUser = userRepository.GetUser(oldUserId);
+            var newUser = userRepository.GetUser(newUserId);
+
+            if (oldUser == null || newUser == null)
+            {
+                throw new InvalidOperationException("Invalid user(s) selected for reassignment.");
+            }
+            deliveryRepository.ReassignDeliveries(oldUserId, newUserId);
+            salesRepository.ReassignSales(oldUserId, newUserId);
+            userRepository.DeleteUser(oldUserId);
+        }
+
     }
 }
