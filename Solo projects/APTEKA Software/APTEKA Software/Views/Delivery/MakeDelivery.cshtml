@@ -1,35 +1,102 @@
-﻿@model APTEKA_Software.Models.ViewModels.ItemViewModel
+﻿@model APTEKA_Software.Models.ViewModels.DeliveryViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Създай Доставка";
     Layout = "_Layout";
 }
+
 <h2>Създай Нова Доставка</h2>
 
 <div class="container">
-    <h2>Направи доставка</h2>
     <p>
         <a class="nav-link" asp-controller="Items" asp-action="Index">Обратно към списъка с артикули</a>
     </p>
 
-    <form asp-controller="Delivery" asp-action="MakeDelivery" method="post">
+    <form id="deliveryForm" asp-controller="Delivery" asp-action="MakeDelivery" method="post">
         <div class="form-group">
-            <label for="ItemName">Име:</label>
-            <input type="text" class="form-control" id="ItemName" name="ItemName" value="@Model.ItemName" />
-        </div>
-        <div class="form-group">
-            <label for="RemainingQuantity">Оставащо количество:</label>
-            <input type="text" id="RemainingQuantity" class="form-control" value="@Model.AvailableQuantity">
-        </div>
-        <div class="form-group">
-            <label for="SalePrice">Цена на артикула:</label>
-            <input type="text" id="SalePrice" class="form-control" value="@Model.SalePrice">
+            <label for="ItemId">Избери Артикул:</label>
+            <select class="form-control" id="ItemId" name="ItemId" required>
+                <option value="">-- Избери Артикул --</option>
+                @foreach (var item in Model.Items)
+                {
+                    <option value="@item.ItemId">@item.ItemName</option>
+                }
+            </select>
         </div>
         <div class="form-group">
             <label for="QuantityDelivered">Количество за доставка:</label>
-            <input type="number" id="QuantityDelivered" class="form-control" name="QuantityDelivered" min="1">
+            <input type="number" id="QuantityDelivered" class="form-control" name="QuantityDelivered" min="1" required>
         </div>
-        <button type="submit" class="btn btn-primary">Направи доставка</button>
+        <button type="button" class="btn btn-primary" id="addItemButton">Добави артикул</button>
     </form>
+
+    <h3>Добавени артикули</h3>
+    <p id="noItemsMessage">Няма добавени артикули</p>
+
+    <table class="table" id="addedItemsTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Артикул</th>
+                <th>Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-success" id="finalizeDeliveryButton" disabled>Финализирай Доставката</button>
 </div>
 
+<script>
+  
+    let addedItems = [];
+
+    document.getElementById('addItemButton').addEventListener('click', function () {
+        const itemId = document.getElementById('ItemId').value;
+        const itemName = document.getElementById('ItemId').options[document.getElementById('ItemId').selectedIndex].text;
+        const quantityDelivered = document.getElementById('QuantityDelivered').value;
+
+        if (itemId && quantityDelivered > 0) {
+          
+            addedItems.push({ itemId, itemName, quantityDelivered });
+
+           
+            const table = document.getElementById('addedItemsTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+
+            const itemNameCell = newRow.insertCell(0);
+            const quantityCell = newRow.insertCell(1);
+
+            itemNameCell.textContent = itemName;
+            quantityCell.textContent = quantityDelivered;
+
+           
+            document.getElementById('addedItemsTable').style.display = 'table';
+            document.getElementById('noItemsMessage').style.display = 'none';
+
+            
+            document.getElementById('finalizeDeliveryButton').disabled = false;
+        } else {
+            alert("Моля, изберете артикул и въведете количество.");
+        }
+    });
+
+    document.getElementById('finalizeDeliveryButton').addEventListener('click', function () {
+        if (confirm("Сигурни ли сте, че искате да финализирате доставката?")) {
+            const form = document.getElementById('deliveryForm');
+
+          
+            addedItems.forEach(item => {
+                const itemInput = document.createElement('input');
+                itemInput.type = 'hidden';
+                itemInput.name = 'AddedItems';
+                itemInput.value = `${item.itemId}:${item.quantityDelivered}`;
+                form.appendChild(itemInput);
+            });
+
+            
+            form.submit();
+        }
+    });
+</script>

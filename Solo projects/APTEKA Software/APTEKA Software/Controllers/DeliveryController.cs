@@ -50,52 +50,107 @@ namespace APTEKA_Software.Controllers
             return View(deliveryViewModels);
         }
 
+        // [HttpGet]
+        // public IActionResult MakeDelivery(int Id)
+        // {
+        //     if (this.authManager.CurrentUser == null)
+        //     {
+        //         return this.RedirectToAction("Login", "Users");
+        //     }
+        //     Item item = itemService.GetItemById(Id);
+        //
+        //     if (item == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     ItemViewModel itemViewModel = mapper.Map<ItemViewModel>(item);
+        //
+        //     return View(itemViewModel);
+        // }
+        //
+        // [HttpPost]
+        // public IActionResult MakeDelivery(int id, ItemViewModel itemViewModel)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return View(itemViewModel);
+        //     }
+        //     var userIdClaim = this.authManager.CurrentUser;
+        //     if (userIdClaim != null)
+        //     {
+        //         int currentUserId = userIdClaim.UserId;
+        //         itemViewModel.UserId = currentUserId;
+        //         Item updatedItem = mapper.Map<Item>(itemViewModel);
+        //
+        //         int remainingQuantity = deliveryService.GetRemainingQuantity(id);
+        //         int newAvailableQuantity = remainingQuantity + itemViewModel.QuantityDelivered;
+        //
+        //         var item = itemService.GetItemById(id);
+        //         item.AvailableQuantity = newAvailableQuantity;
+        //         itemService.UpdateItem(id, item);
+        //         this.deliveryService.CreateDelivery(itemViewModel, id);
+        //     }
+        //     else
+        //     {
+        //         throw new Exception("shit");
+        //     }
+        //
+        //     return RedirectToAction("Index", "Delivery");
+        // }
         [HttpGet]
-        public IActionResult MakeDelivery(int Id)
+        public IActionResult MakeDelivery()
         {
             if (this.authManager.CurrentUser == null)
             {
                 return this.RedirectToAction("Login", "Users");
             }
-            Item item = itemService.GetItemById(Id);
 
-            if (item == null)
+            var items = itemService.GetAllItems(); 
+            var itemViewModels = items.Select(i => mapper.Map<ItemViewModel>(i)).ToList();
+
+            var deliveryViewModel = new DeliveryViewModel
             {
-                return NotFound();
-            }
-            ItemViewModel itemViewModel = mapper.Map<ItemViewModel>(item);
+                Items = itemViewModels 
+            };
 
-            return View(itemViewModel);
+            return View(deliveryViewModel);
         }
 
         [HttpPost]
-        public IActionResult MakeDelivery(int id, ItemViewModel itemViewModel)
+        public IActionResult MakeDelivery(List<string> AddedItems)
         {
-            if (!ModelState.IsValid)
+            if (AddedItems == null || !AddedItems.Any())
             {
-                return View(itemViewModel);
+                return BadRequest("No items were added for delivery.");
             }
+
             var userIdClaim = this.authManager.CurrentUser;
             if (userIdClaim != null)
             {
                 int currentUserId = userIdClaim.UserId;
-                itemViewModel.UserId = currentUserId;
-                Item updatedItem = mapper.Map<Item>(itemViewModel);
 
-                int remainingQuantity = deliveryService.GetRemainingQuantity(id);
-                int newAvailableQuantity = remainingQuantity + itemViewModel.QuantityDelivered;
+                foreach (var item in AddedItems)
+                {
+                    var parts = item.Split(':');
+                    int itemId = int.Parse(parts[0]);
+                    int quantityDelivered = int.Parse(parts[1]);
 
-                var item = itemService.GetItemById(id);
-                item.AvailableQuantity = newAvailableQuantity;
-                itemService.UpdateItem(id, item);
-                this.deliveryService.CreateDelivery(itemViewModel, id);
+                    var itemViewModel = new ItemViewModel
+                    {
+                        UserId = currentUserId,
+                        QuantityDelivered = quantityDelivered
+                    };
+
+                    this.deliveryService.CreateDelivery(itemViewModel, itemId);
+                }
             }
             else
             {
-                throw new Exception("shit");
+                throw new Exception("Current user is not authenticated.");
             }
 
             return RedirectToAction("Index", "Delivery");
         }
+
     }
 }

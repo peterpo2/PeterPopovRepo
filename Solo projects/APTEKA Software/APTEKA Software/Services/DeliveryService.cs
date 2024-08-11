@@ -23,14 +23,35 @@ namespace APTEKA_Software.Services
             this.itemRepository = itemRepository;
         }
 
-        public void CreateDelivery(ItemViewModel itemViewModel,int itemId)
+        //public void CreateDelivery(ItemViewModel itemViewModel,int itemId)
+        //{
+        //    var item = itemService.GetItemById(itemId);
+        //    var user = userService.GetUser(itemViewModel.UserId);
+        //
+        //    if (item == null || item.AvailableQuantity < itemViewModel.QuantitySold)
+        //    {
+        //        throw new Exception("Артикулът не е наличен или няма достатъчно количество за продажба.");
+        //    }
+        //
+        //    var delivery = new Delivery
+        //    {
+        //        UserId = user.UserId,
+        //        ItemId = itemId,
+        //        DeliveryDate = DateTime.Now,
+        //        QuantityDelivered = itemViewModel.QuantityDelivered,
+        //        TotalAmount = itemViewModel.QuantityDelivered * item.SalePrice
+        //    };
+        //    deliveryRepository.MakeDelivery(delivery);
+        //    item.AvailableQuantity += itemViewModel.QuantityDelivered;
+        //}
+        public void CreateDelivery(ItemViewModel itemViewModel, int itemId)
         {
             var item = itemService.GetItemById(itemId);
             var user = userService.GetUser(itemViewModel.UserId);
 
-            if (item == null || item.AvailableQuantity < itemViewModel.QuantitySold)
+            if (item == null || item.AvailableQuantity < itemViewModel.QuantityDelivered)
             {
-                throw new Exception("Артикулът не е наличен или няма достатъчно количество за продажба.");
+                throw new Exception("Артикулът не е наличен или няма достатъчно количество за доставка.");
             }
 
             var delivery = new Delivery
@@ -41,9 +62,12 @@ namespace APTEKA_Software.Services
                 QuantityDelivered = itemViewModel.QuantityDelivered,
                 TotalAmount = itemViewModel.QuantityDelivered * item.SalePrice
             };
+
             deliveryRepository.MakeDelivery(delivery);
             item.AvailableQuantity += itemViewModel.QuantityDelivered;
+            itemService.UpdateItem(itemId, item);
         }
+
         public int GetRemainingQuantity(int itemId)
         {
             var item = itemRepository.GetById(itemId);
