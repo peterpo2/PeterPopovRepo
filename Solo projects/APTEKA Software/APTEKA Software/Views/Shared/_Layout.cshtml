@@ -39,6 +39,10 @@
             background-color: rgba(255, 255, 255, 0.9); /* Прозрачен фон на футъра */
             border-radius: 5px;
         }
+
+        .dropdown-menu {
+            background-color: rgba(255, 255, 255, 0.9); /* Transparent dropdown background */
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script>
@@ -57,25 +61,37 @@
                     <ul class="navbar-nav me-auto">
                         @if (authManager.CurrentUser != null)
                         {
-                            <li class="nav-item"><a class="nav-link text-danger" href="/swagger/index.html" style="font-weight: bold;">Developer API</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" href="/swagger/index.html" style="font-weight: bold;">Developer API</a>
+                            </li>
+                            <!-- Delivery Submenu -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="deliveryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Доставка
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="deliveryDropdown">
+                                    <a class="dropdown-item" href="/Delivery/MakeDelivery">Нова Доставка</a>
+                                    <a class="dropdown-item" href="/Delivery">Доставки</a>
+                                </div>
+                            </li>
+                            <!-- Sales Submenu -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="salesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Продажби
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="salesDropdown">
+                                    <a class="dropdown-item" href="/Sales/MakeSale">Нова Продажба</a>
+                                    <a class="dropdown-item" href="/Sales">Продажби</a>
+                                </div>
+                            </li>
+                            <!-- Items -->
                             <li class="nav-item">
                                 <a class="nav-link" href="/Items">Артикули</a>
                             </li>
+                            <!-- Users -->
                             <li class="nav-item">
                                 <a class="nav-link" href="/Users">Потребители</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Sales/MakeSale">Нова Продажба</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Sales">Продажби</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Delivery/MakeDelivery">Нова Доставка</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Delivery">Доставки</a>
-                            </li>                                                                               
                         }
                     </ul>
                     <ul class="navbar-nav ml-auto">
@@ -84,9 +100,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/Users/Login">Вход</a>
                             </li>
-                           //<li class="nav-item">
-                           //    <a class="nav-link" href="/Users/Register">Регистрация</a>
-                           //</li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/Home/About">За проекта</a>
                             </li>
@@ -113,7 +126,5 @@
     <footer class="d-flex justify-content-center bg-dark">
         <small style="color: #ffffff;">© @DateTime.Now.Year, Apteka Software</small>
     </footer>
-
-    
 </body>
 </html>

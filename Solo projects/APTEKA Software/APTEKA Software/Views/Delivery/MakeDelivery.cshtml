@@ -5,15 +5,16 @@
     Layout = "_Layout";
 }
 
-<h2>Създай Нова Доставка</h2>
+<h2 class="my-4">Създай Нова Доставка</h2>
 
 <div class="container">
-    <p>
-        <a class="nav-link" asp-controller="Items" asp-action="Index">Обратно към списъка с артикули</a>
-    </p>
+    <div class="mb-3">
+        <a class="btn btn-secondary" asp-controller="Items" asp-action="Index">Обратно към списъка с артикули</a>
+        <a class="btn btn-primary" asp-controller="Items" asp-action="Create">Създай нов артикул</a>
+    </div>
 
     <form id="deliveryForm" asp-controller="Delivery" asp-action="MakeDelivery" method="post">
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="ItemId">Избери Артикул:</label>
             <select class="form-control" id="ItemId" name="ItemId" required>
                 <option value="">-- Избери Артикул --</option>
@@ -23,17 +24,17 @@
                 }
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group mb-3">
             <label for="QuantityDelivered">Количество за доставка:</label>
             <input type="number" id="QuantityDelivered" class="form-control" name="QuantityDelivered" min="1" required>
         </div>
         <button type="button" class="btn btn-primary" id="addItemButton">Добави артикул</button>
     </form>
 
-    <h3>Добавени артикули</h3>
-    <p id="noItemsMessage">Няма добавени артикули</p>
+    <h3 class="mt-4">Добавени артикули</h3>
+    <p id="noItemsMessage" class="text-muted">Няма добавени артикули</p>
 
-    <table class="table" id="addedItemsTable" style="display:none;">
+    <table class="table mt-2" id="addedItemsTable" style="display:none;">
         <thead>
             <tr>
                 <th>Артикул</th>
@@ -41,15 +42,13 @@
             </tr>
         </thead>
         <tbody>
-            
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-success" id="finalizeDeliveryButton" disabled>Финализирай Доставката</button>
+    <button type="button" class="btn btn-success mt-3" id="finalizeDeliveryButton" disabled>Финализирай Доставката</button>
 </div>
 
 <script>
-  
     let addedItems = [];
 
     document.getElementById('addItemButton').addEventListener('click', function () {
@@ -58,10 +57,8 @@
         const quantityDelivered = document.getElementById('QuantityDelivered').value;
 
         if (itemId && quantityDelivered > 0) {
-          
             addedItems.push({ itemId, itemName, quantityDelivered });
 
-           
             const table = document.getElementById('addedItemsTable').getElementsByTagName('tbody')[0];
             const newRow = table.insertRow();
 
@@ -71,11 +68,9 @@
             itemNameCell.textContent = itemName;
             quantityCell.textContent = quantityDelivered;
 
-           
             document.getElementById('addedItemsTable').style.display = 'table';
             document.getElementById('noItemsMessage').style.display = 'none';
 
-            
             document.getElementById('finalizeDeliveryButton').disabled = false;
         } else {
             alert("Моля, изберете артикул и въведете количество.");
@@ -86,7 +81,6 @@
         if (confirm("Сигурни ли сте, че искате да финализирате доставката?")) {
             const form = document.getElementById('deliveryForm');
 
-          
             addedItems.forEach(item => {
                 const itemInput = document.createElement('input');
                 itemInput.type = 'hidden';
@@ -95,7 +89,6 @@
                 form.appendChild(itemInput);
             });
 
-            
             form.submit();
         }
     });
