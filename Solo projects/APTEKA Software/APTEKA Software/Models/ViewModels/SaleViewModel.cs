@@ -14,7 +14,6 @@ namespace APTEKA_Software.Models.ViewModels
         public int ItemId { get; set; }
         public string ItemName { get; set; }
 
-
         [Display(Name = "Дата на продажба")]
         public DateTime SaleDate { get; set; }
 
@@ -24,7 +23,11 @@ namespace APTEKA_Software.Models.ViewModels
         [Display(Name = "Обща сума на артикули")]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal TotalAmount { get; set; }
+
         public UserViewModel User { get; set; }
         public ItemViewModel Item { get; set; }
+
+        // New property to hold the list of items
+        public List<ItemViewModel> Items { get; set; }
     }
 }

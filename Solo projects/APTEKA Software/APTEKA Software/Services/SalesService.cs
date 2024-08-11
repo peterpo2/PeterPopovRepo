@@ -1,4 +1,5 @@
 ﻿using APTEKA_Software.Exeptions;
+using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
 using APTEKA_Software.Models.ViewModels;
 using APTEKA_Software.Repositories.Contracts;
@@ -13,14 +14,16 @@ namespace APTEKA_Software.Services
         private readonly ISaleRepository saleRepository;
         private readonly IUserService userService;
         private readonly IItemService itemService;
+        private readonly AuthManager authManager;
 
-        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository, IUserService userService, IItemService itemService)
+        public SalesService(IItemRepository itemRepository, IUserRepository userRepository, ISaleRepository saleRepository, IUserService userService, IItemService itemService, AuthManager authManager)
         {
             this.itemRepository = itemRepository;
             this.userRepository = userRepository;
             this.saleRepository = saleRepository;
             this.userService = userService;
             this.itemService = itemService;
+            this.authManager = authManager;
         }
         public List<Sale> GetAllSales()
         {
@@ -58,12 +61,34 @@ namespace APTEKA_Software.Services
         }
 
         //RAZOR PAGES CONTROLLER
-        public void CreateSale(ItemViewModel itemViewModel, int itemId)
+        // public void CreateSale(ItemViewModel itemViewModel, int itemId)
+        // {
+        //     var item = itemService.GetItemById(itemId);
+        //     var user = userService.GetUser(itemViewModel.UserId);
+        //
+        //     if (item == null || item.AvailableQuantity < //itemViewModel.QuantitySold)
+        //     {
+        //         throw new Exception("Артикулът не е наличен или няма //достатъчно количество за продажба.");
+        //     }
+        //
+        //     var sale = new Sale
+        //     {
+        //         UserId = user.UserId,
+        //         ItemId = itemId,
+        //         SaleDate = DateTime.Now,
+        //         QuantitySold = itemViewModel.QuantitySold,
+        //         TotalAmount = itemViewModel.QuantitySold * item.SalePrice
+        //     };
+        //
+        //     saleRepository.MakeSale(sale);
+        //     item.AvailableQuantity -= itemViewModel.QuantitySold;
+        // }
+        public void CreateSale(int itemId, int quantitySold)
         {
             var item = itemService.GetItemById(itemId);
-            var user = userService.GetUser(itemViewModel.UserId);
+            var user = userService.GetUser(authManager.CurrentUser.UserId);
 
-            if (item == null || item.AvailableQuantity < itemViewModel.QuantitySold)
+            if (item == null || item.AvailableQuantity < quantitySold)
             {
                 throw new Exception("Артикулът не е наличен или няма достатъчно количество за продажба.");
             }
@@ -73,12 +98,13 @@ namespace APTEKA_Software.Services
                 UserId = user.UserId,
                 ItemId = itemId,
                 SaleDate = DateTime.Now,
-                QuantitySold = itemViewModel.QuantitySold,
-                TotalAmount = itemViewModel.QuantitySold * item.SalePrice
+                QuantitySold = quantitySold,
+                TotalAmount = quantitySold * item.SalePrice
             };
 
             saleRepository.MakeSale(sale);
-            item.AvailableQuantity -= itemViewModel.QuantitySold;
+            item.AvailableQuantity -= quantitySold;
+            itemRepository.Update(item);
         }
 
         public int GetRemainingQuantity(int itemId)

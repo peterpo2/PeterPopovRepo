@@ -30,11 +30,9 @@ namespace APTEKA_Software.Controllers
             var sales = salesService.GetAllSales();
             var saleViewModels = new List<SaleViewModel>();
 
-            var mapper = HttpContext.RequestServices.GetService<IMapper>();
-
             foreach (var sale in sales)
             {
-                var saleViewModel = mapper.Map<Sale, SaleViewModel>(sale);
+                var saleViewModel = modelMapper.Map<Sale, SaleViewModel>(sale);
 
                 var user = userService.GetUser(sale.UserId);
                 var item = itemService.GetItemById(sale.ItemId);
@@ -49,48 +47,50 @@ namespace APTEKA_Software.Controllers
         }
 
         [HttpGet]
-        public IActionResult MakeSale(int Id)
+        public IActionResult MakeSale()
         {
             if (this.authManager.CurrentUser == null)
             {
                 return this.RedirectToAction("Login", "Users");
             }
-            Item item = itemService.GetItemById(Id);
 
-            if (item == null)
+            var items = itemService.GetAllItems();
+            var itemViewModels = items.Select(item => modelMapper.Map<ItemViewModel>(item)).ToList();
+
+            var saleViewModel = new SaleViewModel
             {
-                return NotFound();
-            }
-            ItemViewModel itemViewModel = modelMapper.Map<ItemViewModel>(item);
+                Items = itemViewModels // Ensure this list is not null
+            };
 
-            return View(itemViewModel);
+            return View(saleViewModel);
         }
 
         [HttpPost]
-        public IActionResult MakeSale(int id, ItemViewModel itemViewModel)
+        public IActionResult MakeSale(SaleViewModel saleViewModel, List<AddedItemViewModel> addedItems)
         {
             if (!ModelState.IsValid)
             {
-                return View(itemViewModel);
+                return View(saleViewModel);
             }
+
             var userIdClaim = this.authManager.CurrentUser;
-            if (userIdClaim != null)
+            if (userIdClaim == null)
             {
-                int currentUserId = userIdClaim.UserId;
-                itemViewModel.UserId = currentUserId;
-                Item updatedItem = modelMapper.Map<Item>(itemViewModel);
-
-                int remainingQuantity = salesService.GetRemainingQuantity(id);
-                int newAvailableQuantity = remainingQuantity - itemViewModel.QuantitySold;
-
-                var item = itemService.GetItemById(id);
-                item.AvailableQuantity = newAvailableQuantity;
-                itemService.UpdateItem(id, item);
-                this.salesService.CreateSale(itemViewModel, id);
+                return RedirectToAction("Login", "Users");
             }
-            else
+
+            try
             {
-                throw new Exception("shit");
+                // Process each added item
+                foreach (var item in addedItems)
+                {
+                    salesService.CreateSale(item.ItemId, item.QuantitySold);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(saleViewModel);
             }
 
             return RedirectToAction("Index", "Sales");
