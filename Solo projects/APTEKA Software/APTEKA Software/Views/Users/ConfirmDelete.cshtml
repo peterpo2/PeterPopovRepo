@@ -19,7 +19,7 @@
                         <input type="hidden" name="id" value="@Model.UserId" />
 
                         <div class="form-group">
-                            <label for="reassignUser">If you don't want to delete, choose a user to reassign their deliveries and sales:</label>
+                            <label for="reassignUser">If you want to delete, choose a user to reassign their deliveries and sales:</label>
                             <select name="ReassignToUserId" class="form-control" id="reassignUser">
                                 <option value="">Select User</option>
                                 @foreach (var user in ViewBag.Users)

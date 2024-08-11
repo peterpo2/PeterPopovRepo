@@ -35,5 +35,11 @@ namespace APTEKA_Software.Repositories
 
             context.SaveChanges();
         }
+
+        public bool HasSales(int userId)
+        {
+            return context.Sale.Any(s => s.UserId == userId);
+        }
+
     }
 }

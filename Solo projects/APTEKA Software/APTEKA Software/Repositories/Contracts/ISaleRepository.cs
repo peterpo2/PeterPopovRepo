@@ -7,6 +7,7 @@ namespace APTEKA_Software.Repositories.Contracts
         List<Sale> GetAll();
         void MakeSale(Sale sale);
         void ReassignSales(int oldUserId, int newUserId);
+        bool HasSales(int userId);
     }
 
 }

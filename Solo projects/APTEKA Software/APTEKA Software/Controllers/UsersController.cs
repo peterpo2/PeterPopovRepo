@@ -2,6 +2,8 @@
 using APTEKA_Software.Helpers;
 using APTEKA_Software.Models;
 using APTEKA_Software.Models.ViewModels;
+using APTEKA_Software.Repositories;
+using APTEKA_Software.Repositories.Contracts;
 using APTEKA_Software.Services.Contracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +19,9 @@ namespace APTEKA_Software.Controllers
         private readonly IDeliveryService deliveryService;
         private readonly ISalesService salesService;
         private readonly IItemService itemService;
+        private readonly IUserRepository userRepository;
 
-        public UsersController(AuthManager authManager, IUserService userService, IMapper modelMapper, IDeliveryService deliveryService, ISalesService salesService, IItemService itemService)
+        public UsersController(AuthManager authManager, IUserService userService, IMapper modelMapper, IDeliveryService deliveryService, ISalesService salesService, IItemService itemService, IUserRepository userRepository)
         {
             this.authManager = authManager;
             this.usersService = userService;
@@ -26,15 +29,17 @@ namespace APTEKA_Software.Controllers
             this.deliveryService = deliveryService;
             this.salesService = salesService;
             this.itemService = itemService;
+            this.userRepository = userRepository;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            List<User> users = usersService.GetAllUsers().Where(u => !u.IsDeleted).ToList();
-            List<UserViewModel> userViewModels = modelMapper.Map<List<UserViewModel>>(users);
+            var users = usersService.GetAllUsers().Where(u => !u.IsDeleted).ToList();
+            var userViewModels = modelMapper.Map<List<UserViewModel>>(users);
             return View(userViewModels);
         }
+
 
         [HttpGet]
         public IActionResult Login()
@@ -186,12 +191,10 @@ namespace APTEKA_Software.Controllers
             {
                 if (reassignToUserId.HasValue)
                 {
-                    // Reassign deliveries and sales to another user
                     usersService.ReassignUserRecords(id, reassignToUserId.Value);
                 }
                 else
                 {
-                    // Delete the user
                     usersService.DeleteUser(id, user);
                 }
 
@@ -253,5 +256,24 @@ namespace APTEKA_Software.Controllers
 
             return View(viewModel);
         }
+        [HttpGet]
+        public IActionResult GetAllUserViewModels()
+        {
+            var users = userRepository.GetAllUsers()
+                                      .Select(u => new UserViewModel
+                                      {
+                                          UserId = u.UserId,
+                                          Username = u.Username,
+                                          FirstName = u.FirstName,
+                                          LastName = u.LastName,
+                                          DateRegistered = u.DateRegistered,
+                                          Sales = u.Sales != null ? u.Sales.ToList() : new List<Sale>(),
+                                          Deliveries = u.Deliveries != null ? u.Deliveries.ToList() : new List<Delivery>()
+                                      })
+                                      .ToList();
+
+            return View(users);
+        }
+
     }
 }

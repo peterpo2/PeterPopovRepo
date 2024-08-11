@@ -25,5 +25,9 @@ namespace APTEKA_Software.Models
         public bool IsDeleted { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsBlocked { get; set; }
+
+        public ICollection<Sale> Sales { get; set; }
+        public ICollection<Delivery> Deliveries { get; set; }
+
     }
 }

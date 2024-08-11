@@ -2,6 +2,7 @@
 using APTEKA_Software.Exeptions;
 using APTEKA_Software.Models;
 using APTEKA_Software.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace APTEKA_Software.Repositories
 {
@@ -34,10 +35,18 @@ namespace APTEKA_Software.Repositories
             return user;
         }
 
-        public List<User> GetAllUsers()
+        //  public List<User> GetAllUsers()
+        //  {
+        //      return context.Users.ToList();
+        //  }
+        public IQueryable<User> GetAllUsers()
         {
-            return context.Users.ToList();
+            return context.Users
+                          .Include(u => u.Sales)
+                          .Include(u => u.Deliveries);
         }
+
+
 
         public User CreateUser(User user)
         {

@@ -16,9 +16,11 @@ namespace APTEKA_Software.Services
         private readonly ISaleRepository salesRepository;
         private readonly IDeliveryRepository deliveryRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository,ISaleRepository salesRepository, IDeliveryRepository deliveryRepository)
         {
-            this.userRepository = userRepository;
+            this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            this.salesRepository = salesRepository ?? throw new ArgumentNullException(nameof(salesRepository));
+            this.deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));
         }
 
         public User GetUser(int id)
@@ -33,8 +35,9 @@ namespace APTEKA_Software.Services
 
         public List<User> GetAllUsers()
         {
-            return userRepository.GetAllUsers();
+            return userRepository.GetAllUsers().ToList(); 
         }
+
 
         public User CreateUser(User user)
         {
@@ -75,13 +78,41 @@ namespace APTEKA_Software.Services
         public bool DeleteUser(int id, User user)
         {
             var userToDelete = userRepository.GetUser(id);
+            if (userToDelete == null)
+            {
+                throw new InvalidOperationException("User not found.");
+            }
+
             if (!userToDelete.Equals(user) && !user.IsAdmin)
             {
                 throw new UnauthorizedOperationException(ModifyUserErrorMessage);
             }
 
-            return userRepository.DeleteUser(id);
+            // Check if the user has deliveries or sales
+            bool hasDeliveries = deliveryRepository.HasDeliveries(id);
+            bool hasSales = salesRepository.HasSales(id);
+
+            if (!hasDeliveries && !hasSales)
+            {
+                // If the user has neither deliveries nor sales, simply delete the user
+                return userRepository.DeleteUser(id);
+            }
+
+            // If the user has only deliveries or sales, notify the admin
+            if (hasDeliveries && !hasSales)
+            {
+                throw new InvalidOperationException("The user has only deliveries. Please reassign them before deleting.");
+            }
+            else if (!hasDeliveries && hasSales)
+            {
+                throw new InvalidOperationException("The user has only sales. Please reassign them before deleting.");
+            }
+
+            // If the user has both deliveries and sales, return false as deletion should not proceed without reassignment
+            return false;
         }
+
+
         public bool UsernameExists(string username)
         {
             bool usernameExists = true;
@@ -97,7 +128,6 @@ namespace APTEKA_Software.Services
 
             return usernameExists;
         }
-
         public void ReassignUserRecords(int oldUserId, int newUserId)
         {
             var oldUser = userRepository.GetUser(oldUserId);
@@ -107,10 +137,12 @@ namespace APTEKA_Software.Services
             {
                 throw new InvalidOperationException("Invalid user(s) selected for reassignment.");
             }
+
             deliveryRepository.ReassignDeliveries(oldUserId, newUserId);
             salesRepository.ReassignSales(oldUserId, newUserId);
             userRepository.DeleteUser(oldUserId);
         }
+
 
     }
 }

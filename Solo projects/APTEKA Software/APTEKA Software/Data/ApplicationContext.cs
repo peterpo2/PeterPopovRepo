@@ -18,6 +18,16 @@ namespace APTEKA_Software.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+            .HasMany(u => u.Sales)
+            .WithOne(s => s.User)
+            .HasForeignKey(s => s.UserId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Deliveries)
+                .WithOne(d => d.User)
+                .HasForeignKey(d => d.UserId);
+
             List<User> users = new List<User>()
             {
                 new User

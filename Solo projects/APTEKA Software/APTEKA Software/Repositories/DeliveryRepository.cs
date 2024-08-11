@@ -34,5 +34,10 @@ namespace APTEKA_Software.Repositories
 
             context.SaveChanges();
         }
+        public bool HasDeliveries(int userId)
+        {
+            return context.Deliveries.Any(d => d.UserId == userId);
+        }
+
     }
 }
