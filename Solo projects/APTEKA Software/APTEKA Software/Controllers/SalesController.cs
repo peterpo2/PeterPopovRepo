@@ -51,19 +51,17 @@ namespace APTEKA_Software.Controllers
         {
             if (this.authManager.CurrentUser == null)
             {
-                return this.RedirectToAction("Login", "Users");
+                var target = Url.Action("MakeSale", "Sales");   // къде искаш да се върнеш след логин
+                return RedirectToAction("Login", "Users", new { returnUrl = target });
             }
 
             var items = itemService.GetAllItems();
             var itemViewModels = items.Select(item => modelMapper.Map<ItemViewModel>(item)).ToList();
 
-            var saleViewModel = new SaleViewModel
-            {
-                Items = itemViewModels // Ensure this list is not null
-            };
-
+            var saleViewModel = new SaleViewModel { Items = itemViewModels };
             return View(saleViewModel);
         }
+
 
         [HttpPost]
         public IActionResult MakeSale(SaleViewModel saleViewModel, List<AddedItemViewModel> addedItems)

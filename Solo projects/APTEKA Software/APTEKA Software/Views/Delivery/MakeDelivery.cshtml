@@ -1,95 +1,130 @@
-﻿@model APTEKA_Software.Models.ViewModels.DeliveryViewModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using APTEKA_Software.Models.ViewModels
+@model DeliveryViewModel
 @{
-    ViewData["Title"] = "Създай Доставка";
+    ViewData["Title"] = "Създай Нова Доставка";
     Layout = "_Layout";
 }
 
-<h2 class="my-4">Създай Нова Доставка</h2>
-
-<div class="container">
-    <div class="mb-3">
-        <a class="btn btn-secondary" asp-controller="Items" asp-action="Index">Обратно към списъка с артикули</a>
-        <a class="btn btn-primary" asp-controller="Items" asp-action="Create">Създай нов артикул</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">@ViewData["Title"]</h2>
+    <div class="d-flex gap-2">
+        <a asp-controller="Items" asp-action="Index" class="btn btn-outline-secondary">Обратно към списъка с артикули</a>
+        <a asp-controller="Items" asp-action="Create" class="btn btn-primary">Създай нов артикул</a>
     </div>
-
-    <form id="deliveryForm" asp-controller="Delivery" asp-action="MakeDelivery" method="post">
-        <div class="form-group mb-3">
-            <label for="ItemId">Избери Артикул:</label>
-            <select class="form-control" id="ItemId" name="ItemId" required>
-                <option value="">-- Избери Артикул --</option>
-                @foreach (var item in Model.Items)
-                {
-                    <option value="@item.ItemId">@item.ItemName</option>
-                }
-            </select>
-        </div>
-        <div class="form-group mb-3">
-            <label for="QuantityDelivered">Количество за доставка:</label>
-            <input type="number" id="QuantityDelivered" class="form-control" name="QuantityDelivered" min="1" required>
-        </div>
-        <button type="button" class="btn btn-primary" id="addItemButton">Добави артикул</button>
-    </form>
-
-    <h3 class="mt-4">Добавени артикули</h3>
-    <p id="noItemsMessage" class="text-muted">Няма добавени артикули</p>
-
-    <table class="table mt-2" id="addedItemsTable" style="display:none;">
-        <thead>
-            <tr>
-                <th>Артикул</th>
-                <th>Количество</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <button type="button" class="btn btn-success mt-3" id="finalizeDeliveryButton" disabled>Финализирай Доставката</button>
 </div>
 
-<script>
-    let addedItems = [];
+<div class="card shadow-sm">
+    <div class="card-body">
+        <!-- Форма, която ще постне към Delivery/MakeDelivery (POST) -->
+        <form asp-controller="Delivery" asp-action="MakeDelivery" method="post" id="deliveryForm">
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Избери Артикул:</label>
+                    <select class="form-select" id="itemSelect">
+                        <option value="">-- изберете --</option>
+                        @for (int i = 0; i < (Model?.Items?.Count ?? 0); i++)
+                        {
+                            <option value="@Model.Items[i].ItemId">@Model.Items[i].ItemName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Количество за доставка:</label>
+                    <input type="number" id="qtyInput" class="form-control" min="1" step="1" value="1" />
+                </div>
+                <div class="col-12 col-md-3 d-flex align-items-end">
+                    <button type="button" id="addBtn" class="btn btn-primary w-100">Добави артикул</button>
+                </div>
+            </div>
 
-    document.getElementById('addItemButton').addEventListener('click', function () {
-        const itemId = document.getElementById('ItemId').value;
-        const itemName = document.getElementById('ItemId').options[document.getElementById('ItemId').selectedIndex].text;
-        const quantityDelivered = document.getElementById('QuantityDelivered').value;
+            <h4 class="mb-2">Добавени артикули</h4>
+            <div class="table-responsive mb-3">
+                <table class="table table-hover align-middle mb-0" id="addedTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Артикул</th>
+                            <th class="text-end">Количество</th>
+                            <th class="text-end">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @* редовете се добавят динамично *@
+                    </tbody>
+                </table>
+            </div>
 
-        if (itemId && quantityDelivered > 0) {
-            addedItems.push({ itemId, itemName, quantityDelivered });
+            <!-- Тук ще се добавят скритите <input name="AddedItems" value="id:qty"> -->
+            <div id="hiddenInputs"></div>
 
-            const table = document.getElementById('addedItemsTable').getElementsByTagName('tbody')[0];
-            const newRow = table.insertRow();
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-check2-circle"></i> Финализирай Доставката
+            </button>
+        </form>
+    </div>
+</div>
 
-            const itemNameCell = newRow.insertCell(0);
-            const quantityCell = newRow.insertCell(1);
+@section Scripts {
+    <script>
+        (function () {
+            const itemSelect = document.getElementById('itemSelect');
+            const qtyInput = document.getElementById('qtyInput');
+            const addBtn = document.getElementById('addBtn');
+            const tableBody = document.querySelector('#addedTable tbody');
+            const hiddenInputs = document.getElementById('hiddenInputs');
 
-            itemNameCell.textContent = itemName;
-            quantityCell.textContent = quantityDelivered;
+            // локален индекс за редовете
+            let rowIndex = 0;
 
-            document.getElementById('addedItemsTable').style.display = 'table';
-            document.getElementById('noItemsMessage').style.display = 'none';
+            addBtn.addEventListener('click', function () {
+                const itemId = itemSelect.value;
+                const itemName = itemSelect.options[itemSelect.selectedIndex]?.text || '';
+                const qty = parseInt(qtyInput.value, 10);
 
-            document.getElementById('finalizeDeliveryButton').disabled = false;
-        } else {
-            alert("Моля, изберете артикул и въведете количество.");
-        }
-    });
+                if (!itemId) { alert('Моля, изберете артикул.'); return; }
+                if (!qty || qty < 1) { alert('Въведете валидно количество (минимум 1).'); return; }
 
-    document.getElementById('finalizeDeliveryButton').addEventListener('click', function () {
-        if (confirm("Сигурни ли сте, че искате да финализирате доставката?")) {
-            const form = document.getElementById('deliveryForm');
+                // добавяме ред в таблицата
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-row', rowIndex);
 
-            addedItems.forEach(item => {
-                const itemInput = document.createElement('input');
-                itemInput.type = 'hidden';
-                itemInput.name = 'AddedItems';
-                itemInput.value = `${item.itemId}:${item.quantityDelivered}`;
-                form.appendChild(itemInput);
+                tr.innerHTML = `
+                    <td class="fw-medium">${itemName}</td>
+                    <td class="text-end">${qty}</td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-remove="${rowIndex}">
+                            <i class="bi bi-x-lg"></i> Премахни
+                        </button>
+                    </td>
+                `;
+
+                tableBody.appendChild(tr);
+
+                // добавяме hidden input с име EXACT "AddedItems" и стойност "itemId:qty"
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'AddedItems';
+                input.value = itemId + ':' + qty;
+                input.setAttribute('data-row', rowIndex);
+                hiddenInputs.appendChild(input);
+
+                // ресет на полетата
+                itemSelect.value = '';
+                qtyInput.value = '1';
+
+                rowIndex++;
             });
 
-            form.submit();
-        }
-    });
-</script>
+            // премахване на ред + съответния hidden input
+            tableBody.addEventListener('click', function (e) {
+                const btn = e.target.closest('button[data-remove]');
+                if (!btn) return;
+
+                const idx = btn.getAttribute('data-remove');
+                const tr = tableBody.querySelector(`tr[data-row="${idx}"]`);
+                const inp = hiddenInputs.querySelector(`input[data-row="${idx}"]`);
+                if (tr) tr.remove();
+                if (inp) inp.remove();
+            });
+        })();
+    </script>
+}

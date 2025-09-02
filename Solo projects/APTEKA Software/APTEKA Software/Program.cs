@@ -17,10 +17,20 @@ public class Program
 
         builder.Services.AddDbContext<ApplicationContext>(options =>
         {
-            string connectionString = @"Server=DESKTOP-NNCE23Q;Database=AptekaSoftware;Trusted_Connection=True;Encrypt=False;";
+            string connectionString =
+                @"Server=192.168.0.120;Database=AptekaDb;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True;";
 
-            options.UseSqlServer(connectionString);
-            options.EnableSensitiveDataLogging();
+            options.UseSqlServer(connectionString, sql =>
+            {
+                // sql.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName);
+                sql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
+
+            if (builder.Environment.IsDevelopment())
+            {
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+            }
         });
 
         builder.Services.AddSwaggerGen(c =>
@@ -28,6 +38,7 @@ public class Program
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "APTEKA Software", Version = "v1" });
         });
 
+        builder.Services.AddDistributedMemoryCache();
         builder.Services.AddSession(options =>
         {
             options.IdleTimeout = TimeSpan.FromSeconds(1000);
@@ -52,24 +63,42 @@ public class Program
 
         var app = builder.Build();
 
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
+        using (var scope = app.Services.CreateScope())
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "APTEKA Software v1");
-        });
+            try
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+                db.Database.Migrate();
+            }
+            catch (Exception ex)
+            {
+                app.Logger.LogError(ex, "Database migration failed.");
+            }
+        }
 
-        app.UseDeveloperExceptionPage();
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "APTEKA Software v1");
+            });
+        }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
 
         app.UseRouting();
 
         app.UseSession();
 
-        app.UseStaticFiles();
-
-        app.UseRouting();
-
         app.UseAuthentication();
-
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>

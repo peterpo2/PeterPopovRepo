@@ -3,33 +3,65 @@
 
 @{
     ViewData["Title"] = "Списък с доставки";
-}
-@{
     Layout = "_Layout";
+
+    var totalQty = Model?.Sum(d => d.QuantityDelivered) ?? 0;
+    var totalSum = Model?.Sum(d => d.DeliverySum) ?? 0m;
 }
 
-<h2>Списък с доставки</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">@ViewData["Title"]</h2>
+    <a asp-controller="Delivery" asp-action="MakeDelivery" class="btn btn-primary">
+        <i class="bi bi-truck"></i> Нова доставка
+    </a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Доставчик</th>
-            <th>Артикул</th>
-            <th>Дата на Доставка</th>
-            <th>Количество доставено</th>
-            <th>Сума на доставката</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var delivery in Model)
-        {
-            <tr>
-                <td>@delivery.UserName</td>
-                <td>@delivery.ItemName</td>
-                <td>@delivery.DeliveryDate.ToString("dd/MM/yyyy")</td>
-                <td>@delivery.QuantityDelivered</td>
-                <td>@delivery.DeliverySum</td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        Няма въведени доставки.
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Доставчик</th>
+                            <th>Артикул</th>
+                            <th>Дата на доставка</th>
+                            <th class="text-end">Количество</th>
+                            <th class="text-end">Сума</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var delivery in Model)
+                        {
+                            <tr>
+                                <td>@delivery.UserName</td>
+                                <td class="fw-medium">@delivery.ItemName</td>
+                                <td>
+                                    <span class="badge rounded-pill text-bg-light">
+                                        @delivery.DeliveryDate.ToString("dd.MM.yyyy")
+                                    </span>
+                                </td>
+                                <td class="text-end">@delivery.QuantityDelivered</td>
+                                <td class="text-end">@delivery.DeliverySum.ToString("0.00") лв.</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr>
+                            <th colspan="3" class="text-end">Общо:</th>
+                            <th class="text-end">@totalQty</th>
+                            <th class="text-end">@totalSum.ToString("0.00") лв.</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+}

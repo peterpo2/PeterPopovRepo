@@ -102,15 +102,17 @@ namespace APTEKA_Software.Controllers
         {
             if (this.authManager.CurrentUser == null)
             {
-                return this.RedirectToAction("Login", "Users");
+                // кажи къде да се върнем след успешен логин
+                var target = Url.Action("MakeDelivery", "Delivery");
+                return RedirectToAction("Login", "Users", new { returnUrl = target });
             }
 
-            var items = itemService.GetAllItems(); 
+            var items = itemService.GetAllItems();
             var itemViewModels = items.Select(i => mapper.Map<ItemViewModel>(i)).ToList();
 
             var deliveryViewModel = new DeliveryViewModel
             {
-                Items = itemViewModels 
+                Items = itemViewModels
             };
 
             return View(deliveryViewModel);
@@ -125,32 +127,31 @@ namespace APTEKA_Software.Controllers
             }
 
             var userIdClaim = this.authManager.CurrentUser;
-            if (userIdClaim != null)
+            if (userIdClaim == null)
             {
-                int currentUserId = userIdClaim.UserId;
-
-                foreach (var item in AddedItems)
-                {
-                    var parts = item.Split(':');
-                    int itemId = int.Parse(parts[0]);
-                    int quantityDelivered = int.Parse(parts[1]);
-
-                    var itemViewModel = new ItemViewModel
-                    {
-                        UserId = currentUserId,
-                        QuantityDelivered = quantityDelivered
-                    };
-
-                    this.deliveryService.CreateDelivery(itemViewModel, itemId);
-                }
+                // ако някой постне без да е логнат (сесия изтекла и т.н.)
+                var target = Url.Action("MakeDelivery", "Delivery");
+                return RedirectToAction("Login", "Users", new { returnUrl = target });
             }
-            else
+
+            int currentUserId = userIdClaim.UserId;
+
+            foreach (var item in AddedItems)
             {
-                throw new Exception("Current user is not authenticated.");
+                var parts = item.Split(':');
+                int itemId = int.Parse(parts[0]);
+                int quantityDelivered = int.Parse(parts[1]);
+
+                var itemViewModel = new ItemViewModel
+                {
+                    UserId = currentUserId,
+                    QuantityDelivered = quantityDelivered
+                };
+
+                this.deliveryService.CreateDelivery(itemViewModel, itemId);
             }
 
             return RedirectToAction("Index", "Delivery");
         }
-
     }
 }

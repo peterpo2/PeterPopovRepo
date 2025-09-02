@@ -49,9 +49,9 @@ namespace APTEKA_Software.Services
             var item = itemService.GetItemById(itemId);
             var user = userService.GetUser(itemViewModel.UserId);
 
-            if (item == null || item.AvailableQuantity < itemViewModel.QuantityDelivered)
+            if (item == null)
             {
-                throw new Exception("Артикулът не е наличен или няма достатъчно количество за доставка.");
+                throw new Exception("Артикулът не е намерен.");
             }
 
             var delivery = new Delivery

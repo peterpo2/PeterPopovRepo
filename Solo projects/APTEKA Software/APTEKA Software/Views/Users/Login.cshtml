@@ -14,6 +14,11 @@
                 </div>
                 <div class="card-body">
                     <form method="post" action="/Users/Login">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="display:@(ViewData.ModelState?.IsValid == false ? "block" : "none")"></div>
+
                         <div class="form-group">
                             <label for="username">Username:</label>
                             <input type="text" id="username" name="username" class="form-control" required>

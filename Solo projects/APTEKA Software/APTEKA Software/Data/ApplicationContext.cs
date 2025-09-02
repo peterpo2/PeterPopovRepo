@@ -1,4 +1,6 @@
-﻿using APTEKA_Software.Models;
+﻿using System;
+using System.Collections.Generic;
+using APTEKA_Software.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace APTEKA_Software.Data
@@ -7,8 +9,8 @@ namespace APTEKA_Software.Data
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-
         }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Sale> Sale { get; set; }
@@ -19,16 +21,42 @@ namespace APTEKA_Software.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
-            .HasMany(u => u.Sales)
-            .WithOne(s => s.User)
-            .HasForeignKey(s => s.UserId);
+                .HasMany(u => u.Sales)
+                .WithOne(s => s.User)
+                .HasForeignKey(s => s.UserId);
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Deliveries)
                 .WithOne(d => d.User)
                 .HasForeignKey(d => d.UserId);
 
-            List<User> users = new List<User>()
+            modelBuilder.Entity<User>().ToTable("Users");
+
+            modelBuilder.Entity<Item>().ToTable("Items");
+            modelBuilder.Entity<Item>()
+                .Property(i => i.SalePrice)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Sale>().ToTable("Sales");
+            modelBuilder.Entity<Sale>()
+                .Property(s => s.TotalAmount)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Delivery>().ToTable("Deliveries");
+            modelBuilder.Entity<Delivery>()
+                .Property(d => d.TotalAmount)
+                .HasColumnType("decimal(18,2)");
+
+            var createdAt = new DateTime(2024, 01, 15, 12, 0, 0, DateTimeKind.Utc);
+            var itemCreatedAt = new DateTime(2024, 01, 16, 9, 30, 0, DateTimeKind.Utc);
+            var saleDate1 = new DateTime(2024, 02, 01, 10, 0, 0, DateTimeKind.Utc);
+            var saleDate2 = new DateTime(2024, 02, 02, 11, 15, 0, DateTimeKind.Utc);
+            var saleDate3 = new DateTime(2024, 02, 03, 14, 45, 0, DateTimeKind.Utc);
+            var deliveryDate1 = new DateTime(2024, 01, 20, 8, 15, 0, DateTimeKind.Utc);
+            var deliveryDate2 = new DateTime(2024, 01, 21, 13, 0, 0, DateTimeKind.Utc);
+            var deliveryDate3 = new DateTime(2024, 01, 22, 16, 30, 0, DateTimeKind.Utc);
+
+            var users = new List<User>
             {
                 new User
                 {
@@ -37,7 +65,7 @@ namespace APTEKA_Software.Data
                     Password = "123456",
                     FirstName = "Peter",
                     LastName = "Kompotov",
-                    DateRegistered = DateTime.Now,
+                    DateRegistered = createdAt,
                     IsAdmin = true
                 },
                 new User
@@ -47,7 +75,7 @@ namespace APTEKA_Software.Data
                     Password = "222333",
                     FirstName = "George",
                     LastName = "Paprikov",
-                    DateRegistered = DateTime.Now,
+                    DateRegistered = createdAt,
                     IsAdmin = false
                 },
                 new User
@@ -57,7 +85,7 @@ namespace APTEKA_Software.Data
                     Password = "432432",
                     FirstName = "Ivan",
                     LastName = "Krushov",
-                    DateRegistered = DateTime.Now,
+                    DateRegistered = createdAt,
                     IsAdmin = false
                 },
                 new User
@@ -67,86 +95,82 @@ namespace APTEKA_Software.Data
                     Password = "654321",
                     FirstName = "Alexander",
                     LastName = "Slivov",
-                    DateRegistered = DateTime.Now,
+                    DateRegistered = createdAt,
                     IsAdmin = false
                 },
             };
-            modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<User>().HasData(users);
 
-            List<Item> items = new List<Item>()
+            var items = new List<Item>
             {
                 new Item
                 {
                     ItemId = 1,
                     AvailableQuantity = 10,
                     ItemName = "Валидол",
-                    SalePrice = 5,
-                    DateCreated = DateTime.Now,
+                    SalePrice = 5m,
+                    DateCreated = itemCreatedAt
                 },
                 new Item
                 {
                     ItemId = 2,
                     AvailableQuantity = 20,
                     ItemName = "NoSpa",
-                    SalePrice = 10,
-                    DateCreated = DateTime.Now,
+                    SalePrice = 10m,
+                    DateCreated = itemCreatedAt
                 },
                 new Item
                 {
                     ItemId = 3,
                     AvailableQuantity = 50,
                     ItemName = "Vitamin C",
-                    SalePrice = 2,
-                    DateCreated = DateTime.Now,
+                    SalePrice = 2m,
+                    DateCreated = itemCreatedAt
                 },
                 new Item
                 {
                     ItemId = 4,
                     AvailableQuantity = 42,
                     ItemName = "Vitamin D",
-                    SalePrice = 6,
-                    DateCreated = DateTime.Now,
+                    SalePrice = 6m,
+                    DateCreated = itemCreatedAt
                 }
             };
-            modelBuilder.Entity<Item>().ToTable("Items");
             modelBuilder.Entity<Item>().HasData(items);
 
-            List<Sale> sales = new List<Sale>()
+            var sales = new List<Sale>
             {
                 new Sale
                 {
                     SaleId = 1,
                     ItemId = 1,
                     UserId = 1,
-                    SaleDate = DateTime.Now,
+                    SaleDate = saleDate1,
                     QuantitySold = 3,
-                    TotalAmount = 15
+                    TotalAmount = 15m
                 },
                 new Sale
                 {
                     SaleId = 2,
                     ItemId = 2,
                     UserId = 2,
-                    SaleDate = DateTime.Now,
+                    SaleDate = saleDate2,
                     QuantitySold = 2,
-                    TotalAmount = 20
+                    TotalAmount = 20m
                 },
                 new Sale
                 {
                     SaleId = 3,
                     ItemId = 3,
                     UserId = 3,
-                    SaleDate = DateTime.Now,
+                    SaleDate = saleDate3,
                     QuantitySold = 2,
-                    TotalAmount = 4
+                    TotalAmount = 4m
                 },
             };
-
-            modelBuilder.Entity<Sale>().ToTable("Sales");
             modelBuilder.Entity<Sale>().HasData(sales);
 
-            List<Delivery> deliveries = new List<Delivery>()
+            var deliveries = new List<Delivery>
             {
                 new Delivery
                 {
@@ -154,8 +178,8 @@ namespace APTEKA_Software.Data
                     UserId = 1,
                     ItemId = 1,
                     QuantityDelivered = 15,
-                    DeliveryDate = DateTime.Now,
-                    TotalAmount = 75
+                    DeliveryDate = deliveryDate1,
+                    TotalAmount = 75m
                 },
                 new Delivery
                 {
@@ -163,8 +187,8 @@ namespace APTEKA_Software.Data
                     ItemId = 2,
                     UserId = 2,
                     QuantityDelivered = 11,
-                    DeliveryDate = DateTime.Now,
-                    TotalAmount = 110
+                    DeliveryDate = deliveryDate2,
+                    TotalAmount = 110m
                 },
                 new Delivery
                 {
@@ -172,12 +196,10 @@ namespace APTEKA_Software.Data
                     ItemId = 3,
                     UserId = 3,
                     QuantityDelivered = 30,
-                    DeliveryDate = DateTime.Now,
-                    TotalAmount = 60
+                    DeliveryDate = deliveryDate3,
+                    TotalAmount = 60m
                 },
             };
-            
-            modelBuilder.Entity<Delivery>().ToTable("Deliveries");
             modelBuilder.Entity<Delivery>().HasData(deliveries);
         }
     }

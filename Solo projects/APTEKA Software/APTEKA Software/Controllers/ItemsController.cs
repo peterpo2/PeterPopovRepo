@@ -37,6 +37,12 @@ namespace APTEKA_Software.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            if (this.authManager.CurrentUser == null)
+            {
+                var target = Url.Action("Create", "Items"); // къде да се върне след логин
+                return RedirectToAction("Login", "Users", new { returnUrl = target });
+            }
+
             return View();
         }
 
@@ -48,9 +54,15 @@ namespace APTEKA_Software.Controllers
                 return this.View(viewModel);
             }
 
-            var user = this.authManager.CurrentUser;
+            if (this.authManager.CurrentUser == null)
+            {
+                var target = Url.Action("Create", "Items");
+                return RedirectToAction("Login", "Users", new { returnUrl = target });
+            }
+
             var createdItem = this.itemService.CreateItem(modelMapper.Map<ItemDto>(viewModel));
 
+            // ако ползваш ViewBag.ItemNames по-натам:
             List<string> updatedItemNames = itemService.GetAllItemNames();
             ViewBag.ItemNames = updatedItemNames;
 

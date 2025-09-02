@@ -2,45 +2,70 @@
 @model List<ItemViewModel>
 @{
     ViewData["Title"] = "Списък с артикули";
-}
-@{
     Layout = "_Layout";
 }
 
-<div class="container">
-    <h2>Списък с артикули</h2>
-    @using (Html.BeginForm("FilteredItems", "Items", FormMethod.Get))
-    {
-        <div class="form-inline mb-3">
-            <div class="form-group mr-2">
-                @Html.DropDownList("filterByItem", new SelectList(ViewBag.ItemNames), "Изберете артикул", new { @class = "form-control" })
-            </div>
-            <button type="submit" class="btn btn-primary">Филтрирай</button>
-        </div>
-    }
-    <a class="btn btn-success" href="Items/Create/">Създай Нов Артикул</a>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Име</th>
-                <th>Наличност</th>
-                <th>Цена за една бройка</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.ItemName</td>
-                    <td>@item.AvailableQuantity</td>
-                    <td>@item.SalePrice</td>
-                    <td>
-                        <a class="nav-link text-warning" href="/Items/Edit/@item.ItemId">Редактирай артикул</a>
-                        <a class="nav-link text-danger" href="/Items/ConfirmDelete/@item.ItemId">Изтрий артикул</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">@ViewData["Title"]</h2>
+    <a class="btn btn-success" href="Items/Create/">
+        <i class="bi bi-plus-circle"></i> Създай нов артикул
+    </a>
 </div>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        @using (Html.BeginForm("FilteredItems", "Items", FormMethod.Get, new { @class = "row g-2 align-items-end" }))
+        {
+            <div class="col-sm-6 col-md-4">
+                <label class="form-label" for="filterByItem">Изберете артикул</label>
+                @Html.DropDownList("filterByItem", new SelectList(ViewBag.ItemNames), "Всички", new { @class = "form-select" })
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="bi bi-funnel"></i> Филтрирай
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Няма намерени артикули.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Име</th>
+                    <th class="text-end">Наличност</th>
+                    <th class="text-end">Цена за една бройка</th>
+                    <th class="text-end">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-medium">@item.ItemName</td>
+                        <td class="text-end">@item.AvailableQuantity</td>
+                        <td class="text-end">@item.SalePrice.ToString("0.00") лв.</td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a class="btn btn-outline-primary" href="/Items/Edit/@item.ItemId">
+                                    <i class="bi bi-pencil"></i> Редактирай
+                                </a>
+                                <a class="btn btn-outline-danger" href="/Items/ConfirmDelete/@item.ItemId"
+                                   onclick="return confirm('Да изтрия ли @item.ItemName ?');">
+                                    <i class="bi bi-trash"></i> Изтрий
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

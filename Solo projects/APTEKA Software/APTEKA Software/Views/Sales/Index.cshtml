@@ -3,33 +3,63 @@
 
 @{
     ViewData["Title"] = "Списък с продажби";
-}
-@{
     Layout = "_Layout";
+
+    var totalQty = Model?.Sum(s => s.QuantitySold) ?? 0;
+    var totalAmount = Model?.Sum(s => s.TotalAmount) ?? 0m;
 }
 
-<h2>Списък с продажби</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">@ViewData["Title"]</h2>
+    <a asp-controller="Sales" asp-action="MakeSale" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Нова продажба
+    </a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Продавач</th>
-            <th>Артикул</th>
-            <th>Дата на продажба</th>
-            <th>Продадено количество</th>
-            <th>Сума на продажбата</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var sale in Model)
-        {
-            <tr>
-                <td>@sale.UserName</td>
-                <td>@sale.ItemName</td>
-                <td>@sale.SaleDate</td>
-                <td>@sale.QuantitySold</td>
-                <td>@sale.TotalAmount</td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">Няма въведени продажби.</div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Продавач</th>
+                            <th>Артикул</th>
+                            <th>Дата на продажба</th>
+                            <th class="text-end">Продадено количество</th>
+                            <th class="text-end">Сума на продажбата</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sale in Model)
+                        {
+                            <tr>
+                                <td>@sale.UserName</td>
+                                <td class="fw-medium">@sale.ItemName</td>
+                                <td>
+                                    <span class="badge rounded-pill text-bg-light">
+                                        @sale.SaleDate.ToString("dd.MM.yyyy HH:mm")
+                                    </span>
+                                </td>
+                                <td class="text-end">@sale.QuantitySold</td>
+                                <td class="text-end">@sale.TotalAmount.ToString("0.00") лв.</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr>
+                            <th colspan="3" class="text-end">Общо:</th>
+                            <th class="text-end">@totalQty</th>
+                            <th class="text-end">@totalAmount.ToString("0.00") лв.</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+}

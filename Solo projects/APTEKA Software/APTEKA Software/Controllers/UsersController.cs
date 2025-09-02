@@ -40,20 +40,20 @@ namespace APTEKA_Software.Controllers
             return View(userViewModels);
         }
 
-
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewBag.ReturnUrl = returnUrl;
             var viewModel = new LoginViewModel();
-
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel viewModel)
+        public IActionResult Login(LoginViewModel viewModel, string returnUrl = null)
         {
             if (!this.ModelState.IsValid)
             {
+                ViewBag.ReturnUrl = returnUrl; // запази целта при повторно показване
                 return this.View(viewModel);
             }
 
@@ -61,16 +61,25 @@ namespace APTEKA_Software.Controllers
             {
                 this.authManager.Login(viewModel.Username, viewModel.Password);
 
+                // ако имаме цел и е локален URL → връщаме там
+                if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
+                // иначе към началната
                 return this.RedirectToAction("Index", "Home");
             }
             catch (UnauthorizedOperationException ex)
             {
-                this.ModelState.AddModelError("Username", ex.Message);
-                this.ModelState.AddModelError("Password", ex.Message);
+                this.ModelState.AddModelError(nameof(viewModel.Username), ex.Message);
+                this.ModelState.AddModelError(nameof(viewModel.Password), ex.Message);
 
+                ViewBag.ReturnUrl = returnUrl; // запази целта при грешка
                 return this.View(viewModel);
             }
         }
+
 
         [HttpGet]
         public IActionResult Logout()
