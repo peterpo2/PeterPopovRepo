@@ -1,0 +1,11 @@
+﻿@{
+    this.ViewData["Title"] = "404";
+}
+@{
+    Layout = "_Layout";
+}
+<h2 class="text-dark font-weight-bold">Oops...something went wrong :(</h2>
+<p class="text-dark">
+    Status Code: @this.Context.Response.StatusCode<br />
+    Message: @this.ViewData["ErrorMessage"]
+</p>

@@ -1,0 +1,216 @@
+﻿@using System.Globalization
+@using APTEKA_Software.Models.ViewModels
+@model List<DeliveryViewModel>
+
+@{
+    ViewData["Title"] = "Списък с доставки";
+    Layout = "_Layout";
+
+    var bg = CultureInfo.GetCultureInfo("bg-BG");
+    var totalQty = Model?.Sum(d => d.QuantityDelivered) ?? 0;
+    var totalSum = Model?.Sum(d => d.DeliverySum) ?? 0m;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">
+        <i class="bi bi-truck me-1"></i> @ViewData["Title"]
+    </h2>
+    <div class="d-flex gap-2">
+        <a asp-controller="Delivery" asp-action="MakeDelivery" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Нова доставка
+        </a>
+        <button id="btnExportCsv" type="button" class="btn btn-outline-secondary">
+            <i class="bi bi-download"></i> Експорт CSV
+        </button>
+    </div>
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        Няма въведени доставки.
+    </div>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <!-- Лека клиентска филтрация (без промяна на контролера) -->
+            <form class="row g-2 align-items-end mb-3" id="filterForm" onsubmit="return false;">
+                <div class="col-12 col-md-4">
+                    <label class="form-label">Търси (доставчик/артикул)</label>
+                    <input id="q" type="text" class="form-control" placeholder="напр. Ivan или Vitamin" />
+                </div>
+                <div class="col-6 col-md-3">
+                    <label class="form-label">От дата</label>
+                    <input id="from" type="date" class="form-control" />
+                </div>
+                <div class="col-6 col-md-3">
+                    <label class="form-label">До дата</label>
+                    <input id="to" type="date" class="form-control" />
+                </div>
+                <div class="col-12 col-md-2 d-flex gap-2">
+                    <button id="btnApply" class="btn btn-outline-primary w-100" type="button">
+                        <i class="bi bi-funnel"></i> Филтрирай
+                    </button>
+                    <button id="btnClear" class="btn btn-outline-secondary w-100" type="button">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="deliveriesTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Доставчик</th>
+                            <th>Артикул</th>
+                            <th>Дата на доставка</th>
+                            <th class="text-end">Количество</th>
+                            <th class="text-end">Сума</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var delivery in Model)
+                        {
+                            // ISO дата за надеждна филтрация по дата от JS
+                            var isoDate = delivery.DeliveryDate.ToString("yyyy-MM-dd");
+                            <tr data-user="@delivery.UserName"
+                                data-item="@delivery.ItemName"
+                                data-date="@isoDate"
+                                data-qty="@delivery.QuantityDelivered"
+                                data-sum="@delivery.DeliverySum">
+                                <td>@delivery.UserName</td>
+                                <td class="fw-medium">@delivery.ItemName</td>
+                                <td>
+                                    <span class="badge rounded-pill text-bg-light">
+                                        @delivery.DeliveryDate.ToString("dd.MM.yyyy", bg)
+                                    </span>
+                                </td>
+                                <td class="text-end">@delivery.QuantityDelivered</td>
+                                <td class="text-end">@delivery.DeliverySum.ToString("0.00") лв.</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr>
+                            <th colspan="3" class="text-end">Общо (филтър):</th>
+                            <th class="text-end" id="totalQty">@totalQty</th>
+                            <th class="text-end" id="totalSum">@totalSum.ToString("0.00") лв.</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        (() => {
+            const $table = document.getElementById('deliveriesTable');
+            if (!$table) return;
+
+            const $q     = document.getElementById('q');
+            const $from  = document.getElementById('from');
+            const $to    = document.getElementById('to');
+            const $apply = document.getElementById('btnApply');
+            const $clear = document.getElementById('btnClear');
+
+            const $totalQty = document.getElementById('totalQty');
+            const $totalSum = document.getElementById('totalSum');
+
+            function parseDateISO(s){ // "yyyy-MM-dd" -> Date
+                if (!s) return null;
+                const [y,m,d] = s.split('-').map(Number);
+                return new Date(y, (m-1), d);
+            }
+
+            function currency(n){
+                try { return new Intl.NumberFormat('bg-BG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n) + ' лв.'; }
+                catch{ return (Math.round(n*100)/100).toFixed(2) + ' лв.'; }
+            }
+
+            function applyFilter(){
+                const rows = Array.from($table.tBodies[0].rows);
+                const q = ($q.value || '').trim().toLowerCase();
+                const from = parseDateISO($from.value);
+                const to   = parseDateISO($to.value);
+
+                let sumQty = 0;
+                let sumAmt = 0;
+
+                rows.forEach(tr => {
+                    const user = (tr.dataset.user || '').toLowerCase();
+                    const item = (tr.dataset.item || '').toLowerCase();
+                    const dateISO = tr.dataset.date;
+                    const d = parseDateISO(dateISO);
+
+                    const qty = parseInt(tr.dataset.qty || '0', 10) || 0;
+                    const amt = parseFloat(tr.dataset.sum || '0') || 0;
+
+                    let ok = true;
+
+                    if (q){
+                        ok = user.includes(q) || item.includes(q);
+                    }
+                    if (ok && from && d && d < from) ok = false;
+                    if (ok && to && d && d > to) ok = false;
+
+                    tr.style.display = ok ? '' : 'none';
+
+                    if (ok){
+                        sumQty += qty;
+                        sumAmt += amt;
+                    }
+                });
+
+                $totalQty.textContent = sumQty;
+                $totalSum.textContent = currency(sumAmt);
+            }
+
+            function clearFilter(){
+                $q.value = '';
+                $from.value = '';
+                $to.value = '';
+                applyFilter();
+            }
+
+            $apply?.addEventListener('click', applyFilter);
+            $clear?.addEventListener('click', clearFilter);
+
+            // UX: филтрирай при Enter в търсене
+            $q?.addEventListener('keydown', e => {
+                if (e.key === 'Enter'){ e.preventDefault(); applyFilter(); }
+            });
+
+            // Експорт CSV (видимите редове)
+            document.getElementById('btnExportCsv')?.addEventListener('click', () => {
+                const rows = Array.from($table.tBodies[0].rows)
+                    .filter(tr => tr.style.display !== 'none');
+
+                const header = ['Доставчик','Артикул','Дата','Количество','Сума'];
+                const lines = [header.join(',')];
+
+                rows.forEach(tr => {
+                    const tds = tr.querySelectorAll('td');
+                    const user = tds[0].innerText.replaceAll(',', ' ');
+                    const item = tds[1].innerText.replaceAll(',', ' ');
+                    const date = tds[2].innerText.replaceAll(',', ' ');
+                    const qty  = tds[3].innerText.replaceAll(',', ' ');
+                    const sum  = tds[4].innerText.replaceAll(',', ' ');
+                    lines.push([user,item,date,qty,sum].join(','));
+                });
+
+                const blob = new Blob([lines.join('\n')], {type: 'text/csv;charset=utf-8;'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'deliveries.csv';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        })();
+    </script>
+}

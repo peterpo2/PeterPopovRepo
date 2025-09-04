@@ -1,0 +1,109 @@
+﻿@model APTEKA_Software.Models.ViewModels.SaleViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Създай Продажба";
+    Layout = "_Layout";
+}
+
+<h2 class="my-4">Създай Нова Продажба</h2>
+
+<div class="container">
+    <div class="mb-3">
+        <a class="btn btn-secondary" asp-controller="Items" asp-action="Index">Обратно към списъка с артикули</a>
+    </div>
+
+    <form id="saleForm" asp-controller="Sales" asp-action="MakeSale" method="post">
+        <div class="form-group mb-3">
+            <label for="ItemId">Избери Артикул:</label>
+            <select class="form-control" id="ItemId" name="ItemId" required>
+                <option value="">-- Избери Артикул --</option>
+                @foreach (var item in Model.Items)
+                {
+                    <option value="@item.ItemId" data-available-quantity="@item.AvailableQuantity">
+                        @item.ItemName (Налично: @item.AvailableQuantity)
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <label for="QuantitySold">Количество:</label>
+            <input type="number" id="QuantitySold" class="form-control" name="QuantitySold" min="1" required>
+        </div>
+        <button type="button" class="btn btn-primary" id="addItemButton">Добави артикул към продажбата</button>
+    </form>
+
+    <h3 class="mt-4">Добавени артикули</h3>
+    <p id="noItemsMessage" class="text-muted">Няма добавени артикули</p>
+
+    <table class="table mt-2" id="addedItemsTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Артикул</th>
+                <th>Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-success mt-3" id="finalizeSaleButton" disabled>Финализирай Продажбата</button>
+</div>
+
+<script>
+    let addedItems = [];
+
+    document.getElementById('addItemButton').addEventListener('click', function () {
+        const itemSelect = document.getElementById('ItemId');
+        const itemId = itemSelect.value;
+        const itemName = itemSelect.options[itemSelect.selectedIndex].text;
+        const availableQuantity = parseInt(itemSelect.options[itemSelect.selectedIndex].getAttribute('data-available-quantity'));
+        const quantitySold = parseInt(document.getElementById('QuantitySold').value);
+
+        if (!itemId) {
+            alert("Моля, изберете артикул.");
+            return;
+        }
+
+        if (isNaN(quantitySold) || quantitySold <= 0) {
+            alert("Моля, въведете валидно количество.");
+            return;
+        }
+
+        if (quantitySold > availableQuantity) {
+            alert(`Няма достатъчно количество. Налично: ${availableQuantity}`);
+            return;
+        }
+
+        addedItems.push({ itemId, itemName, quantitySold });
+
+        const table = document.getElementById('addedItemsTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+
+        const itemNameCell = newRow.insertCell(0);
+        const quantityCell = newRow.insertCell(1);
+
+        itemNameCell.textContent = itemName;
+        quantityCell.textContent = quantitySold;
+
+        document.getElementById('addedItemsTable').style.display = 'table';
+        document.getElementById('noItemsMessage').style.display = 'none';
+
+        document.getElementById('finalizeSaleButton').disabled = false;
+    });
+
+    document.getElementById('finalizeSaleButton').addEventListener('click', function () {
+        if (confirm("Сигурни ли сте, че искате да финализирате продажбата?")) {
+            const form = document.getElementById('saleForm');
+
+            addedItems.forEach(item => {
+                const itemInput = document.createElement('input');
+                itemInput.type = 'hidden';
+                itemInput.name = 'addedItems'; // Match the name with the parameter in the controller
+                itemInput.value = `${item.itemId}:${item.quantitySold}`;
+                form.appendChild(itemInput);
+            });
+
+            form.submit();
+        }
+    });
+</script>

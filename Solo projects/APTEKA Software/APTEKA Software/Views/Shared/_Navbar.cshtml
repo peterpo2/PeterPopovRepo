@@ -42,18 +42,12 @@
 
                 @if (isAdmin)
                 {
-                    <li class="nav-item">
-                        <a class="nav-link px-3" asp-controller="Users" asp-action="Index">
-                            <i class="bi bi-people"></i> Потребители
-                        </a>
-                    </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link px-3 dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-gear"></i> Админ
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="adminMenu">
-                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index">Табло</a></li>
+                            <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">Табло</a></li>
                             <li><a class="dropdown-item" asp-controller="Admin" asp-action="Reports">Отчети</a></li>
                         </ul>
                     </li>

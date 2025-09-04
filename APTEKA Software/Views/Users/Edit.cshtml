@@ -1,0 +1,30 @@
+﻿@model APTEKA_Software.Models.ViewModels.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Редактиране на потребител";
+}
+@{
+    Layout = "_Layout";
+}
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="Username" class="control-label"></label>
+        <input asp-for="Username" class="form-control" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Запази" class="btn btn-primary" />
+    </div>
+</form>

@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Начало";
+    Layout = "_Layout";
+    var bg = System.Globalization.CultureInfo.GetCultureInfo("bg-BG");
+    var now = DateTime.Now;
+}
+
+<section class="hero-pharma rounded-4 p-5 mb-4 shadow-sm">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold mb-3">
+                Добре дошли в <span class="text-brand">Apteka Software</span>
+            </h1>
+            <p class="lead mb-4">
+                Лек, ясен и бърз софтуер за управление на вашата аптека.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-brand btn-lg" asp-controller="Items" asp-action="Index">
+                    <i class="bi bi-box-seam"></i> Стоки
+                </a>
+                <a class="btn btn-outline-brand btn-lg" asp-controller="Sales" asp-action="Index">
+                    <i class="bi bi-receipt"></i> Продажби
+                </a>
+                <a class="btn btn-outline-brand btn-lg" asp-controller="Delivery" asp-action="Index">
+                    <i class="bi bi-truck"></i> Доставки
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center mt-4 mt-lg-0">
+            <div class="pill-graphic" aria-hidden="true">💊</div>
+        </div>
+    </div>
+</section>
+
+<div class="row g-3">
+    <!-- Бързо въвеждане -->
+    <div class="col-md-4">
+        <div class="card h-100 feature-card position-relative">
+            <div class="card-body">
+                <div class="icon mb-2"><i class="bi bi-capsule"></i></div>
+                <h5 class="card-title mb-1">Бързо въвеждане</h5>
+                <p class="text-muted">Добавяйте продукти и доставки с няколко клика.</p>
+                <a class="btn btn-brand btn-sm" asp-controller="Items" asp-action="Create">
+                    <i class="bi bi-plus-circle"></i> Създай артикул
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Проследяване на наличности -->
+    <div class="col-md-4">
+        <div class="card h-100 feature-card position-relative">
+            <div class="card-body">
+                <div class="icon mb-2"><i class="bi bi-clipboard-check"></i></div>
+                <h5 class="card-title mb-1">Проследяване на наличности</h5>
+                <p class="text-muted">Винаги знаете какво има в склада.</p>
+                <a class="btn btn-outline-secondary btn-sm" asp-controller="Items" asp-action="Index">
+                    <i class="bi bi-box-seam"></i> Виж наличности
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Отчети -->
+    <div class="col-md-4">
+        <div class="card h-100 feature-card position-relative">
+            <div class="card-body">
+                <div class="icon mb-2"><i class="bi bi-graph-up"></i></div>
+                <h5 class="card-title mb-1">Отчети</h5>
+                <p class="text-muted">Продажби и доставки в реално време.</p>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-outline-secondary btn-sm" asp-controller="Sales" asp-action="Index">
+                        <i class="bi bi-receipt"></i> Продажби
+                    </a>
+                    <a class="btn btn-outline-secondary btn-sm" asp-controller="Delivery" asp-action="Index">
+                        <i class="bi bi-truck"></i> Доставки
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="small text-muted mt-4">
+    Днес: @now.ToString("dddd, d MMMM yyyy 'г.'", bg) &nbsp; | &nbsp; Часът е: @now.ToString("H:mm 'ч.'", bg)
+</div>

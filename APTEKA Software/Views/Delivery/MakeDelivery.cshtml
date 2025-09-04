@@ -1,0 +1,130 @@
+﻿@using APTEKA_Software.Models.ViewModels
+@model DeliveryViewModel
+@{
+    ViewData["Title"] = "Създай Нова Доставка";
+    Layout = "_Layout";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">@ViewData["Title"]</h2>
+    <div class="d-flex gap-2">
+        <a asp-controller="Items" asp-action="Index" class="btn btn-outline-secondary">Обратно към списъка с артикули</a>
+        <a asp-controller="Items" asp-action="Create" class="btn btn-primary">Създай нов артикул</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <!-- Форма, която ще постне към Delivery/MakeDelivery (POST) -->
+        <form asp-controller="Delivery" asp-action="MakeDelivery" method="post" id="deliveryForm">
+            <div class="row g-3 mb-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Избери Артикул:</label>
+                    <select class="form-select" id="itemSelect">
+                        <option value="">-- изберете --</option>
+                        @for (int i = 0; i < (Model?.Items?.Count ?? 0); i++)
+                        {
+                            <option value="@Model.Items[i].ItemId">@Model.Items[i].ItemName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Количество за доставка:</label>
+                    <input type="number" id="qtyInput" class="form-control" min="1" step="1" value="1" />
+                </div>
+                <div class="col-12 col-md-3 d-flex align-items-end">
+                    <button type="button" id="addBtn" class="btn btn-primary w-100">Добави артикул</button>
+                </div>
+            </div>
+
+            <h4 class="mb-2">Добавени артикули</h4>
+            <div class="table-responsive mb-3">
+                <table class="table table-hover align-middle mb-0" id="addedTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Артикул</th>
+                            <th class="text-end">Количество</th>
+                            <th class="text-end">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @* редовете се добавят динамично *@
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Тук ще се добавят скритите <input name="AddedItems" value="id:qty"> -->
+            <div id="hiddenInputs"></div>
+
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-check2-circle"></i> Финализирай Доставката
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const itemSelect = document.getElementById('itemSelect');
+            const qtyInput = document.getElementById('qtyInput');
+            const addBtn = document.getElementById('addBtn');
+            const tableBody = document.querySelector('#addedTable tbody');
+            const hiddenInputs = document.getElementById('hiddenInputs');
+
+            // локален индекс за редовете
+            let rowIndex = 0;
+
+            addBtn.addEventListener('click', function () {
+                const itemId = itemSelect.value;
+                const itemName = itemSelect.options[itemSelect.selectedIndex]?.text || '';
+                const qty = parseInt(qtyInput.value, 10);
+
+                if (!itemId) { alert('Моля, изберете артикул.'); return; }
+                if (!qty || qty < 1) { alert('Въведете валидно количество (минимум 1).'); return; }
+
+                // добавяме ред в таблицата
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-row', rowIndex);
+
+                tr.innerHTML = `
+                    <td class="fw-medium">${itemName}</td>
+                    <td class="text-end">${qty}</td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-remove="${rowIndex}">
+                            <i class="bi bi-x-lg"></i> Премахни
+                        </button>
+                    </td>
+                `;
+
+                tableBody.appendChild(tr);
+
+                // добавяме hidden input с име EXACT "AddedItems" и стойност "itemId:qty"
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'AddedItems';
+                input.value = itemId + ':' + qty;
+                input.setAttribute('data-row', rowIndex);
+                hiddenInputs.appendChild(input);
+
+                // ресет на полетата
+                itemSelect.value = '';
+                qtyInput.value = '1';
+
+                rowIndex++;
+            });
+
+            // премахване на ред + съответния hidden input
+            tableBody.addEventListener('click', function (e) {
+                const btn = e.target.closest('button[data-remove]');
+                if (!btn) return;
+
+                const idx = btn.getAttribute('data-remove');
+                const tr = tableBody.querySelector(`tr[data-row="${idx}"]`);
+                const inp = hiddenInputs.querySelector(`input[data-row="${idx}"]`);
+                if (tr) tr.remove();
+                if (inp) inp.remove();
+            });
+        })();
+    </script>
+}

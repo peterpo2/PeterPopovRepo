@@ -1,0 +1,75 @@
+﻿@inject APTEKA_Software.Helpers.AuthManager authManager
+@{
+    var currentUser = authManager?.CurrentUser;
+    var isAdmin = currentUser?.IsAdmin == true;
+}
+
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm app-navbar sticky-top position-relative">
+
+    <!-- бутон Назад – фиксиран вляво на навбара -->
+    <a id="backBtn" href="#" class="btn btn-outline-secondary btn-sm app-back-nav d-none" aria-label="Назад">
+        <i class="bi bi-arrow-left"></i> Назад
+    </a>
+
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2 app-brand"
+           asp-controller="Home" asp-action="Index">
+            <i class="bi bi-capsule text-brand"></i>
+            <span>APTEKA</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link px-3" asp-controller="Items" asp-action="Index">
+                        <i class="bi bi-box-seam"></i> Стоки
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" asp-controller="Sales" asp-action="Index">
+                        <i class="bi bi-receipt"></i> Продажби
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3" asp-controller="Delivery" asp-action="Index">
+                        <i class="bi bi-truck"></i> Доставки
+                    </a>
+                </li>
+
+                @if (isAdmin)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link px-3 dropdown-toggle" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-gear"></i> Админ
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="adminMenu">
+                            <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">Табло</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="Reports">Отчети</a></li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+
+            <div class="d-flex gap-2 align-items-center">
+                @if (currentUser != null)
+                {
+                    <a class="btn btn-outline-secondary app-btn" asp-controller="Users" asp-action="Logout">
+                        <i class="bi bi-box-arrow-right"></i> Изход
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-primary app-btn"
+                       asp-controller="Users" asp-action="Login"
+                       asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)">
+                        <i class="bi bi-box-arrow-in-right"></i> Вход
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</nav>

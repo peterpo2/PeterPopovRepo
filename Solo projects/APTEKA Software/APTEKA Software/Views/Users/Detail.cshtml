@@ -1,53 +1,140 @@
 ﻿@model UserDetailViewModel
+@{
+    ViewData["Title"] = "Справка за потребител";
+    Layout = "_Layout";
 
-<h2>Справка за потребител: @Model.UserName</h2>
+    var bg = System.Globalization.CultureInfo.GetCultureInfo("bg-BG");
 
-<h3>Доставки</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Доставчик</th>
-            <th>Артикул</th>
-            <th>Дата на Доставка</th>
-            <th>Количество доставено</th>
-            <th>Сума на доставката</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var delivery in Model.Deliveries)
-        {
-            <tr>
-                <td>@delivery.UserName</td>
-                <td>@delivery.ItemName</td>
-                <td>@delivery.DeliveryDate.ToString("dd/MM/yyyy")</td>
-                <td>@delivery.QuantityDelivered</td>
-                <td>@delivery.DeliverySum</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    // Totals
+    var dQty = Model?.Deliveries?.Sum(d => d.QuantityDelivered) ?? 0;
+    var dSum = Model?.Deliveries?.Sum(d => d.DeliverySum) ?? 0m;
+    var sQty = Model?.Sales?.Sum(s => s.QuantitySold) ?? 0;
+    var sSum = Model?.Sales?.Sum(s => s.TotalAmount) ?? 0m;
+}
 
-<h3>Продажби</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Продавач</th>
-            <th>Артикул</th>
-            <th>Дата на продажба</th>
-            <th>Продадено количество</th>
-            <th>Сума на продажбата</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var sale in Model.Sales)
-        {
-            <tr>
-                <td>@sale.UserName</td>
-                <td>@sale.ItemName</td>
-                <td>@sale.SaleDate</td>
-                <td>@sale.QuantitySold</td>
-                <td>@sale.TotalAmount</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">
+        Справка за потребител:
+        <span class="badge rounded-pill text-bg-light">@Model.UserName</span>
+    </h2>
+
+    <a asp-controller="Users" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i> Назад към потребители
+    </a>
+</div>
+
+<div class="row g-3">
+
+    <!-- Доставки -->
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0"><i class="bi bi-truck me-1"></i> Доставки</h5>
+                    <span class="text-muted small">Общо: <strong>@dQty</strong> бр. | Сума: <strong>@dSum.ToString("0.00") лв.</strong></span>
+                </div>
+
+                @if (Model?.Deliveries == null || !Model.Deliveries.Any())
+                {
+                    <div class="alert alert-info mb-0">Няма въведени доставки за този потребител.</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Доставчик</th>
+                                    <th>Артикул</th>
+                                    <th>Дата на доставка</th>
+                                    <th class="text-end">Количество</th>
+                                    <th class="text-end">Сума</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var delivery in Model.Deliveries)
+                                {
+                                    <tr>
+                                        <td>@delivery.UserName</td>
+                                        <td class="fw-medium">@delivery.ItemName</td>
+                                        <td>
+                                            <span class="badge rounded-pill text-bg-light">
+                                                @delivery.DeliveryDate.ToString("dd.MM.yyyy", bg)
+                                            </span>
+                                        </td>
+                                        <td class="text-end">@delivery.QuantityDelivered</td>
+                                        <td class="text-end">@delivery.DeliverySum.ToString("0.00") лв.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <th colspan="3" class="text-end">Общо:</th>
+                                    <th class="text-end">@dQty</th>
+                                    <th class="text-end">@dSum.ToString("0.00") лв.</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Продажби -->
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="mb-0"><i class="bi bi-receipt me-1"></i> Продажби</h5>
+                    <span class="text-muted small">Общо: <strong>@sQty</strong> бр. | Сума: <strong>@sSum.ToString("0.00") лв.</strong></span>
+                </div>
+
+                @if (Model?.Sales == null || !Model.Sales.Any())
+                {
+                    <div class="alert alert-info mb-0">Няма въведени продажби за този потребител.</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Продавач</th>
+                                    <th>Артикул</th>
+                                    <th>Дата на продажба</th>
+                                    <th class="text-end">Количество</th>
+                                    <th class="text-end">Сума</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var sale in Model.Sales)
+                                {
+                                    <tr>
+                                        <td>@sale.UserName</td>
+                                        <td class="fw-medium">@sale.ItemName</td>
+                                        <td>
+                                            <span class="badge rounded-pill text-bg-light">
+                                                @sale.SaleDate.ToString("dd.MM.yyyy HH:mm", bg)
+                                            </span>
+                                        </td>
+                                        <td class="text-end">@sale.QuantitySold</td>
+                                        <td class="text-end">@sale.TotalAmount.ToString("0.00") лв.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <th colspan="3" class="text-end">Общо:</th>
+                                    <th class="text-end">@sQty</th>
+                                    <th class="text-end">@sSum.ToString("0.00") лв.</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>

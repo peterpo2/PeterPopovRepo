@@ -1,0 +1,97 @@
+﻿@using APTEKA_Software.Models.ViewModels
+@model List<UserViewModel>
+@{
+    ViewData["Title"] = "Потребители";
+    Layout = "_Layout";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Потребители</h2>
+    <a class="btn btn-primary" href="/Users/Register">
+        <i class="bi bi-person-plus"></i> Регистрирай нов потребител
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="row g-2 mb-3">
+            <div class="col-sm-6 col-md-4">
+                <input id="searchBox" class="form-control" placeholder="Търси по потребителско име..." />
+            </div>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="alert alert-info mb-0">Няма налични потребители.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" id="usersTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:18%">Потребителско име</th>
+                            <th style="width:16%">Име</th>
+                            <th style="width:16%">Фамилия</th>
+                            <th style="width:18%">Дата на регистрация</th>
+                            <th class="text-end" style="width:12%">Продажби</th>
+                            <th class="text-end" style="width:12%">Доставки</th>
+                            <th class="text-end" style="width:18%">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td class="fw-medium username-cell">@user.Username</td>
+                                <td>@user.FirstName</td>
+                                <td>@user.LastName</td>
+                                <td>
+                                    <span class="badge rounded-pill text-bg-light">
+                                        @user.DateRegistered.ToString("dd.MM.yyyy")
+                                    </span>
+                                </td>
+                                <td class="text-end">@user.SalesCount</td>
+                                <td class="text-end">@user.DeliveriesCount</td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a class="btn btn-outline-secondary" href="/Users/Detail/@user.UserId" title="Детайли">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a class="btn btn-outline-primary" href="/Users/Edit/@user.UserId" title="Редакция">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger" href="/Users/ConfirmDelete/@user.UserId"
+                                           onclick="return confirm('Да изтрия ли потребител @user.Username ?');"
+                                           title="Изтриване">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function(){
+            const box = document.getElementById('searchBox');
+            const rows = document.querySelectorAll('#usersTable tbody tr');
+
+            if(!box || rows.length === 0) return;
+
+            box.addEventListener('input', function(){
+                const q = this.value.toLowerCase().trim();
+                rows.forEach(tr => {
+                    const username = (tr.querySelector('.username-cell')?.textContent || '').toLowerCase();
+                    tr.style.display = (!q || username.includes(q)) ? '' : 'none';
+                });
+            });
+        })();
+    </script>
+}
